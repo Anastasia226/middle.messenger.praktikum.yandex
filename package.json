@@ -1,0 +1,25 @@
+{
+  "name": "sprint_1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "parcel src/index.hbs",
+    "build": "parcel build src/index.hbs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Anastasia226/sprint_1.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Anastasia226/sprint_1/issues"
+  },
+  "homepage": "https://github.com/Anastasia226/sprint_1#readme",
+  "devDependencies": {
+    "@anikin/parcel-transformer-handlebars": "^1.0.9",
+    "parcel": "^2.4.1"
+  }
+}
