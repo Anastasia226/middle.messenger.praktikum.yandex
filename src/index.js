@@ -1,4 +1,14 @@
-import {sum} from './modules/sum';
+import tpl from './index.hbs'
+import authorization from "./pages/authorization/authorization";
+import button from "./components/button/Button.hbs";
 
-const root = document.querySelector('#root');
-root.textContent = sum(6, -1).toString();
+document.getElementById('root').innerHTML = tpl({
+    authorization: authorization('btn1', 'Click this'),
+    btn: button('btn1', 'Click this')
+})
+
+window.createButton = (id, value) => {
+    const htmlTpl = document.createElement('template');
+    htmlTpl.innerHTML = authorization(id, value);
+    document.getElementById('root').appendChild(htmlTpl.content);
+}
