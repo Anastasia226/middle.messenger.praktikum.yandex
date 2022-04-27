@@ -1,0 +1,34 @@
+.form-item label {
+  color: #534f4f;
+  font-size: 16px;
+  font-weight: 200;
+  line-height: 19px;
+  display: block;
+}
+
+.form-item input {
+  display: block;
+}
+
+.error-page {
+  height: 90vh;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.error-page .status-error {
+  color: #b12e11;
+  font-size: 64px;
+}
+
+.error-page .message-error {
+  letter-spacing: .25em;
+  color: #000;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 200;
+}
+
+/*# sourceMappingURL=index.81b75857.css.map */
