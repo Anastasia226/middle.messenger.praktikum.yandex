@@ -519,6 +519,8 @@ var _authorization = require("./pages/authorization/authorization");
 var _authorizationDefault = parcelHelpers.interopDefault(_authorization);
 var _registration = require("./pages/registration/registration");
 var _registrationDefault = parcelHelpers.interopDefault(_registration);
+var _profile = require("./pages/profile/profile");
+var _profileDefault = parcelHelpers.interopDefault(_profile);
 var _error = require("./pages/error/error");
 var _errorDefault = parcelHelpers.interopDefault(_error);
 var _indexScss = require("../static/scss/index.scss");
@@ -526,21 +528,26 @@ var _variableScss = require("../static/scss/variable.scss");
 var _inputScss = require("./components/input/input.scss");
 var _buttonScss = require("./components/button/button.scss");
 var _linkScss = require("./components/link/link.scss");
+var _profilePhotoScss = require("./components/profile-photo/profile-photo.scss");
 const root = document.getElementById('root');
 const currentPath = window.location.pathname;
+console.log(currentPath);
 if (currentPath === '/registration') {
+    console.log(currentPath);
     root.innerHTML = _registrationDefault.default();
     return;
-}
-if (currentPath === '/authorization') {
+} else if (currentPath === '/authorization') {
     root.innerHTML = _authorizationDefault.default();
+    return;
+} else if (currentPath === '/profile') {
+    root.innerHTML = _profileDefault.default();
     return;
 } else if (currentPath === '/') {
     window.location = '/authorization';
     return;
 } else root.innerHTML = _errorDefault.default('404', 'This page not found');
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./pages/authorization/authorization":"4cLy8","./pages/registration/registration":"7HUYG","./pages/error/error":"cx3LF","./components/input/input.scss":"8AiIv","./components/button/button.scss":"5gPci","../static/scss/index.scss":"1bhvm","../static/scss/variable.scss":"8rZcH","./components/link/link.scss":"1lTKA"}],"gkKU3":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./pages/authorization/authorization":"4cLy8","./pages/registration/registration":"7HUYG","./pages/error/error":"cx3LF","./components/input/input.scss":"8AiIv","./components/button/button.scss":"5gPci","../static/scss/index.scss":"1bhvm","../static/scss/variable.scss":"8rZcH","./components/link/link.scss":"1lTKA","./pages/profile/profile":"d8Zom","./components/profile-photo/profile-photo.scss":"5z0gz"}],"gkKU3":[function(require,module,exports) {
 exports.interopDefault = function(a) {
     return a && a.__esModule ? a : {
         default: a
@@ -12540,6 +12547,254 @@ const templateFunction = _handlebarsDefault.default.template({
 });
 exports.default = templateFunction;
 
-},{"handlebars":"i0QfX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"8AiIv":[function() {},{}],"5gPci":[function() {},{}],"1bhvm":[function() {},{}],"8rZcH":[function() {},{}],"1lTKA":[function() {},{}]},["7nZVA","8lqZg"], "8lqZg", "parcelRequire40a5")
+},{"handlebars":"i0QfX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"8AiIv":[function() {},{}],"5gPci":[function() {},{}],"1bhvm":[function() {},{}],"8rZcH":[function() {},{}],"1lTKA":[function() {},{}],"d8Zom":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _handlebars = require("handlebars");
+var _handlebarsDefault = parcelHelpers.interopDefault(_handlebars);
+var _profileHbs = require("./Profile.hbs");
+var _profileHbsDefault = parcelHelpers.interopDefault(_profileHbs);
+var _linkHbs = require("../../components/link/Link.hbs");
+var _linkHbsDefault = parcelHelpers.interopDefault(_linkHbs);
+var _profilePhotoHbs = require("../../components/profile-photo/ProfilePhoto.hbs");
+var _profilePhotoHbsDefault = parcelHelpers.interopDefault(_profilePhotoHbs);
+var _profileScss = require("./profile.scss");
+const profileData = {
+    fields: [
+        {
+            name: 'Email',
+            value: 'bagaeva@yandex.ru'
+        },
+        {
+            name: 'Login',
+            value: 'anastasia.226'
+        },
+        {
+            name: 'FirstName',
+            value: 'Anastasiia'
+        },
+        {
+            name: 'LastName',
+            value: 'Bagaeva'
+        },
+        {
+            name: 'Telephone',
+            value: '89224411823'
+        }, 
+    ],
+    linkProfile: {
+        text: 'Edit profile',
+        href: '/edit-profile'
+    },
+    linkPassword: {
+        text: 'Edit password',
+        href: '/edit-password'
+    },
+    logOut: {
+        text: 'Exit',
+        href: '/authorization'
+    }
+};
+_handlebarsDefault.default.registerPartial('profile', _profileHbsDefault.default);
+exports.default = ()=>{
+    return _profileHbsDefault.default({
+        linkProfile: _linkHbsDefault.default(profileData.linkProfile),
+        linkPassword: _linkHbsDefault.default(profileData.linkPassword),
+        logOut: _linkHbsDefault.default(profileData.logOut),
+        profilePhoto: _profilePhotoHbsDefault.default(),
+        fields: profileData.fields
+    });
+};
+
+},{"handlebars":"i0QfX","./Profile.hbs":"3UcuH","../../components/link/Link.hbs":"3tCa2","./profile.scss":"bZDEH","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../../components/profile-photo/ProfilePhoto.hbs":"3HD6q"}],"3UcuH":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _handlebars = require("handlebars");
+var _handlebarsDefault = parcelHelpers.interopDefault(_handlebars);
+const templateFunction = _handlebarsDefault.default.template({
+    "1": function(container, depth0, helpers, partials, data) {
+        var helper, alias1 = depth0 != null ? depth0 : container.nullContext || {}, alias2 = container.hooks.helperMissing, alias3 = "function", alias4 = container.escapeExpression, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+            if (Object.prototype.hasOwnProperty.call(parent, propertyName)) return parent[propertyName];
+            return undefined;
+        };
+        return "                <div class=\"item\">\n                    <span>" + alias4((helper = (helper = lookupProperty(helpers, "name") || (depth0 != null ? lookupProperty(depth0, "name") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+            "name": "name",
+            "hash": {},
+            "data": data,
+            "loc": {
+                "start": {
+                    "line": 8,
+                    "column": 26
+                },
+                "end": {
+                    "line": 8,
+                    "column": 34
+                }
+            }
+        }) : helper)) + "</span>\n                    <span>" + alias4((helper = (helper = lookupProperty(helpers, "value") || (depth0 != null ? lookupProperty(depth0, "value") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+            "name": "value",
+            "hash": {},
+            "data": data,
+            "loc": {
+                "start": {
+                    "line": 9,
+                    "column": 26
+                },
+                "end": {
+                    "line": 9,
+                    "column": 35
+                }
+            }
+        }) : helper)) + "</span>\n                </div>\n";
+    },
+    "compiler": [
+        8,
+        ">= 4.3.0"
+    ],
+    "main": function(container, depth0, helpers, partials, data) {
+        var stack1, helper, alias1 = depth0 != null ? depth0 : container.nullContext || {}, alias2 = container.hooks.helperMissing, alias3 = "function", lookupProperty = container.lookupProperty || function(parent, propertyName) {
+            if (Object.prototype.hasOwnProperty.call(parent, propertyName)) return parent[propertyName];
+            return undefined;
+        };
+        return "<div class=\"page-profile\">\n    <div class=\"logout\"> " + ((stack1 = (helper = (helper = lookupProperty(helpers, "logOut") || (depth0 != null ? lookupProperty(depth0, "logOut") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+            "name": "logOut",
+            "hash": {},
+            "data": data,
+            "loc": {
+                "start": {
+                    "line": 2,
+                    "column": 25
+                },
+                "end": {
+                    "line": 2,
+                    "column": 37
+                }
+            }
+        }) : helper)) != null ? stack1 : "") + "</div>\n    <div class=\"photo\">" + ((stack1 = (helper = (helper = lookupProperty(helpers, "profilePhoto") || (depth0 != null ? lookupProperty(depth0, "profilePhoto") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+            "name": "profilePhoto",
+            "hash": {},
+            "data": data,
+            "loc": {
+                "start": {
+                    "line": 3,
+                    "column": 23
+                },
+                "end": {
+                    "line": 3,
+                    "column": 41
+                }
+            }
+        }) : helper)) != null ? stack1 : "") + "</div>\n    <div class=\"data-profile\">\n        <div>\n" + ((stack1 = lookupProperty(helpers, "each").call(alias1, depth0 != null ? lookupProperty(depth0, "fields") : depth0, {
+            "name": "each",
+            "hash": {},
+            "fn": container.program(1, data, 0),
+            "inverse": container.noop,
+            "data": data,
+            "loc": {
+                "start": {
+                    "line": 6,
+                    "column": 12
+                },
+                "end": {
+                    "line": 11,
+                    "column": 21
+                }
+            }
+        })) != null ? stack1 : "") + "        </div>\n        <div class=\"link-edit\">" + ((stack1 = (helper = (helper = lookupProperty(helpers, "linkProfile") || (depth0 != null ? lookupProperty(depth0, "linkProfile") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+            "name": "linkProfile",
+            "hash": {},
+            "data": data,
+            "loc": {
+                "start": {
+                    "line": 13,
+                    "column": 31
+                },
+                "end": {
+                    "line": 13,
+                    "column": 48
+                }
+            }
+        }) : helper)) != null ? stack1 : "") + "</div>\n        <div class=\"link-edit\">" + ((stack1 = (helper = (helper = lookupProperty(helpers, "linkPassword") || (depth0 != null ? lookupProperty(depth0, "linkPassword") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+            "name": "linkPassword",
+            "hash": {},
+            "data": data,
+            "loc": {
+                "start": {
+                    "line": 14,
+                    "column": 31
+                },
+                "end": {
+                    "line": 14,
+                    "column": 49
+                }
+            }
+        }) : helper)) != null ? stack1 : "") + "</div>\n    </div>\n</div>";
+    },
+    "useData": true
+});
+exports.default = templateFunction;
+
+},{"handlebars":"i0QfX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"bZDEH":[function() {},{}],"3HD6q":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _handlebars = require("handlebars");
+var _handlebarsDefault = parcelHelpers.interopDefault(_handlebars);
+const templateFunction = _handlebarsDefault.default.template({
+    "1": function(container, depth0, helpers, partials, data) {
+        var helper, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+            if (Object.prototype.hasOwnProperty.call(parent, propertyName)) return parent[propertyName];
+            return undefined;
+        };
+        return "        <img src=\"" + container.escapeExpression((helper = (helper = lookupProperty(helpers, "src") || (depth0 != null ? lookupProperty(depth0, "src") : depth0)) != null ? helper : container.hooks.helperMissing, typeof helper === "function" ? helper.call(depth0 != null ? depth0 : container.nullContext || {}, {
+            "name": "src",
+            "hash": {},
+            "data": data,
+            "loc": {
+                "start": {
+                    "line": 3,
+                    "column": 18
+                },
+                "end": {
+                    "line": 3,
+                    "column": 25
+                }
+            }
+        }) : helper)) + "\">\n";
+    },
+    "3": function(container, depth0, helpers, partials, data) {
+        return "        <svg width=\"40\" height=\"40\" viewBox=\"0 0 40 40\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n            <path fill-rule=\"evenodd\" clip-rule=\"evenodd\"\n                  d=\"M4 2H36C37.1046 2 38 2.89543 38 4V25.2667L25.3453 22.3139C24.4514 22.1053 23.5365 22 22.6186 22H17.3814C16.4635 22 15.5486 22.1053 14.6547 22.3139L2 25.2667V4C2 2.89543 2.89543 2 4 2ZM0 4C0 1.79086 1.79086 0 4 0H36C38.2091 0 40 1.79086 40 4V36C40 38.2091 38.2091 40 36 40H4C1.79086 40 0 38.2091 0 36V4ZM14.5455 10.9091C14.5455 12.9174 12.9174 14.5455 10.9091 14.5455C8.90082 14.5455 7.27276 12.9174 7.27276 10.9091C7.27276 8.90079 8.90082 7.27273 10.9091 7.27273C12.9174 7.27273 14.5455 8.90079 14.5455 10.9091Z\"\n                  fill=\"#CDCDCD\" />\n        </svg>\n";
+    },
+    "compiler": [
+        8,
+        ">= 4.3.0"
+    ],
+    "main": function(container, depth0, helpers, partials, data) {
+        var stack1, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+            if (Object.prototype.hasOwnProperty.call(parent, propertyName)) return parent[propertyName];
+            return undefined;
+        };
+        return "<div class=\"photo-profile\">\n" + ((stack1 = lookupProperty(helpers, "if").call(depth0 != null ? depth0 : container.nullContext || {}, depth0 != null ? lookupProperty(depth0, "src") : depth0, {
+            "name": "if",
+            "hash": {},
+            "fn": container.program(1, data, 0),
+            "inverse": container.program(3, data, 0),
+            "data": data,
+            "loc": {
+                "start": {
+                    "line": 2,
+                    "column": 4
+                },
+                "end": {
+                    "line": 10,
+                    "column": 11
+                }
+            }
+        })) != null ? stack1 : "") + "</div>";
+    },
+    "useData": true
+});
+exports.default = templateFunction;
+
+},{"handlebars":"i0QfX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"5z0gz":[function() {},{}]},["7nZVA","8lqZg"], "8lqZg", "parcelRequire40a5")
 
 //# sourceMappingURL=index.975ef6c8.js.map

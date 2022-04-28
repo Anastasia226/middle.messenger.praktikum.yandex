@@ -1,9 +1,9 @@
-import Handlebars from "handlebars";
+import Handlebars from 'handlebars';
 import registration from './Registration.hbs';
-import input from "../../components/input/Input.hbs";
-import button from "../../components/button/Button.hbs";
-import link from "../../components/link/Link.hbs";
-import './registration.scss'
+import input from '../../components/input/Input.hbs';
+import button from '../../components/button/Button.hbs';
+import link from '../../components/link/Link.hbs';
+import './registration.scss';
 
 const registrationData = {
     email: {
@@ -56,7 +56,7 @@ const registrationData = {
         text: 'Go to authorization',
         href: '/authorization',
     }
-}
+};
 
 Handlebars.registerPartial('registration', registration);
 export default () => {
@@ -70,5 +70,5 @@ export default () => {
         passwordRepeat: input(registrationData.passwordRepeat),
         btnOk: button(registrationData.button),
         link: link(registrationData.link),
-    })
+    });
 }

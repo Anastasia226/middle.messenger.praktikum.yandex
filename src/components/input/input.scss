@@ -13,6 +13,7 @@
     height: 45px;
     box-shadow: 0 0 4px rgba(11, 122, 170, 0.25);
     border: none;
+    border-radius: 5px;
     &:focus, &:hover {
       box-shadow: 0 4px 4px rgba(11, 122, 170, 0.25);
       border: none;
