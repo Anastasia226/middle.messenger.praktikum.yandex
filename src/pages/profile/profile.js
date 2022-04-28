@@ -29,11 +29,11 @@ const profileData = {
     ],
     linkProfile: {
         text: 'Edit profile',
-        href: '/edit-profile',
+        href: '/profile-edit',
     },
     linkPassword: {
         text: 'Edit password',
-        href: '/edit-password',
+        href: '/password-edit',
     },
     logOut: {
         text: 'Exit',

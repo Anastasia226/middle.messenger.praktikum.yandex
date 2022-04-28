@@ -523,6 +523,12 @@ var _profile = require("./pages/profile/profile");
 var _profileDefault = parcelHelpers.interopDefault(_profile);
 var _error = require("./pages/error/error");
 var _errorDefault = parcelHelpers.interopDefault(_error);
+var _profileEdit = require("./pages/profile-edit/profile-edit");
+var _profileEditDefault = parcelHelpers.interopDefault(_profileEdit);
+var _passwordEdit = require("./pages/password-edit/password-edit");
+var _passwordEditDefault = parcelHelpers.interopDefault(_passwordEdit);
+var _chats = require("./pages/chats/chats");
+var _chatsDefault = parcelHelpers.interopDefault(_chats);
 var _indexScss = require("../static/scss/index.scss");
 var _variableScss = require("../static/scss/variable.scss");
 var _inputScss = require("./components/input/input.scss");
@@ -531,7 +537,6 @@ var _linkScss = require("./components/link/link.scss");
 var _profilePhotoScss = require("./components/profile-photo/profile-photo.scss");
 const root = document.getElementById('root');
 const currentPath = window.location.pathname;
-console.log(currentPath);
 if (currentPath === '/registration') {
     console.log(currentPath);
     root.innerHTML = _registrationDefault.default();
@@ -542,12 +547,21 @@ if (currentPath === '/registration') {
 } else if (currentPath === '/profile') {
     root.innerHTML = _profileDefault.default();
     return;
+} else if (currentPath === '/profile-edit') {
+    root.innerHTML = _profileEditDefault.default();
+    return;
+} else if (currentPath === '/password-edit') {
+    root.innerHTML = _passwordEditDefault.default();
+    return;
+} else if (currentPath === '/chats') {
+    root.innerHTML = _chatsDefault.default();
+    return;
 } else if (currentPath === '/') {
     window.location = '/authorization';
     return;
 } else root.innerHTML = _errorDefault.default('404', 'This page not found');
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./pages/authorization/authorization":"4cLy8","./pages/registration/registration":"7HUYG","./pages/error/error":"cx3LF","./components/input/input.scss":"8AiIv","./components/button/button.scss":"5gPci","../static/scss/index.scss":"1bhvm","../static/scss/variable.scss":"8rZcH","./components/link/link.scss":"1lTKA","./pages/profile/profile":"d8Zom","./components/profile-photo/profile-photo.scss":"5z0gz"}],"gkKU3":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./pages/authorization/authorization":"4cLy8","./pages/registration/registration":"7HUYG","./pages/error/error":"cx3LF","./components/input/input.scss":"8AiIv","./components/button/button.scss":"5gPci","../static/scss/index.scss":"1bhvm","../static/scss/variable.scss":"8rZcH","./components/link/link.scss":"1lTKA","./pages/profile/profile":"d8Zom","./components/profile-photo/profile-photo.scss":"5z0gz","./pages/profile-edit/profile-edit":"cGgWr","./pages/password-edit/password-edit":"dRWh1","./pages/chats/chats":"e9Ant"}],"gkKU3":[function(require,module,exports) {
 exports.interopDefault = function(a) {
     return a && a.__esModule ? a : {
         default: a
@@ -12012,6 +12026,20 @@ const templateFunction = _handlebarsDefault.default.template({
                     "column": 71
                 }
             }
+        }) : helper)) + "\" value=\"" + alias4((helper = (helper = lookupProperty(helpers, "value") || (depth0 != null ? lookupProperty(depth0, "value") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+            "name": "value",
+            "hash": {},
+            "data": data,
+            "loc": {
+                "start": {
+                    "line": 3,
+                    "column": 80
+                },
+                "end": {
+                    "line": 3,
+                    "column": 89
+                }
+            }
         }) : helper)) + "\" />\n</div>";
     },
     "useData": true
@@ -12584,11 +12612,11 @@ const profileData = {
     ],
     linkProfile: {
         text: 'Edit profile',
-        href: '/edit-profile'
+        href: '/profile-edit'
     },
     linkPassword: {
         text: 'Edit password',
-        href: '/edit-password'
+        href: '/password-edit'
     },
     logOut: {
         text: 'Exit',
@@ -12795,6 +12823,443 @@ const templateFunction = _handlebarsDefault.default.template({
 });
 exports.default = templateFunction;
 
-},{"handlebars":"i0QfX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"5z0gz":[function() {},{}]},["7nZVA","8lqZg"], "8lqZg", "parcelRequire40a5")
+},{"handlebars":"i0QfX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"5z0gz":[function() {},{}],"cGgWr":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _handlebars = require("handlebars");
+var _handlebarsDefault = parcelHelpers.interopDefault(_handlebars);
+var _profileEditHbs = require("./ProfileEdit.hbs");
+var _profileEditHbsDefault = parcelHelpers.interopDefault(_profileEditHbs);
+var _linkHbs = require("../../components/link/Link.hbs");
+var _linkHbsDefault = parcelHelpers.interopDefault(_linkHbs);
+var _profilePhotoHbs = require("../../components/profile-photo/ProfilePhoto.hbs");
+var _profilePhotoHbsDefault = parcelHelpers.interopDefault(_profilePhotoHbs);
+var _profileEditScss = require("./profile-edit.scss");
+var _inputHbs = require("../../components/input/Input.hbs");
+var _inputHbsDefault = parcelHelpers.interopDefault(_inputHbs);
+var _buttonHbs = require("../../components/button/Button.hbs");
+var _buttonHbsDefault = parcelHelpers.interopDefault(_buttonHbs);
+const profileData = {
+    email: {
+        name: 'email',
+        label: 'Email',
+        placeholder: 'Email',
+        type: 'email',
+        value: 'bagaeva@yandex.ru'
+    },
+    login: {
+        name: 'login',
+        label: 'Login',
+        placeholder: 'Login',
+        type: 'text',
+        value: 'anastasia.226'
+    },
+    firstName: {
+        name: 'firstName',
+        label: 'First Name',
+        placeholder: 'First Name',
+        type: 'text',
+        value: 'Anastasiia'
+    },
+    lastName: {
+        name: 'lastName',
+        label: 'Last Name',
+        placeholder: 'Last Name',
+        type: 'text',
+        value: 'Bagaeva'
+    },
+    telephone: {
+        name: 'telephone',
+        label: 'Telephone',
+        placeholder: 'Telephone',
+        type: 'tel',
+        value: '89224411823'
+    },
+    linkCancel: {
+        text: 'Cancel',
+        href: '/profile'
+    },
+    buttonSave: {
+        id: 'btn-save',
+        value: 'Save'
+    }
+};
+_handlebarsDefault.default.registerPartial('profileEdit', _profileEditHbsDefault.default);
+exports.default = ()=>{
+    return _profileEditHbsDefault.default({
+        linkCancel: _linkHbsDefault.default(profileData.linkCancel),
+        profilePhoto: _profilePhotoHbsDefault.default(),
+        buttonSave: _buttonHbsDefault.default(profileData.buttonSave),
+        email: _inputHbsDefault.default(profileData.email),
+        login: _inputHbsDefault.default(profileData.login),
+        firstName: _inputHbsDefault.default(profileData.firstName),
+        lastName: _inputHbsDefault.default(profileData.lastName),
+        telephone: _inputHbsDefault.default(profileData.telephone)
+    });
+};
+
+},{"handlebars":"i0QfX","./ProfileEdit.hbs":"cShSF","../../components/link/Link.hbs":"3tCa2","../../components/profile-photo/ProfilePhoto.hbs":"3HD6q","./profile-edit.scss":"eOIE7","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../../components/input/Input.hbs":"1oUND","../../components/button/Button.hbs":"gbr0o"}],"cShSF":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _handlebars = require("handlebars");
+var _handlebarsDefault = parcelHelpers.interopDefault(_handlebars);
+const templateFunction = _handlebarsDefault.default.template({
+    "compiler": [
+        8,
+        ">= 4.3.0"
+    ],
+    "main": function(container, depth0, helpers, partials, data) {
+        var stack1, helper, alias1 = depth0 != null ? depth0 : container.nullContext || {}, alias2 = container.hooks.helperMissing, alias3 = "function", lookupProperty = container.lookupProperty || function(parent, propertyName) {
+            if (Object.prototype.hasOwnProperty.call(parent, propertyName)) return parent[propertyName];
+            return undefined;
+        };
+        return "<div class=\"page-profile-edit\">\n    <div class=\"logout\"> " + ((stack1 = (helper = (helper = lookupProperty(helpers, "logOut") || (depth0 != null ? lookupProperty(depth0, "logOut") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+            "name": "logOut",
+            "hash": {},
+            "data": data,
+            "loc": {
+                "start": {
+                    "line": 2,
+                    "column": 25
+                },
+                "end": {
+                    "line": 2,
+                    "column": 37
+                }
+            }
+        }) : helper)) != null ? stack1 : "") + "</div>\n    <div class=\"photo\">" + ((stack1 = (helper = (helper = lookupProperty(helpers, "profilePhoto") || (depth0 != null ? lookupProperty(depth0, "profilePhoto") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+            "name": "profilePhoto",
+            "hash": {},
+            "data": data,
+            "loc": {
+                "start": {
+                    "line": 3,
+                    "column": 23
+                },
+                "end": {
+                    "line": 3,
+                    "column": 41
+                }
+            }
+        }) : helper)) != null ? stack1 : "") + "</div>\n    <div class=\"data-profile\">\n        <div class=\"items\">\n            " + ((stack1 = (helper = (helper = lookupProperty(helpers, "email") || (depth0 != null ? lookupProperty(depth0, "email") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+            "name": "email",
+            "hash": {},
+            "data": data,
+            "loc": {
+                "start": {
+                    "line": 6,
+                    "column": 12
+                },
+                "end": {
+                    "line": 6,
+                    "column": 23
+                }
+            }
+        }) : helper)) != null ? stack1 : "") + "\n            " + ((stack1 = (helper = (helper = lookupProperty(helpers, "login") || (depth0 != null ? lookupProperty(depth0, "login") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+            "name": "login",
+            "hash": {},
+            "data": data,
+            "loc": {
+                "start": {
+                    "line": 7,
+                    "column": 12
+                },
+                "end": {
+                    "line": 7,
+                    "column": 23
+                }
+            }
+        }) : helper)) != null ? stack1 : "") + "\n            " + ((stack1 = (helper = (helper = lookupProperty(helpers, "firstName") || (depth0 != null ? lookupProperty(depth0, "firstName") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+            "name": "firstName",
+            "hash": {},
+            "data": data,
+            "loc": {
+                "start": {
+                    "line": 8,
+                    "column": 12
+                },
+                "end": {
+                    "line": 8,
+                    "column": 27
+                }
+            }
+        }) : helper)) != null ? stack1 : "") + "\n            " + ((stack1 = (helper = (helper = lookupProperty(helpers, "lastName") || (depth0 != null ? lookupProperty(depth0, "lastName") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+            "name": "lastName",
+            "hash": {},
+            "data": data,
+            "loc": {
+                "start": {
+                    "line": 9,
+                    "column": 12
+                },
+                "end": {
+                    "line": 9,
+                    "column": 26
+                }
+            }
+        }) : helper)) != null ? stack1 : "") + "\n            " + ((stack1 = (helper = (helper = lookupProperty(helpers, "telephone") || (depth0 != null ? lookupProperty(depth0, "telephone") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+            "name": "telephone",
+            "hash": {},
+            "data": data,
+            "loc": {
+                "start": {
+                    "line": 10,
+                    "column": 12
+                },
+                "end": {
+                    "line": 10,
+                    "column": 27
+                }
+            }
+        }) : helper)) != null ? stack1 : "") + "\n        </div>\n        <div class=\"group-btn\">\n            <div>" + ((stack1 = (helper = (helper = lookupProperty(helpers, "buttonSave") || (depth0 != null ? lookupProperty(depth0, "buttonSave") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+            "name": "buttonSave",
+            "hash": {},
+            "data": data,
+            "loc": {
+                "start": {
+                    "line": 13,
+                    "column": 17
+                },
+                "end": {
+                    "line": 13,
+                    "column": 33
+                }
+            }
+        }) : helper)) != null ? stack1 : "") + "</div>\n            <div>" + ((stack1 = (helper = (helper = lookupProperty(helpers, "linkCancel") || (depth0 != null ? lookupProperty(depth0, "linkCancel") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+            "name": "linkCancel",
+            "hash": {},
+            "data": data,
+            "loc": {
+                "start": {
+                    "line": 14,
+                    "column": 17
+                },
+                "end": {
+                    "line": 14,
+                    "column": 33
+                }
+            }
+        }) : helper)) != null ? stack1 : "") + "</div>\n        </div>\n\n    </div>\n</div>";
+    },
+    "useData": true
+});
+exports.default = templateFunction;
+
+},{"handlebars":"i0QfX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"eOIE7":[function() {},{}],"dRWh1":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _handlebars = require("handlebars");
+var _handlebarsDefault = parcelHelpers.interopDefault(_handlebars);
+var _passwordEditHbs = require("./PasswordEdit.hbs");
+var _passwordEditHbsDefault = parcelHelpers.interopDefault(_passwordEditHbs);
+var _linkHbs = require("../../components/link/Link.hbs");
+var _linkHbsDefault = parcelHelpers.interopDefault(_linkHbs);
+var _profilePhotoHbs = require("../../components/profile-photo/ProfilePhoto.hbs");
+var _profilePhotoHbsDefault = parcelHelpers.interopDefault(_profilePhotoHbs);
+var _passwordEditScss = require("./password-edit.scss");
+var _inputHbs = require("../../components/input/Input.hbs");
+var _inputHbsDefault = parcelHelpers.interopDefault(_inputHbs);
+var _buttonHbs = require("../../components/button/Button.hbs");
+var _buttonHbsDefault = parcelHelpers.interopDefault(_buttonHbs);
+const profileData = {
+    oldPassword: {
+        name: 'old_password',
+        label: 'Old password',
+        placeholder: 'Old password',
+        type: 'password',
+        value: ''
+    },
+    newPassword: {
+        name: 'new_password',
+        label: 'New password',
+        placeholder: 'New password',
+        type: 'password',
+        value: ''
+    },
+    repeatPassword: {
+        name: 'repeat_password',
+        label: 'Repeat password',
+        placeholder: 'Repeat new password',
+        type: 'password',
+        value: ''
+    },
+    linkCancel: {
+        text: 'Cancel',
+        href: '/profile'
+    },
+    buttonSave: {
+        id: 'btn-save',
+        value: 'Save'
+    }
+};
+_handlebarsDefault.default.registerPartial('passwordEdit', _passwordEditHbsDefault.default);
+exports.default = ()=>{
+    return _passwordEditHbsDefault.default({
+        profilePhoto: _profilePhotoHbsDefault.default(),
+        linkCancel: _linkHbsDefault.default(profileData.linkCancel),
+        buttonSave: _buttonHbsDefault.default(profileData.buttonSave),
+        oldPassword: _inputHbsDefault.default(profileData.oldPassword),
+        newPassword: _inputHbsDefault.default(profileData.newPassword),
+        repeatPassword: _inputHbsDefault.default(profileData.repeatPassword)
+    });
+};
+
+},{"handlebars":"i0QfX","./PasswordEdit.hbs":"dmI8j","../../components/link/Link.hbs":"3tCa2","../../components/profile-photo/ProfilePhoto.hbs":"3HD6q","./password-edit.scss":"l3elj","../../components/input/Input.hbs":"1oUND","../../components/button/Button.hbs":"gbr0o","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"dmI8j":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _handlebars = require("handlebars");
+var _handlebarsDefault = parcelHelpers.interopDefault(_handlebars);
+const templateFunction = _handlebarsDefault.default.template({
+    "compiler": [
+        8,
+        ">= 4.3.0"
+    ],
+    "main": function(container, depth0, helpers, partials, data) {
+        var stack1, helper, alias1 = depth0 != null ? depth0 : container.nullContext || {}, alias2 = container.hooks.helperMissing, alias3 = "function", lookupProperty = container.lookupProperty || function(parent, propertyName) {
+            if (Object.prototype.hasOwnProperty.call(parent, propertyName)) return parent[propertyName];
+            return undefined;
+        };
+        return "<div class=\"page-profile-edit\">\n    <div class=\"logout\"> " + ((stack1 = (helper = (helper = lookupProperty(helpers, "logOut") || (depth0 != null ? lookupProperty(depth0, "logOut") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+            "name": "logOut",
+            "hash": {},
+            "data": data,
+            "loc": {
+                "start": {
+                    "line": 2,
+                    "column": 25
+                },
+                "end": {
+                    "line": 2,
+                    "column": 37
+                }
+            }
+        }) : helper)) != null ? stack1 : "") + "</div>\n    <div class=\"photo\">" + ((stack1 = (helper = (helper = lookupProperty(helpers, "profilePhoto") || (depth0 != null ? lookupProperty(depth0, "profilePhoto") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+            "name": "profilePhoto",
+            "hash": {},
+            "data": data,
+            "loc": {
+                "start": {
+                    "line": 3,
+                    "column": 23
+                },
+                "end": {
+                    "line": 3,
+                    "column": 41
+                }
+            }
+        }) : helper)) != null ? stack1 : "") + "</div>\n    <div class=\"data-profile\">\n        <div class=\"items\">\n            " + ((stack1 = (helper = (helper = lookupProperty(helpers, "oldPassword") || (depth0 != null ? lookupProperty(depth0, "oldPassword") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+            "name": "oldPassword",
+            "hash": {},
+            "data": data,
+            "loc": {
+                "start": {
+                    "line": 6,
+                    "column": 12
+                },
+                "end": {
+                    "line": 6,
+                    "column": 29
+                }
+            }
+        }) : helper)) != null ? stack1 : "") + "\n            " + ((stack1 = (helper = (helper = lookupProperty(helpers, "newPassword") || (depth0 != null ? lookupProperty(depth0, "newPassword") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+            "name": "newPassword",
+            "hash": {},
+            "data": data,
+            "loc": {
+                "start": {
+                    "line": 7,
+                    "column": 12
+                },
+                "end": {
+                    "line": 7,
+                    "column": 29
+                }
+            }
+        }) : helper)) != null ? stack1 : "") + "\n            " + ((stack1 = (helper = (helper = lookupProperty(helpers, "repeatPassword") || (depth0 != null ? lookupProperty(depth0, "repeatPassword") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+            "name": "repeatPassword",
+            "hash": {},
+            "data": data,
+            "loc": {
+                "start": {
+                    "line": 8,
+                    "column": 12
+                },
+                "end": {
+                    "line": 8,
+                    "column": 32
+                }
+            }
+        }) : helper)) != null ? stack1 : "") + "\n        </div>\n        <div class=\"group-btn\">\n            <div>" + ((stack1 = (helper = (helper = lookupProperty(helpers, "buttonSave") || (depth0 != null ? lookupProperty(depth0, "buttonSave") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+            "name": "buttonSave",
+            "hash": {},
+            "data": data,
+            "loc": {
+                "start": {
+                    "line": 11,
+                    "column": 17
+                },
+                "end": {
+                    "line": 11,
+                    "column": 33
+                }
+            }
+        }) : helper)) != null ? stack1 : "") + "</div>\n            <div>" + ((stack1 = (helper = (helper = lookupProperty(helpers, "linkCancel") || (depth0 != null ? lookupProperty(depth0, "linkCancel") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+            "name": "linkCancel",
+            "hash": {},
+            "data": data,
+            "loc": {
+                "start": {
+                    "line": 12,
+                    "column": 17
+                },
+                "end": {
+                    "line": 12,
+                    "column": 33
+                }
+            }
+        }) : helper)) != null ? stack1 : "") + "</div>\n        </div>\n\n    </div>\n</div>";
+    },
+    "useData": true
+});
+exports.default = templateFunction;
+
+},{"handlebars":"i0QfX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"l3elj":[function() {},{}],"e9Ant":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _handlebars = require("handlebars");
+var _handlebarsDefault = parcelHelpers.interopDefault(_handlebars);
+var _chatsHbs = require("./Chats.hbs");
+var _chatsHbsDefault = parcelHelpers.interopDefault(_chatsHbs);
+var _inputHbs = require("../../components/input/Input.hbs");
+var _inputHbsDefault = parcelHelpers.interopDefault(_inputHbs);
+var _buttonHbs = require("../../components/button/Button.hbs");
+var _buttonHbsDefault = parcelHelpers.interopDefault(_buttonHbs);
+var _linkHbs = require("../../components/link/Link.hbs");
+var _linkHbsDefault = parcelHelpers.interopDefault(_linkHbs);
+var _chatsScss = require("./chats.scss ");
+const chatsData = {};
+_handlebarsDefault.default.registerPartial('chats', _chatsHbsDefault.default);
+exports.default = ()=>{
+    return _chatsHbsDefault.default({});
+};
+
+},{"handlebars":"i0QfX","../../components/input/Input.hbs":"1oUND","../../components/button/Button.hbs":"gbr0o","../../components/link/Link.hbs":"3tCa2","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./chats.scss ":"iwlg6","./Chats.hbs":"9TkdU"}],"iwlg6":[function() {},{}],"9TkdU":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _handlebars = require("handlebars");
+var _handlebarsDefault = parcelHelpers.interopDefault(_handlebars);
+const templateFunction = _handlebarsDefault.default.template({
+    "compiler": [
+        8,
+        ">= 4.3.0"
+    ],
+    "main": function(container, depth0, helpers, partials, data) {
+        return "<div class=\"chats-page\">\n    there is chats\n</div>";
+    },
+    "useData": true
+});
+exports.default = templateFunction;
+
+},{"handlebars":"i0QfX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["7nZVA","8lqZg"], "8lqZg", "parcelRequire40a5")
 
 //# sourceMappingURL=index.975ef6c8.js.map

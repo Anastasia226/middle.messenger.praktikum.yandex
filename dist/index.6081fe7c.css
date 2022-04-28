@@ -160,4 +160,63 @@ h1.title {
   display: flex;
 }
 
+.page-profile-edit .logout {
+  justify-content: flex-end;
+  display: flex;
+}
+
+.page-profile-edit .photo {
+  justify-content: center;
+  margin-top: 100px;
+  display: flex;
+}
+
+.page-profile-edit .data-profile {
+  width: 500px;
+  letter-spacing: .1em;
+  color: #000;
+  justify-content: center;
+  margin: 30px auto auto;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 22px;
+}
+
+.page-profile-edit .data-profile .items {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.page-profile-edit .data-profile .group-btn {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 40px;
+  display: flex;
+}
+
+.page-password-edit .data-password {
+  justify-content: center;
+  margin: 30px auto auto;
+}
+
+.page-password-edit .data-password .items {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.page-password-edit .data-password .group-btn {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 40px;
+  display: flex;
+}
+
+
+
 /*# sourceMappingURL=index.6081fe7c.css.map */
