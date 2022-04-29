@@ -219,4 +219,48 @@ h1.title {
 
 
 
+.item-chat {
+  border-bottom: 1px solid #0b7aaab3;
+  grid-template-columns: 60px 1fr 50px;
+  padding: 10px;
+  display: grid;
+}
+
+.item-chat .photo-profile-chat {
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(#eeeaea 99.99%, #fff0 100%);
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  margin-right: 15px;
+  display: flex;
+}
+
+.item-chat .info-chat .name-companion {
+  letter-spacing: .1em;
+  color: #0b7aaa;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 22px;
+}
+
+.item-chat .info-chat .text-message {
+  color: #00000080;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 200;
+  line-height: 17px;
+}
+
+.item-chat .date-chat {
+  color: #00000080;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 200;
+  line-height: 17px;
+  display: flex;
+}
+
 /*# sourceMappingURL=index.6081fe7c.css.map */

@@ -1,0 +1,42 @@
+.item-chat {
+  display: grid;
+  grid-template-columns: 60px 1fr 50px;
+  padding: 10px;
+  border-bottom: 1px solid rgba(11, 122, 170, 0.7);
+  .photo-profile-chat {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(180deg, #EEEAEA 99.99%, rgba(255, 255, 255, 0) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+  }
+  .info-chat {
+    .name-companion {
+      font-style: normal;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 22px;
+      letter-spacing: 0.1em;
+      color: #0B7AAA;
+    }
+    .text-message {
+      font-style: normal;
+      font-weight: 200;
+      font-size: 14px;
+      line-height: 17px;
+      color: rgba(0, 0, 0, 0.5);
+    }
+  }
+  .date-chat {
+    font-weight: 200;
+    font-size: 14px;
+    line-height: 17px;
+    color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+
+  }
+}

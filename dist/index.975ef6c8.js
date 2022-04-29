@@ -535,6 +535,7 @@ var _inputScss = require("./components/input/input.scss");
 var _buttonScss = require("./components/button/button.scss");
 var _linkScss = require("./components/link/link.scss");
 var _profilePhotoScss = require("./components/profile-photo/profile-photo.scss");
+var _itemChatScss = require("./components/item-chat/item-chat.scss");
 const root = document.getElementById('root');
 const currentPath = window.location.pathname;
 if (currentPath === '/registration') {
@@ -557,11 +558,12 @@ if (currentPath === '/registration') {
     root.innerHTML = _chatsDefault.default();
     return;
 } else if (currentPath === '/') {
-    window.location = '/authorization';
+    root.innerHTML = _authorizationDefault.default();
+    //  window.location = '/authorization';
     return;
 } else root.innerHTML = _errorDefault.default('404', 'This page not found');
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./pages/authorization/authorization":"4cLy8","./pages/registration/registration":"7HUYG","./pages/error/error":"cx3LF","./components/input/input.scss":"8AiIv","./components/button/button.scss":"5gPci","../static/scss/index.scss":"1bhvm","../static/scss/variable.scss":"8rZcH","./components/link/link.scss":"1lTKA","./pages/profile/profile":"d8Zom","./components/profile-photo/profile-photo.scss":"5z0gz","./pages/profile-edit/profile-edit":"cGgWr","./pages/password-edit/password-edit":"dRWh1","./pages/chats/chats":"e9Ant"}],"gkKU3":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./pages/authorization/authorization":"4cLy8","./pages/registration/registration":"7HUYG","./pages/error/error":"cx3LF","./components/input/input.scss":"8AiIv","./components/button/button.scss":"5gPci","../static/scss/index.scss":"1bhvm","../static/scss/variable.scss":"8rZcH","./components/link/link.scss":"1lTKA","./pages/profile/profile":"d8Zom","./components/profile-photo/profile-photo.scss":"5z0gz","./pages/profile-edit/profile-edit":"cGgWr","./pages/password-edit/password-edit":"dRWh1","./pages/chats/chats":"e9Ant","./components/item-chat/item-chat.scss":"9qcHZ"}],"gkKU3":[function(require,module,exports) {
 exports.interopDefault = function(a) {
     return a && a.__esModule ? a : {
         default: a
@@ -13230,20 +13232,50 @@ var _handlebars = require("handlebars");
 var _handlebarsDefault = parcelHelpers.interopDefault(_handlebars);
 var _chatsHbs = require("./Chats.hbs");
 var _chatsHbsDefault = parcelHelpers.interopDefault(_chatsHbs);
-var _inputHbs = require("../../components/input/Input.hbs");
-var _inputHbsDefault = parcelHelpers.interopDefault(_inputHbs);
+var _itemChatHbs = require("../../components/item-chat/ItemChat.hbs");
+var _itemChatHbsDefault = parcelHelpers.interopDefault(_itemChatHbs);
 var _buttonHbs = require("../../components/button/Button.hbs");
 var _buttonHbsDefault = parcelHelpers.interopDefault(_buttonHbs);
 var _linkHbs = require("../../components/link/Link.hbs");
 var _linkHbsDefault = parcelHelpers.interopDefault(_linkHbs);
 var _chatsScss = require("./chats.scss ");
-const chatsData = {};
+const chatsData = {
+    chat: {
+        photoSrc: '',
+        name: 'Nastya',
+        message: 'Hello',
+        date: '28.03.2021'
+    },
+    chats: [
+        {
+            photoSrc: '',
+            name: 'Nastya',
+            message: 'Hello',
+            date: '28.03.2021'
+        },
+        {
+            photoSrc: '',
+            name: 'Nastya',
+            message: 'Hello',
+            date: '28.03.2021'
+        },
+        {
+            photoSrc: '',
+            name: 'Nastya',
+            message: 'Hello',
+            date: '28.03.2021'
+        }
+    ]
+};
 _handlebarsDefault.default.registerPartial('chats', _chatsHbsDefault.default);
+console.log(_itemChatHbsDefault.default(chatsData.chat));
 exports.default = ()=>{
-    return _chatsHbsDefault.default({});
+    return _chatsHbsDefault.default({
+        itemChat: _itemChatHbsDefault.default(chatsData.chat)
+    });
 };
 
-},{"handlebars":"i0QfX","../../components/input/Input.hbs":"1oUND","../../components/button/Button.hbs":"gbr0o","../../components/link/Link.hbs":"3tCa2","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./chats.scss ":"iwlg6","./Chats.hbs":"9TkdU"}],"iwlg6":[function() {},{}],"9TkdU":[function(require,module,exports) {
+},{"handlebars":"i0QfX","../../components/button/Button.hbs":"gbr0o","../../components/link/Link.hbs":"3tCa2","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./chats.scss ":"iwlg6","./Chats.hbs":"9TkdU","../../components/item-chat/ItemChat.hbs":"6Mz7z"}],"iwlg6":[function() {},{}],"9TkdU":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _handlebars = require("handlebars");
@@ -13254,12 +13286,135 @@ const templateFunction = _handlebarsDefault.default.template({
         ">= 4.3.0"
     ],
     "main": function(container, depth0, helpers, partials, data) {
-        return "<div class=\"chats-page\">\n    there is chats\n</div>";
+        var stack1, helper, alias1 = depth0 != null ? depth0 : container.nullContext || {}, alias2 = container.hooks.helperMissing, alias3 = "function", lookupProperty = container.lookupProperty || function(parent, propertyName) {
+            if (Object.prototype.hasOwnProperty.call(parent, propertyName)) return parent[propertyName];
+            return undefined;
+        };
+        return "<div class=\"chats-page\">\n    " + ((stack1 = (helper = (helper = lookupProperty(helpers, "itemChat") || (depth0 != null ? lookupProperty(depth0, "itemChat") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+            "name": "itemChat",
+            "hash": {},
+            "data": data,
+            "loc": {
+                "start": {
+                    "line": 2,
+                    "column": 4
+                },
+                "end": {
+                    "line": 2,
+                    "column": 18
+                }
+            }
+        }) : helper)) != null ? stack1 : "") + "\n    " + ((stack1 = (helper = (helper = lookupProperty(helpers, "itemChat") || (depth0 != null ? lookupProperty(depth0, "itemChat") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+            "name": "itemChat",
+            "hash": {},
+            "data": data,
+            "loc": {
+                "start": {
+                    "line": 3,
+                    "column": 4
+                },
+                "end": {
+                    "line": 3,
+                    "column": 18
+                }
+            }
+        }) : helper)) != null ? stack1 : "") + "\n    " + ((stack1 = (helper = (helper = lookupProperty(helpers, "itemChat") || (depth0 != null ? lookupProperty(depth0, "itemChat") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+            "name": "itemChat",
+            "hash": {},
+            "data": data,
+            "loc": {
+                "start": {
+                    "line": 4,
+                    "column": 4
+                },
+                "end": {
+                    "line": 4,
+                    "column": 18
+                }
+            }
+        }) : helper)) != null ? stack1 : "") + "\n    " + ((stack1 = (helper = (helper = lookupProperty(helpers, "itemChat") || (depth0 != null ? lookupProperty(depth0, "itemChat") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+            "name": "itemChat",
+            "hash": {},
+            "data": data,
+            "loc": {
+                "start": {
+                    "line": 5,
+                    "column": 4
+                },
+                "end": {
+                    "line": 5,
+                    "column": 18
+                }
+            }
+        }) : helper)) != null ? stack1 : "") + "\n</div>";
     },
     "useData": true
 });
 exports.default = templateFunction;
 
-},{"handlebars":"i0QfX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["7nZVA","8lqZg"], "8lqZg", "parcelRequire40a5")
+},{"handlebars":"i0QfX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"6Mz7z":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _handlebars = require("handlebars");
+var _handlebarsDefault = parcelHelpers.interopDefault(_handlebars);
+const templateFunction = _handlebarsDefault.default.template({
+    "compiler": [
+        8,
+        ">= 4.3.0"
+    ],
+    "main": function(container, depth0, helpers, partials, data) {
+        var helper, alias1 = depth0 != null ? depth0 : container.nullContext || {}, alias2 = container.hooks.helperMissing, alias3 = "function", alias4 = container.escapeExpression, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+            if (Object.prototype.hasOwnProperty.call(parent, propertyName)) return parent[propertyName];
+            return undefined;
+        };
+        return "<div class=\"item-chat\">\n\n    <div class=\"photo-profile-chat\">\n        <svg width=\"20\" height=\"20\" viewBox=\"0 0 40 40\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n            <path fill-rule=\"evenodd\" clip-rule=\"evenodd\"\n                  d=\"M4 2H36C37.1046 2 38 2.89543 38 4V25.2667L25.3453 22.3139C24.4514 22.1053 23.5365 22 22.6186 22H17.3814C16.4635 22 15.5486 22.1053 14.6547 22.3139L2 25.2667V4C2 2.89543 2.89543 2 4 2ZM0 4C0 1.79086 1.79086 0 4 0H36C38.2091 0 40 1.79086 40 4V36C40 38.2091 38.2091 40 36 40H4C1.79086 40 0 38.2091 0 36V4ZM14.5455 10.9091C14.5455 12.9174 12.9174 14.5455 10.9091 14.5455C8.90082 14.5455 7.27276 12.9174 7.27276 10.9091C7.27276 8.90079 8.90082 7.27273 10.9091 7.27273C12.9174 7.27273 14.5455 8.90079 14.5455 10.9091Z\"\n                  fill=\"#CDCDCD\" />\n        </svg>\n    </div>\n    <div class=\"info-chat\">\n        <div class=\"name-companion\">\n            " + alias4((helper = (helper = lookupProperty(helpers, "name") || (depth0 != null ? lookupProperty(depth0, "name") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+            "name": "name",
+            "hash": {},
+            "data": data,
+            "loc": {
+                "start": {
+                    "line": 12,
+                    "column": 12
+                },
+                "end": {
+                    "line": 12,
+                    "column": 20
+                }
+            }
+        }) : helper)) + "\n        </div>\n        <div class=\"text-message\">\n            " + alias4((helper = (helper = lookupProperty(helpers, "message") || (depth0 != null ? lookupProperty(depth0, "message") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+            "name": "message",
+            "hash": {},
+            "data": data,
+            "loc": {
+                "start": {
+                    "line": 15,
+                    "column": 12
+                },
+                "end": {
+                    "line": 15,
+                    "column": 23
+                }
+            }
+        }) : helper)) + "\n        </div>\n    </div>\n    <div class=\"date-chat\">\n        " + alias4((helper = (helper = lookupProperty(helpers, "date") || (depth0 != null ? lookupProperty(depth0, "date") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+            "name": "date",
+            "hash": {},
+            "data": data,
+            "loc": {
+                "start": {
+                    "line": 19,
+                    "column": 8
+                },
+                "end": {
+                    "line": 19,
+                    "column": 16
+                }
+            }
+        }) : helper)) + "\n    </div>\n</div>";
+    },
+    "useData": true
+});
+exports.default = templateFunction;
+
+},{"handlebars":"i0QfX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"9qcHZ":[function() {},{}]},["7nZVA","8lqZg"], "8lqZg", "parcelRequire40a5")
 
 //# sourceMappingURL=index.975ef6c8.js.map
