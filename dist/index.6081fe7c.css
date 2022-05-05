@@ -89,6 +89,10 @@
   background: #005174b3;
 }
 
+body {
+  margin: 0;
+}
+
 h1.title {
   letter-spacing: .25em;
   color: #000;
@@ -217,16 +221,54 @@ h1.title {
   display: flex;
 }
 
-
-
-.item-chat {
-  border-bottom: 1px solid #0b7aaab3;
-  grid-template-columns: 60px 1fr 50px;
-  padding: 10px;
+.chats-page {
+  grid-template-columns: 1fr 2fr;
   display: grid;
 }
 
-.item-chat .photo-profile-chat {
+.chats-page .chat-control .control {
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  display: flex;
+}
+
+.chats-page .chat-control .control .menu-control {
+  cursor: pointer;
+}
+
+.chats-page .chat-control .control .menu-control:hover svg path {
+  stroke: #17318d;
+}
+
+.chats-page .search-input input {
+  width: 100%;
+  box-sizing: border-box;
+  border: none;
+  padding: 10px;
+  box-shadow: 0 4px 4px #0b7aaa40;
+}
+
+.chats-page .search-input input:focus, .chats-page .search-input input:hover {
+  border: none;
+  outline: none;
+  box-shadow: 0 4px 4px #0b7aaa40;
+}
+
+.chats-page .empty-chat {
+  letter-spacing: .25em;
+  color: #0b7aaa;
+  min-height: 100vh;
+  border-left: 1px solid #0b7aaab3;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 200;
+  line-height: 19px;
+  display: flex;
+}
+
+.chats-page .photo-profile-chat {
   width: 50px;
   height: 50px;
   background: linear-gradient(#eeeaea 99.99%, #fff0 100%);
@@ -237,24 +279,44 @@ h1.title {
   display: flex;
 }
 
-.item-chat .info-chat .name-companion {
+.chats-page .item-chat {
+  cursor: pointer;
+  border-bottom: 1px solid #0b7aaab3;
+  grid-template-columns: 60px 1fr 50px;
+  padding: 10px;
+  display: grid;
+}
+
+.chats-page .item-chat:hover, .chats-page .item-chat.active {
+  background: #0b7aaa1a;
+}
+
+.chats-page .item-chat .info-chat .name-companion {
   letter-spacing: .1em;
   color: #0b7aaa;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 200px;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
   line-height: 22px;
+  overflow: hidden;
 }
 
-.item-chat .info-chat .text-message {
+.chats-page .item-chat .info-chat .text-message {
   color: #00000080;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 200px;
   font-size: 14px;
   font-style: normal;
   font-weight: 200;
   line-height: 17px;
+  overflow: hidden;
 }
 
-.item-chat .date-chat {
+.chats-page .item-chat .date-chat {
   color: #00000080;
   justify-content: center;
   font-size: 14px;

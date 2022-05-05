@@ -11,13 +11,11 @@ import './components/input/input.scss';
 import './components/button/button.scss';
 import './components/link/link.scss';
 import './components/profile-photo/profile-photo.scss';
-import './components/item-chat/item-chat.scss';
 
 
 const root = document.getElementById('root');
 const currentPath = window.location.pathname;
 if (currentPath === '/registration') {
-    console.log(currentPath);
     root.innerHTML = registration();
     return;
 } else if (currentPath === '/authorization') {
