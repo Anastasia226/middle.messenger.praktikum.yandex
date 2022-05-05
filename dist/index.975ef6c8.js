@@ -537,29 +537,14 @@ var _linkScss = require("./components/link/link.scss");
 var _profilePhotoScss = require("./components/profile-photo/profile-photo.scss");
 const root = document.getElementById('root');
 const currentPath = window.location.pathname;
-if (currentPath === '/registration') {
-    root.innerHTML = _registrationDefault.default();
-    return;
-} else if (currentPath === '/authorization') {
-    root.innerHTML = _authorizationDefault.default();
-    return;
-} else if (currentPath === '/profile') {
-    root.innerHTML = _profileDefault.default();
-    return;
-} else if (currentPath === '/profile-edit') {
-    root.innerHTML = _profileEditDefault.default();
-    return;
-} else if (currentPath === '/password-edit') {
-    root.innerHTML = _passwordEditDefault.default();
-    return;
-} else if (currentPath === '/chats') {
-    root.innerHTML = _chatsDefault.default();
-    return;
-} else if (currentPath === '/') {
-    root.innerHTML = _authorizationDefault.default();
-    //  window.location = '/authorization';
-    return;
-} else root.innerHTML = _errorDefault.default('404', 'This page not found');
+if (currentPath === '/registration') root.innerHTML = _registrationDefault.default();
+else if (currentPath === '/authorization') root.innerHTML = _authorizationDefault.default();
+else if (currentPath === '/profile') root.innerHTML = _profileDefault.default();
+else if (currentPath === '/profile-edit') root.innerHTML = _profileEditDefault.default();
+else if (currentPath === '/password-edit') root.innerHTML = _passwordEditDefault.default();
+else if (currentPath === '/chats') root.innerHTML = _chatsDefault.default();
+else if (currentPath === '/') root.innerHTML = _authorizationDefault.default();
+else root.innerHTML = _errorDefault.default('404', 'This page not found');
 
 },{"./pages/authorization/authorization":"4cLy8","./pages/registration/registration":"7HUYG","./pages/profile/profile":"d8Zom","./pages/error/error":"cx3LF","./pages/profile-edit/profile-edit":"cGgWr","./pages/password-edit/password-edit":"dRWh1","./pages/chats/chats":"e9Ant","../static/scss/index.scss":"1bhvm","../static/scss/variable.scss":"8rZcH","./components/input/input.scss":"8AiIv","./components/button/button.scss":"5gPci","./components/link/link.scss":"1lTKA","./components/profile-photo/profile-photo.scss":"5z0gz","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"4cLy8":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");

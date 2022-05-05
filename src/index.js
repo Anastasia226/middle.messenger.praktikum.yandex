@@ -17,26 +17,19 @@ const root = document.getElementById('root');
 const currentPath = window.location.pathname;
 if (currentPath === '/registration') {
     root.innerHTML = registration();
-    return;
 } else if (currentPath === '/authorization') {
     root.innerHTML = authorization();
-    return;
 } else if (currentPath === '/profile') {
     root.innerHTML = profile();
-    return;
 } else if (currentPath === '/profile-edit') {
     root.innerHTML = profileEdit();
-    return;
 } else if (currentPath === '/password-edit') {
     root.innerHTML = passwordEdit();
-    return;
 } else if (currentPath === '/chats') {
     root.innerHTML = chats();
-    return;
 } else if (currentPath === '/') {
     root.innerHTML = authorization();
     //  window.location = '/authorization';
-    return;
 } else {
     root.innerHTML = error('404', 'This page not found');
 }
