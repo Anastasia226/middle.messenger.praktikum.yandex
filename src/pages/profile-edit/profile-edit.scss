@@ -1,0 +1,35 @@
+.page-profile-edit {
+  .logout {
+    display: flex;
+    justify-content: flex-end;
+  }
+  .photo {
+    margin-top: 100px;
+    display: flex;
+    justify-content: center;
+  }
+  .data-profile {
+    margin: auto;
+    justify-content: center;
+    margin-top: 30px;
+    width: 500px;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 22px;
+    letter-spacing: 0.1em;
+    color: #000000;
+    .items {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .group-btn {
+      margin-top: 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+}

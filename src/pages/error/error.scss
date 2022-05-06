@@ -1,0 +1,26 @@
+$red: #B12E11;
+$black: #000000;
+
+$font-size_600: 64px;
+$font-size_300: 32px;
+$letter-spacing: 0.25em;
+
+.error-page {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  height: 90vh;
+  .status-error {
+    font-size: $font-size_600;
+    color: $red;
+  }
+  .message-error {
+    font-style: normal;
+    font-weight: 200;
+    font-size: $font-size_300;
+    letter-spacing: $letter-spacing;
+    color: $black;
+    margin-bottom: 15px;
+  }
+}

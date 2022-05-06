@@ -1,0 +1,16 @@
+<div class="page-profile">
+    <div class="logout"> {{{logOut}}}</div>
+    <div class="photo">{{{profilePhoto}}}</div>
+    <div class="data-profile">
+        <div>
+            {{#each fields}}
+                <div class="item">
+                    <span>{{name}}</span>
+                    <span>{{value}}</span>
+                </div>
+            {{/each}}
+        </div>
+        <div class="link-edit">{{{linkProfile}}}</div>
+        <div class="link-edit">{{{linkPassword}}}</div>
+    </div>
+</div>
