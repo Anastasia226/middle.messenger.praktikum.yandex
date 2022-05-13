@@ -12,6 +12,6 @@ const errorData = {
 }
 
 Handlebars.registerPartial('error', error);
-export default (statusError, messageError) => {
-    return error({statusError, messageError, link: link(errorData.link),})
+export default (statusError: string, messageError: string) => {
+    return error({ statusError, messageError, link: link(errorData.link), })
 }

@@ -1,4 +1,4 @@
-function range(start = 0, end, step = 1, isRight = false) {
+export function range(start = 0, end: number, step = 1, isRight = false): number[] {
     if (end === undefined) {
         end = start;
         start = 0;
