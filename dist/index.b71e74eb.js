@@ -12872,8 +12872,7 @@ const profileData = {
     }
 };
 _handlebarsDefault.default.registerPartial('profileEdit', _profileEditHbsDefault.default);
-exports.default = ()=>{
-    return _profileEditHbsDefault.default({
+exports.default = ()=>_profileEditHbsDefault.default({
         linkCancel: _linkHbsDefault.default(profileData.linkCancel),
         profilePhoto: _profilePhotoHbsDefault.default(),
         buttonSave: _buttonHbsDefault.default(profileData.buttonSave),
@@ -12882,8 +12881,8 @@ exports.default = ()=>{
         firstName: _inputHbsDefault.default(profileData.firstName),
         lastName: _inputHbsDefault.default(profileData.lastName),
         telephone: _inputHbsDefault.default(profileData.telephone)
-    });
-};
+    })
+;
 
 },{"handlebars":"i0QfX","./ProfileEdit.hbs":"cShSF","../../components/link/Link.hbs":"3tCa2","../../components/profile-photo/ProfilePhoto.hbs":"3HD6q","./profile-edit.scss":"eOIE7","../../components/input/Input.hbs":"1oUND","../../components/button/Button.hbs":"gbr0o","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"cShSF":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -13219,6 +13218,36 @@ var _chatsHbs = require("./Chats.hbs");
 var _chatsHbsDefault = parcelHelpers.interopDefault(_chatsHbs);
 var _chatsScss = require("./chats.scss ");
 const chatsData = {
+    activeChat: {
+        messages: [
+            {
+                text: 'hello',
+                time: '12:32',
+                isYouSender: true
+            },
+            {
+                text: 'helfdsfdsflo',
+                time: '12:32',
+                isYouSender: false
+            },
+            {
+                text: 'helldsfdsfdso',
+                time: '12:32',
+                isYouSender: true
+            },
+            {
+                text: 'hegh  nrthrthrt   llo',
+                time: '12:32',
+                isYouSender: true
+            },
+            {
+                text: 'helregrebgre fbhregreb regregbrfb regreglo helregrebgre fbhregreb regregbrfb regreglo helregrebgre fbhregreb regregbrfb regreglo helregrebgre fbhregreb regregbrfb regreglo helregrebgre fbhregreb regregbrfb regreglo',
+                time: '12:32',
+                isYouSender: false
+            }
+        ],
+        name: 'Nastya'
+    },
     chats: [
         {
             photoSrc: '',
@@ -13249,7 +13278,8 @@ const chatsData = {
 _handlebarsDefault.default.registerPartial('chats', _chatsHbsDefault.default);
 exports.default = ()=>{
     return _chatsHbsDefault.default({
-        chats: chatsData.chats
+        chats: chatsData.chats,
+        activeChat: chatsData.activeChat
     });
 };
 
@@ -13331,16 +13361,158 @@ const templateFunction = _handlebarsDefault.default.template({
             }
         }) : helper)) + "\n                        </div>\n                    </div>\n";
     },
+    "4": function(container, depth0, helpers, partials, data) {
+        var stack1, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+            if (Object.prototype.hasOwnProperty.call(parent, propertyName)) return parent[propertyName];
+            return undefined;
+        };
+        return "        <div class=\"active-chat\">\n            <div class=\"active-chat-header\">\n                <div>\n                    <svg width=\"5\" height=\"27\" viewBox=\"0 0 5 27\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n                        <path d=\"M5 14C5 15.3807 3.88071 16.5 2.5 16.5C1.11929 16.5 0 15.3807 0 14C0 12.6193 1.11929 11.5 2.5 11.5C3.88071 11.5 5 12.6193 5 14Z\"\n                              fill=\"#0B7AAA\" />\n                        <circle cx=\"2.5\" cy=\"24.5\" r=\"2.5\" fill=\"#0B7AAA\" />\n                        <circle cx=\"2.5\" cy=\"2.5\" r=\"2.5\" fill=\"#0B7AAA\" />\n                    </svg>\n                </div>\n                <div class=\"active-chat-header-companion\">\n                    <div class=\"active-chat-header-name\">" + container.escapeExpression(container.lambda((stack1 = depth0 != null ? lookupProperty(depth0, "activeChat") : depth0) != null ? lookupProperty(stack1, "name") : stack1, depth0)) + "</div>\n                    <div class=\"photo-profile-chat\">\n                        <svg width=\"20\" height=\"20\" viewBox=\"0 0 40 40\" fill=\"none\"\n                             xmlns=\"http://www.w3.org/2000/svg\">\n                            <path fill-rule=\"evenodd\" clip-rule=\"evenodd\"\n                                  d=\"M4 2H36C37.1046 2 38 2.89543 38 4V25.2667L25.3453 22.3139C24.4514 22.1053 23.5365 22 22.6186 22H17.3814C16.4635 22 15.5486 22.1053 14.6547 22.3139L2 25.2667V4C2 2.89543 2.89543 2 4 2ZM0 4C0 1.79086 1.79086 0 4 0H36C38.2091 0 40 1.79086 40 4V36C40 38.2091 38.2091 40 36 40H4C1.79086 40 0 38.2091 0 36V4ZM14.5455 10.9091C14.5455 12.9174 12.9174 14.5455 10.9091 14.5455C8.90082 14.5455 7.27276 12.9174 7.27276 10.9091C7.27276 8.90079 8.90082 7.27273 10.9091 7.27273C12.9174 7.27273 14.5455 8.90079 14.5455 10.9091Z\"\n                                  fill=\"#CDCDCD\" />\n                        </svg>\n                    </div>\n                </div>\n            </div>\n            <div class=\"active-chat-messages\">\n" + ((stack1 = lookupProperty(helpers, "each").call(depth0 != null ? depth0 : container.nullContext || {}, (stack1 = depth0 != null ? lookupProperty(depth0, "activeChat") : depth0) != null ? lookupProperty(stack1, "messages") : stack1, {
+            "name": "each",
+            "hash": {},
+            "fn": container.program(5, data, 0),
+            "inverse": container.noop,
+            "data": data,
+            "loc": {
+                "start": {
+                    "line": 72,
+                    "column": 16
+                },
+                "end": {
+                    "line": 86,
+                    "column": 25
+                }
+            }
+        })) != null ? stack1 : "") + "            </div>\n            <div class=\"active-chat-control\">\n                <div class=\"active-chat-control-attachment\">\n                    <svg width=\"21\" height=\"23\" viewBox=\"0 0 21 23\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n                        <path fill-rule=\"evenodd\" clip-rule=\"evenodd\"\n                              d=\"M4.33063 9.58338L9.63395 3.77502L10.2939 4.49785L4.99059 10.3062L4.33063 9.58338Z\"\n                              fill=\"#0B7AAA\" />\n                        <path fill-rule=\"evenodd\" clip-rule=\"evenodd\"\n                              d=\"M6.09045 11.5107L11.3937 5.70227L12.0537 6.42509L6.75042 12.2335L6.09045 11.5107Z\"\n                              fill=\"#0B7AAA\" />\n                        <path fill-rule=\"evenodd\" clip-rule=\"evenodd\"\n                              d=\"M9.83032 15.6068L15.1337 9.79846L15.7936 10.5213L10.4903 16.3296L9.83032 15.6068Z\"\n                              fill=\"#0B7AAA\" />\n                        <path fill-rule=\"evenodd\" clip-rule=\"evenodd\"\n                              d=\"M11.5902 17.5342L16.8935 11.7258L17.5534 12.4486L12.2502 18.257L11.5902 17.5342Z\"\n                              fill=\"#0B7AAA\" />\n                        <path fill-rule=\"evenodd\" clip-rule=\"evenodd\"\n                              d=\"M11.5902 17.5344C9.7596 19.5393 6.79826 19.5465 4.97581 17.5505C3.15336 15.5545 3.15996 12.3111 4.99054 10.3062L4.33058 9.58337C2.13387 11.9893 2.12596 15.8814 4.31289 18.2766C6.49983 20.6718 10.0535 20.6631 12.2502 18.2572L11.5902 17.5344Z\"\n                              fill=\"#0B7AAA\" />\n                        <path fill-rule=\"evenodd\" clip-rule=\"evenodd\"\n                              d=\"M15.1337 9.79847L15.7936 10.5213C17.5021 8.65 17.5083 5.62282 15.8074 3.75987C14.1064 1.89693 11.3425 1.90368 9.63391 3.77493L10.2939 4.49775C11.6363 3.02748 13.808 3.02218 15.1445 4.48592C16.4809 5.94967 16.4761 8.32816 15.1337 9.79847Z\"\n                              fill=\"#0B7AAA\" />\n                        <path fill-rule=\"evenodd\" clip-rule=\"evenodd\"\n                              d=\"M6.09066 11.511C4.87027 12.8476 4.86588 15.0099 6.08084 16.3405C7.29584 17.6712 9.27005 17.6664 10.4904 16.3298L9.83046 15.607C8.97619 16.5426 7.59425 16.546 6.74375 15.6145C5.89327 14.683 5.89635 13.1694 6.75063 12.2338L6.09066 11.511Z\"\n                              fill=\"#0B7AAA\" />\n                    </svg>\n                </div>\n                <input type=\"text\" placeholder=\"Message...\" />\n                <button class=\"circle-btn\">\n                    <svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n                        <path d=\"M23.0607 13.0607C23.6464 12.4749 23.6464 11.5251 23.0607 10.9393L13.5147 1.3934C12.9289 0.807611 11.9792 0.807611 11.3934 1.3934C10.8076 1.97919 10.8076 2.92893 11.3934 3.51472L19.8787 12L11.3934 20.4853C10.8076 21.0711 10.8076 22.0208 11.3934 22.6066C11.9792 23.1924 12.9289 23.1924 13.5147 22.6066L23.0607 13.0607ZM0 13.5L22 13.5V10.5L0 10.5L0 13.5Z\"\n                              fill=\"white\" />\n                    </svg>\n                </button>\n            </div>\n        </div>\n\n";
+    },
+    "5": function(container, depth0, helpers, partials, data) {
+        var stack1, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+            if (Object.prototype.hasOwnProperty.call(parent, propertyName)) return parent[propertyName];
+            return undefined;
+        };
+        return (stack1 = lookupProperty(helpers, "with").call(depth0 != null ? depth0 : container.nullContext || {}, depth0, {
+            "name": "with",
+            "hash": {},
+            "fn": container.program(6, data, 0),
+            "inverse": container.noop,
+            "data": data,
+            "loc": {
+                "start": {
+                    "line": 73,
+                    "column": 20
+                },
+                "end": {
+                    "line": 85,
+                    "column": 29
+                }
+            }
+        })) != null ? stack1 : "";
+    },
+    "6": function(container, depth0, helpers, partials, data) {
+        var stack1, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+            if (Object.prototype.hasOwnProperty.call(parent, propertyName)) return parent[propertyName];
+            return undefined;
+        };
+        return (stack1 = lookupProperty(helpers, "if").call(depth0 != null ? depth0 : container.nullContext || {}, depth0 != null ? lookupProperty(depth0, "isYouSender") : depth0, {
+            "name": "if",
+            "hash": {},
+            "fn": container.program(7, data, 0),
+            "inverse": container.program(9, data, 0),
+            "data": data,
+            "loc": {
+                "start": {
+                    "line": 74,
+                    "column": 24
+                },
+                "end": {
+                    "line": 84,
+                    "column": 31
+                }
+            }
+        })) != null ? stack1 : "";
+    },
+    "7": function(container, depth0, helpers, partials, data) {
+        var helper, alias1 = depth0 != null ? depth0 : container.nullContext || {}, alias2 = container.hooks.helperMissing, alias3 = "function", alias4 = container.escapeExpression, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+            if (Object.prototype.hasOwnProperty.call(parent, propertyName)) return parent[propertyName];
+            return undefined;
+        };
+        return "                            <div class=\"active-chat-message right\">\n                                <div class=\"active-chat-message-text\"> " + alias4((helper = (helper = lookupProperty(helpers, "text") || (depth0 != null ? lookupProperty(depth0, "text") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+            "name": "text",
+            "hash": {},
+            "data": data,
+            "loc": {
+                "start": {
+                    "line": 76,
+                    "column": 71
+                },
+                "end": {
+                    "line": 76,
+                    "column": 79
+                }
+            }
+        }) : helper)) + "</div>\n                                <div class=\"active-chat-message-time\"> " + alias4((helper = (helper = lookupProperty(helpers, "time") || (depth0 != null ? lookupProperty(depth0, "time") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+            "name": "time",
+            "hash": {},
+            "data": data,
+            "loc": {
+                "start": {
+                    "line": 77,
+                    "column": 71
+                },
+                "end": {
+                    "line": 77,
+                    "column": 79
+                }
+            }
+        }) : helper)) + "</div>\n                            </div>\n";
+    },
+    "9": function(container, depth0, helpers, partials, data) {
+        var helper, alias1 = depth0 != null ? depth0 : container.nullContext || {}, alias2 = container.hooks.helperMissing, alias3 = "function", alias4 = container.escapeExpression, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+            if (Object.prototype.hasOwnProperty.call(parent, propertyName)) return parent[propertyName];
+            return undefined;
+        };
+        return "                            <div class=\"active-chat-message left\">\n                                <div class=\"active-chat-message-text\"> " + alias4((helper = (helper = lookupProperty(helpers, "text") || (depth0 != null ? lookupProperty(depth0, "text") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+            "name": "text",
+            "hash": {},
+            "data": data,
+            "loc": {
+                "start": {
+                    "line": 81,
+                    "column": 71
+                },
+                "end": {
+                    "line": 81,
+                    "column": 79
+                }
+            }
+        }) : helper)) + "</div>\n                                <div class=\"active-chat-message-time\"> " + alias4((helper = (helper = lookupProperty(helpers, "time") || (depth0 != null ? lookupProperty(depth0, "time") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+            "name": "time",
+            "hash": {},
+            "data": data,
+            "loc": {
+                "start": {
+                    "line": 82,
+                    "column": 71
+                },
+                "end": {
+                    "line": 82,
+                    "column": 79
+                }
+            }
+        }) : helper)) + "</div>\n                            </div>\n";
+    },
+    "11": function(container, depth0, helpers, partials, data) {
+        return "        <div class=\"empty-chat\">\n            Choose chat to start\n        </div>\n";
+    },
     "compiler": [
         8,
         ">= 4.3.0"
     ],
     "main": function(container, depth0, helpers, partials, data) {
-        var stack1, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        var stack1, alias1 = depth0 != null ? depth0 : container.nullContext || {}, lookupProperty = container.lookupProperty || function(parent, propertyName) {
             if (Object.prototype.hasOwnProperty.call(parent, propertyName)) return parent[propertyName];
             return undefined;
         };
-        return "<div class=\"chats-page\">\n    <div class=\"chat-control\">\n        <div class=\"control\">\n            <div class=\"menu-control\">\n                <svg width=\"21\" height=\"14\" viewBox=\"0 0 21 14\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n                    <path d=\"M0 1H21\" stroke=\"#0B7AAA\" />\n                    <path d=\"M0 7H21\" stroke=\"#0B7AAA\" />\n                    <path d=\"M0 13H21\" stroke=\"#0B7AAA\" />\n                </svg>\n            </div>\n            <div class=\"photo-profile-chat\">\n                <svg width=\"20\" height=\"20\" viewBox=\"0 0 40 40\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n                    <path fill-rule=\"evenodd\" clip-rule=\"evenodd\"\n                          d=\"M4 2H36C37.1046 2 38 2.89543 38 4V25.2667L25.3453 22.3139C24.4514 22.1053 23.5365 22 22.6186 22H17.3814C16.4635 22 15.5486 22.1053 14.6547 22.3139L2 25.2667V4C2 2.89543 2.89543 2 4 2ZM0 4C0 1.79086 1.79086 0 4 0H36C38.2091 0 40 1.79086 40 4V36C40 38.2091 38.2091 40 36 40H4C1.79086 40 0 38.2091 0 36V4ZM14.5455 10.9091C14.5455 12.9174 12.9174 14.5455 10.9091 14.5455C8.90082 14.5455 7.27276 12.9174 7.27276 10.9091C7.27276 8.90079 8.90082 7.27273 10.9091 7.27273C12.9174 7.27273 14.5455 8.90079 14.5455 10.9091Z\"\n                          fill=\"#CDCDCD\" />\n                </svg>\n            </div>\n        </div>\n        <div class=\"search-input\"><input placeholder=\"Search\" /></div>\n        <div class=\"chat-list\">\n" + ((stack1 = lookupProperty(helpers, "each").call(depth0 != null ? depth0 : container.nullContext || {}, depth0 != null ? lookupProperty(depth0, "chats") : depth0, {
+        return "<div class=\"chats-page\">\n    <div class=\"chat-control\">\n        <div class=\"control\">\n            <div class=\"menu-control\">\n                <svg width=\"21\" height=\"14\" viewBox=\"0 0 21 14\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n                    <path d=\"M0 1H21\" stroke=\"#0B7AAA\" />\n                    <path d=\"M0 7H21\" stroke=\"#0B7AAA\" />\n                    <path d=\"M0 13H21\" stroke=\"#0B7AAA\" />\n                </svg>\n            </div>\n            <div class=\"photo-profile-chat\">\n                <svg width=\"20\" height=\"20\" viewBox=\"0 0 40 40\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n                    <path fill-rule=\"evenodd\" clip-rule=\"evenodd\"\n                          d=\"M4 2H36C37.1046 2 38 2.89543 38 4V25.2667L25.3453 22.3139C24.4514 22.1053 23.5365 22 22.6186 22H17.3814C16.4635 22 15.5486 22.1053 14.6547 22.3139L2 25.2667V4C2 2.89543 2.89543 2 4 2ZM0 4C0 1.79086 1.79086 0 4 0H36C38.2091 0 40 1.79086 40 4V36C40 38.2091 38.2091 40 36 40H4C1.79086 40 0 38.2091 0 36V4ZM14.5455 10.9091C14.5455 12.9174 12.9174 14.5455 10.9091 14.5455C8.90082 14.5455 7.27276 12.9174 7.27276 10.9091C7.27276 8.90079 8.90082 7.27273 10.9091 7.27273C12.9174 7.27273 14.5455 8.90079 14.5455 10.9091Z\"\n                          fill=\"#CDCDCD\" />\n                </svg>\n            </div>\n        </div>\n        <div class=\"search-input\"><input placeholder=\"Search\" /></div>\n        <div class=\"chat-list\">\n" + ((stack1 = lookupProperty(helpers, "each").call(alias1, depth0 != null ? lookupProperty(depth0, "chats") : depth0, {
             "name": "each",
             "hash": {},
             "fn": container.program(1, data, 0),
@@ -13356,7 +13528,23 @@ const templateFunction = _handlebarsDefault.default.template({
                     "column": 21
                 }
             }
-        })) != null ? stack1 : "") + "        </div>\n    </div>\n    <div class=\"empty-chat\">\n        Choose chat to start\n    </div>\n</div>";
+        })) != null ? stack1 : "") + "        </div>\n    </div>\n" + ((stack1 = lookupProperty(helpers, "if").call(alias1, depth0 != null ? lookupProperty(depth0, "activeChat") : depth0, {
+            "name": "if",
+            "hash": {},
+            "fn": container.program(4, data, 0),
+            "inverse": container.program(11, data, 0),
+            "data": data,
+            "loc": {
+                "start": {
+                    "line": 48,
+                    "column": 4
+                },
+                "end": {
+                    "line": 128,
+                    "column": 11
+                }
+            }
+        })) != null ? stack1 : "") + "</div>";
     },
     "useData": true
 });

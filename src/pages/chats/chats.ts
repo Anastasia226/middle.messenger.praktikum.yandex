@@ -4,6 +4,20 @@ import './chats.scss ';
 
 
 const chatsData = {
+    activeChat: {
+        messages: [
+            { text: 'hello', time: '12:32', isYouSender: true },
+            { text: 'helfdsfdsflo', time: '12:32', isYouSender: false },
+            { text: 'helldsfdsfdso', time: '12:32', isYouSender: true },
+            { text: 'hegh  nrthrthrt   llo', time: '12:32', isYouSender: true },
+            {
+                text: 'helregrebgre fbhregreb regregbrfb regreglo helregrebgre fbhregreb regregbrfb regreglo helregrebgre fbhregreb regregbrfb regreglo helregrebgre fbhregreb regregbrfb regreglo helregrebgre fbhregreb regregbrfb regreglo',
+                time: '12:32',
+                isYouSender: false
+            }
+        ],
+        name: 'Nastya'
+    },
     chats: [
         {
             photoSrc: '',
@@ -36,5 +50,6 @@ Handlebars.registerPartial('chats', chats);
 export default () => {
     return chats({
         chats: chatsData.chats,
+        activeChat: chatsData.activeChat
     });
 }
