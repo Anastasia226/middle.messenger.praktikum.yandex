@@ -1,24 +1,22 @@
+@import 'static/scss/variable.scss';
+@import 'static/scss/mixins/mixins.scss';
+
 .button-default {
   button {
     width: 150px;
     height: 45px;
-    background: rgba(11, 122, 170, 0.7);
-    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    background: $blue-07;
+    box-shadow: $box-shadow;
     border-radius: 5px;
-    outline: none;
     border: none;
-    font-weight: 200;
-    font-size: 20px;
-    line-height: 29px;
-    letter-spacing: 0.25em;
-    color: #000000;
+    @include font(20px, $black);
     margin-bottom: 15px;
     &:hover {
       cursor: pointer;
-      background: rgba(22, 111, 150, 0.7);
+      background: $blue-10;
     }
     &:active {
-      background: rgba(0, 81, 116, 0.7);
+      background: $blue-20;
     }
   }
 }

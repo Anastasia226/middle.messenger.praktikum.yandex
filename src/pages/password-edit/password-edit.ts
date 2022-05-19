@@ -33,7 +33,7 @@ const profileData = {
         href: '/profile',
     },
     buttonSave: {
-        id: 'btn-save',
+        id: 'btn-edit-password',
         value: 'Save',
     },
 };

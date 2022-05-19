@@ -1,17 +1,16 @@
+@import 'static/scss/variable.scss';
+@import 'static/scss/mixins/mixins.scss';
+
 .link {
   a {
-    font-weight: 200;
-    font-size: 18px;
-    line-height: 22px;
-    letter-spacing: 0.25em;
-    color: #0B7AAA;
+    @include font(18px);
     margin-bottom: 15px;
     &:hover {
       cursor: pointer;
-      color: #49C1F4;
+      color: $blue-100;
     }
     &:active {
-      color: #496FD1;
+      color: $blue-200;
     }
   }
 }

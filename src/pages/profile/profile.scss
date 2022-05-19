@@ -1,3 +1,6 @@
+@import 'static/scss/variable.scss';
+@import 'static/scss/mixins/mixins.scss';
+
 .page-profile {
   .logout {
     display: flex;
@@ -13,11 +16,7 @@
     justify-content: center;
     margin-top: 30px;
     width: 500px;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 22px;
-    letter-spacing: 0.1em;
-    color: #000000;
+    @include font(16px, $black, 0.1em, 400);
     .item {
       display: flex;
       justify-content: space-between;

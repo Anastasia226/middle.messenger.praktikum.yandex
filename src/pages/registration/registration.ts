@@ -49,7 +49,7 @@ const registrationData = {
         type: 'password'
     },
     button: {
-        id: 'btn-ok',
+        id: 'btn-registration',
         value: 'Ok',
     },
     link: {

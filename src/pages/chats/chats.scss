@@ -1,3 +1,6 @@
+@import 'static/scss/variable.scss';
+@import 'static/scss/mixins/mixins.scss';
+
 .chats-page {
   grid-template-columns: 1fr 2fr;
   display: grid;
@@ -11,7 +14,7 @@
       .menu-control {
         cursor: pointer;
         &:hover svg path {
-          stroke: #17318D;
+          stroke: $blue-20;
         }
       }
     }
@@ -20,12 +23,12 @@
     padding: 10px;
     width: 100%;
     box-sizing: border-box;
-    box-shadow: 0px 4px 4px rgba(11, 122, 170, 0.25);
+    box-shadow: 0 4px 4px $blue-25;
     border: none;
     &:focus, &:hover {
-      box-shadow: 0 4px 4px rgba(11, 122, 170, 0.25);
+      box-shadow: 0 4px 4px $blue-25;
       border: none;
-      outline: none;
+      outline: 1px solid $blue-25;
     }
   }
   .empty-chat {
@@ -33,17 +36,17 @@
     font-size: 16px;
     line-height: 19px;
     letter-spacing: 0.25em;
-    color: #0B7AAA;
+    color: $green;
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-left: 1px solid rgba(11, 122, 170, 0.7);
+    border-left: 1px solid $blue-07;
   }
   .active-chat {
-    border-left: 1px solid rgba(11, 122, 170, 0.7);
+    border-left: 1px solid $blue-07;
     &-header {
-      border-bottom: 1px solid rgba(11, 122, 170, 0.7);
+      border-bottom: 1px solid $blue-07;
       padding: 10px;
       display: flex;
       justify-content: space-between;
@@ -54,12 +57,7 @@
         column-gap: 15px;
       }
       &-name {
-        font-style: normal;
-        font-weight: 400;
-        font-size: 16px;
-        line-height: 22px;
-        letter-spacing: 0.1em;
-        color: #0B7AAA;
+        @include font();
       }
     }
 
@@ -69,16 +67,15 @@
       overflow-y: scroll;
     }
     &-message {
-      padding: 15px;
-      padding-bottom: 0;
+      padding: 15px 15px 0 15px;
       margin-bottom: 15px;
       max-width: 50%;
       border-radius: 15px;
       &.left {
-        background: #F0EFEF;
+        background: $grey-05;
       }
       &.right {
-        background: rgba(11, 122, 170, 0.5);
+        background: $blue-05;
         margin-left: auto;
       }
       &-text {
@@ -87,11 +84,7 @@
         line-height: 17px;
       }
       &-time {
-        font-weight: 400;
-        font-size: 14px;
-        line-height: 22px;
-        letter-spacing: 0.1em;
-        color: #858181;
+        @include font(14px, $grey);
         display: flex;
         justify-content: flex-end;
       }
@@ -101,10 +94,14 @@
       align-items: center;
       column-gap: 10px;
       input {
-        border: 1px solid #0B7AAA;
+        border: 1px solid $green;
         border-radius: 10px;
         width: 85%;
+        resize: block;
         padding: 10px;
+        &:focus {
+          outline: 3px solid $blue-25;
+        }
       }
     }
 
@@ -113,7 +110,7 @@
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    background: linear-gradient(180deg, #EEEAEA 99.99%, rgba(255, 255, 255, 0) 100%);
+    background: $grey-05;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -123,42 +120,25 @@
     display: grid;
     grid-template-columns: 60px 1fr 50px;
     padding: 10px;
-    border-bottom: 1px solid rgba(11, 122, 170, 0.7);
+    border-bottom: 1px solid $blue-07;
     cursor: pointer;
     &:hover, &.active {
-      background: rgba(11, 122, 170, 0.1);
+      background: $blue-01;
     }
 
     .info-chat {
       .name-companion {
-        font-style: normal;
-        font-weight: 400;
-        font-size: 16px;
-        line-height: 22px;
-        letter-spacing: 0.1em;
-        color: #0B7AAA;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        max-width: 200px;
+        @include font(16px, $green, 0.1em, 400);
+        @include text-ellipsis();
       }
       .text-message {
-        font-style: normal;
-        font-weight: 200;
-        font-size: 14px;
-        line-height: 17px;
-        color: rgba(0, 0, 0, 0.5);
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        max-width: 200px;
+        @include font(14px, $grey, 0.1em);
+        line-height: 22px;
+        @include text-ellipsis();
       }
     }
     .date-chat {
-      font-weight: 200;
-      font-size: 14px;
-      line-height: 17px;
-      color: rgba(0, 0, 0, 0.5);
+      @include font(14px, $grey, 0);
       display: flex;
       justify-content: center;
 

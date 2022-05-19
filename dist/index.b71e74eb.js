@@ -530,11 +530,15 @@ var _passwordEditDefault = parcelHelpers.interopDefault(_passwordEdit);
 var _chats = require("./pages/chats/chats");
 var _chatsDefault = parcelHelpers.interopDefault(_chats);
 var _indexScss = require("../static/scss/index.scss");
-var _variableScss = require("../static/scss/variable.scss");
 var _inputScss = require("./components/input/input.scss");
 var _buttonScss = require("./components/button/button.scss");
 var _linkScss = require("./components/link/link.scss");
 var _profilePhotoScss = require("./components/profile-photo/profile-photo.scss");
+var _useSendMessage = require("./utils/use/useSendMessage");
+var _useRegistration = require("./utils/use/useRegistration");
+var _useAuthorization = require("./utils/use/useAuthorization");
+var _useEditProfile = require("./utils/use/useEditProfile");
+var _useEditPassword = require("./utils/use/useEditPassword");
 const root = document.getElementById('root');
 const currentPath = window.location.pathname;
 if (root) {
@@ -547,8 +551,13 @@ if (root) {
     else if (currentPath === '/') root.innerHTML = _authorizationDefault.default();
     else root.innerHTML = _errorDefault.default('404', 'This page not found');
 }
+_useSendMessage.useSendMessage();
+_useRegistration.useRegistration();
+_useAuthorization.useAuthorization();
+_useEditProfile.useEditProfile();
+_useEditPassword.useEditPassword();
 
-},{"./pages/authorization/authorization":"9T2w8","./pages/registration/registration":"ipn4T","./pages/profile/profile":"atqZr","./pages/error/error":"kZohv","./pages/profile-edit/profile-edit":"9n8NC","./pages/password-edit/password-edit":"dvuwP","./pages/chats/chats":"gTikN","../static/scss/index.scss":"1bhvm","../static/scss/variable.scss":"8rZcH","./components/input/input.scss":"8AiIv","./components/button/button.scss":"5gPci","./components/link/link.scss":"1lTKA","./components/profile-photo/profile-photo.scss":"5z0gz","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"9T2w8":[function(require,module,exports) {
+},{"./pages/authorization/authorization":"9T2w8","./pages/registration/registration":"ipn4T","./pages/profile/profile":"atqZr","./pages/error/error":"kZohv","./pages/profile-edit/profile-edit":"9n8NC","./pages/password-edit/password-edit":"dvuwP","./pages/chats/chats":"gTikN","../static/scss/index.scss":"1bhvm","./components/input/input.scss":"8AiIv","./components/button/button.scss":"5gPci","./components/link/link.scss":"1lTKA","./components/profile-photo/profile-photo.scss":"5z0gz","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./utils/use/useSendMessage":"d7ctM","./utils/use/useRegistration":"dHmeT","./utils/use/useAuthorization":"94QS2","./utils/use/useEditProfile":"7QHv2","./utils/use/useEditPassword":"hHul6"}],"9T2w8":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _handlebars = require("handlebars");
@@ -576,7 +585,7 @@ const authorizationData = {
         type: 'password'
     },
     button: {
-        id: 'btn-enter',
+        id: 'btn-authorization',
         value: 'Enter'
     },
     link: {
@@ -11957,45 +11966,45 @@ const templateFunction = _handlebarsDefault.default.template({
             if (Object.prototype.hasOwnProperty.call(parent, propertyName)) return parent[propertyName];
             return undefined;
         };
-        return "<div class=\"form form-authorization\">\n    <h1 class=\"title\">Authorization</h1>\n    " + ((stack1 = (helper = (helper = lookupProperty(helpers, "login") || (depth0 != null ? lookupProperty(depth0, "login") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+        return "<div class=\"form form-authorization\">\n    <h1 class=\"title\">Authorization</h1>\n    <form id=\"form-authorization\">\n        " + ((stack1 = (helper = (helper = lookupProperty(helpers, "login") || (depth0 != null ? lookupProperty(depth0, "login") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
             "name": "login",
             "hash": {},
             "data": data,
             "loc": {
                 "start": {
-                    "line": 3,
-                    "column": 4
+                    "line": 4,
+                    "column": 8
                 },
                 "end": {
-                    "line": 3,
-                    "column": 15
+                    "line": 4,
+                    "column": 19
                 }
             }
-        }) : helper)) != null ? stack1 : "") + "\n    " + ((stack1 = (helper = (helper = lookupProperty(helpers, "password") || (depth0 != null ? lookupProperty(depth0, "password") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+        }) : helper)) != null ? stack1 : "") + "\n        " + ((stack1 = (helper = (helper = lookupProperty(helpers, "password") || (depth0 != null ? lookupProperty(depth0, "password") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
             "name": "password",
             "hash": {},
             "data": data,
             "loc": {
                 "start": {
-                    "line": 4,
-                    "column": 4
+                    "line": 5,
+                    "column": 8
                 },
                 "end": {
-                    "line": 4,
-                    "column": 18
+                    "line": 5,
+                    "column": 22
                 }
             }
-        }) : helper)) != null ? stack1 : "") + "\n    " + ((stack1 = (helper = (helper = lookupProperty(helpers, "btnEnter") || (depth0 != null ? lookupProperty(depth0, "btnEnter") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+        }) : helper)) != null ? stack1 : "") + "\n    </form>\n    " + ((stack1 = (helper = (helper = lookupProperty(helpers, "btnEnter") || (depth0 != null ? lookupProperty(depth0, "btnEnter") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
             "name": "btnEnter",
             "hash": {},
             "data": data,
             "loc": {
                 "start": {
-                    "line": 5,
+                    "line": 7,
                     "column": 4
                 },
                 "end": {
-                    "line": 5,
+                    "line": 7,
                     "column": 18
                 }
             }
@@ -12005,11 +12014,11 @@ const templateFunction = _handlebarsDefault.default.template({
             "data": data,
             "loc": {
                 "start": {
-                    "line": 6,
+                    "line": 8,
                     "column": 4
                 },
                 "end": {
-                    "line": 6,
+                    "line": 8,
                     "column": 14
                 }
             }
@@ -12048,18 +12057,18 @@ const templateFunction = _handlebarsDefault.default.template({
                     "column": 22
                 }
             }
-        }) : helper)) + "\">" + alias4((helper = (helper = lookupProperty(helpers, "value") || (depth0 != null ? lookupProperty(depth0, "value") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+        }) : helper)) + "\" type=\"submit\">" + alias4((helper = (helper = lookupProperty(helpers, "value") || (depth0 != null ? lookupProperty(depth0, "value") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
             "name": "value",
             "hash": {},
             "data": data,
             "loc": {
                 "start": {
                     "line": 2,
-                    "column": 24
+                    "column": 38
                 },
                 "end": {
                     "line": 2,
-                    "column": 33
+                    "column": 47
                 }
             }
         }) : helper)) + "</button>\n</div>";
@@ -12303,7 +12312,7 @@ const registrationData = {
         type: 'password'
     },
     button: {
-        id: 'btn-ok',
+        id: 'btn-registration',
         value: 'Ok'
     },
     link: {
@@ -12341,115 +12350,115 @@ const templateFunction = _handlebarsDefault.default.template({
             if (Object.prototype.hasOwnProperty.call(parent, propertyName)) return parent[propertyName];
             return undefined;
         };
-        return "<div class=\"form form-registration\">\n    <h1 class=\"title\">Registration</h1>\n    " + ((stack1 = (helper = (helper = lookupProperty(helpers, "email") || (depth0 != null ? lookupProperty(depth0, "email") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+        return "<div class=\"form form-registration\">\n    <h1 class=\"title\">Registration</h1>\n    <form id=\"form-registration\">\n        " + ((stack1 = (helper = (helper = lookupProperty(helpers, "email") || (depth0 != null ? lookupProperty(depth0, "email") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
             "name": "email",
             "hash": {},
             "data": data,
             "loc": {
                 "start": {
-                    "line": 3,
-                    "column": 4
+                    "line": 4,
+                    "column": 8
                 },
                 "end": {
-                    "line": 3,
-                    "column": 15
+                    "line": 4,
+                    "column": 19
                 }
             }
-        }) : helper)) != null ? stack1 : "") + "\n    " + ((stack1 = (helper = (helper = lookupProperty(helpers, "login") || (depth0 != null ? lookupProperty(depth0, "login") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+        }) : helper)) != null ? stack1 : "") + "\n        " + ((stack1 = (helper = (helper = lookupProperty(helpers, "login") || (depth0 != null ? lookupProperty(depth0, "login") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
             "name": "login",
             "hash": {},
             "data": data,
             "loc": {
                 "start": {
-                    "line": 4,
-                    "column": 4
+                    "line": 5,
+                    "column": 8
                 },
                 "end": {
-                    "line": 4,
-                    "column": 15
+                    "line": 5,
+                    "column": 19
                 }
             }
-        }) : helper)) != null ? stack1 : "") + "\n    " + ((stack1 = (helper = (helper = lookupProperty(helpers, "firstName") || (depth0 != null ? lookupProperty(depth0, "firstName") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+        }) : helper)) != null ? stack1 : "") + "\n        " + ((stack1 = (helper = (helper = lookupProperty(helpers, "firstName") || (depth0 != null ? lookupProperty(depth0, "firstName") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
             "name": "firstName",
             "hash": {},
             "data": data,
             "loc": {
                 "start": {
-                    "line": 5,
-                    "column": 4
+                    "line": 6,
+                    "column": 8
                 },
                 "end": {
-                    "line": 5,
-                    "column": 19
+                    "line": 6,
+                    "column": 23
                 }
             }
-        }) : helper)) != null ? stack1 : "") + "\n    " + ((stack1 = (helper = (helper = lookupProperty(helpers, "lastName") || (depth0 != null ? lookupProperty(depth0, "lastName") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+        }) : helper)) != null ? stack1 : "") + "\n        " + ((stack1 = (helper = (helper = lookupProperty(helpers, "lastName") || (depth0 != null ? lookupProperty(depth0, "lastName") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
             "name": "lastName",
             "hash": {},
             "data": data,
             "loc": {
                 "start": {
-                    "line": 6,
-                    "column": 4
+                    "line": 7,
+                    "column": 8
                 },
                 "end": {
-                    "line": 6,
-                    "column": 18
+                    "line": 7,
+                    "column": 22
                 }
             }
-        }) : helper)) != null ? stack1 : "") + "\n    " + ((stack1 = (helper = (helper = lookupProperty(helpers, "telephone") || (depth0 != null ? lookupProperty(depth0, "telephone") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+        }) : helper)) != null ? stack1 : "") + "\n        " + ((stack1 = (helper = (helper = lookupProperty(helpers, "telephone") || (depth0 != null ? lookupProperty(depth0, "telephone") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
             "name": "telephone",
             "hash": {},
             "data": data,
             "loc": {
                 "start": {
-                    "line": 7,
-                    "column": 4
+                    "line": 8,
+                    "column": 8
                 },
                 "end": {
-                    "line": 7,
-                    "column": 19
+                    "line": 8,
+                    "column": 23
                 }
             }
-        }) : helper)) != null ? stack1 : "") + "\n    " + ((stack1 = (helper = (helper = lookupProperty(helpers, "password") || (depth0 != null ? lookupProperty(depth0, "password") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+        }) : helper)) != null ? stack1 : "") + "\n        " + ((stack1 = (helper = (helper = lookupProperty(helpers, "password") || (depth0 != null ? lookupProperty(depth0, "password") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
             "name": "password",
             "hash": {},
             "data": data,
             "loc": {
                 "start": {
-                    "line": 8,
-                    "column": 4
+                    "line": 9,
+                    "column": 8
                 },
                 "end": {
-                    "line": 8,
-                    "column": 18
+                    "line": 9,
+                    "column": 22
                 }
             }
-        }) : helper)) != null ? stack1 : "") + "\n    " + ((stack1 = (helper = (helper = lookupProperty(helpers, "repeatPassword") || (depth0 != null ? lookupProperty(depth0, "repeatPassword") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
-            "name": "repeatPassword",
+        }) : helper)) != null ? stack1 : "") + "\n        " + ((stack1 = (helper = (helper = lookupProperty(helpers, "passwordRepeat") || (depth0 != null ? lookupProperty(depth0, "passwordRepeat") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+            "name": "passwordRepeat",
             "hash": {},
             "data": data,
             "loc": {
                 "start": {
-                    "line": 9,
-                    "column": 4
+                    "line": 10,
+                    "column": 8
                 },
                 "end": {
-                    "line": 9,
-                    "column": 24
+                    "line": 10,
+                    "column": 28
                 }
             }
-        }) : helper)) != null ? stack1 : "") + "\n    " + ((stack1 = (helper = (helper = lookupProperty(helpers, "btnOk") || (depth0 != null ? lookupProperty(depth0, "btnOk") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+        }) : helper)) != null ? stack1 : "") + "\n    </form>\n    " + ((stack1 = (helper = (helper = lookupProperty(helpers, "btnOk") || (depth0 != null ? lookupProperty(depth0, "btnOk") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
             "name": "btnOk",
             "hash": {},
             "data": data,
             "loc": {
                 "start": {
-                    "line": 10,
+                    "line": 12,
                     "column": 4
                 },
                 "end": {
-                    "line": 10,
+                    "line": 12,
                     "column": 15
                 }
             }
@@ -12459,11 +12468,11 @@ const templateFunction = _handlebarsDefault.default.template({
             "data": data,
             "loc": {
                 "start": {
-                    "line": 11,
+                    "line": 13,
                     "column": 4
                 },
                 "end": {
-                    "line": 11,
+                    "line": 13,
                     "column": 14
                 }
             }
@@ -12867,7 +12876,7 @@ const profileData = {
         href: '/profile'
     },
     buttonSave: {
-        id: 'btn-save',
+        id: 'btn-edit-profile',
         value: 'Save'
     }
 };
@@ -12927,87 +12936,87 @@ const templateFunction = _handlebarsDefault.default.template({
                     "column": 41
                 }
             }
-        }) : helper)) != null ? stack1 : "") + "</div>\n    <div class=\"data-profile\">\n        <div class=\"items\">\n            " + ((stack1 = (helper = (helper = lookupProperty(helpers, "email") || (depth0 != null ? lookupProperty(depth0, "email") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+        }) : helper)) != null ? stack1 : "") + "</div>\n    <div class=\"data-profile\">\n        <div class=\"items\">\n            <form id=\"form-edit-profile\">\n                " + ((stack1 = (helper = (helper = lookupProperty(helpers, "email") || (depth0 != null ? lookupProperty(depth0, "email") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
             "name": "email",
             "hash": {},
             "data": data,
             "loc": {
                 "start": {
-                    "line": 6,
-                    "column": 12
+                    "line": 7,
+                    "column": 16
                 },
                 "end": {
-                    "line": 6,
-                    "column": 23
+                    "line": 7,
+                    "column": 27
                 }
             }
-        }) : helper)) != null ? stack1 : "") + "\n            " + ((stack1 = (helper = (helper = lookupProperty(helpers, "login") || (depth0 != null ? lookupProperty(depth0, "login") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+        }) : helper)) != null ? stack1 : "") + "\n                " + ((stack1 = (helper = (helper = lookupProperty(helpers, "login") || (depth0 != null ? lookupProperty(depth0, "login") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
             "name": "login",
             "hash": {},
             "data": data,
             "loc": {
                 "start": {
-                    "line": 7,
-                    "column": 12
+                    "line": 8,
+                    "column": 16
                 },
                 "end": {
-                    "line": 7,
-                    "column": 23
+                    "line": 8,
+                    "column": 27
                 }
             }
-        }) : helper)) != null ? stack1 : "") + "\n            " + ((stack1 = (helper = (helper = lookupProperty(helpers, "firstName") || (depth0 != null ? lookupProperty(depth0, "firstName") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+        }) : helper)) != null ? stack1 : "") + "\n                " + ((stack1 = (helper = (helper = lookupProperty(helpers, "firstName") || (depth0 != null ? lookupProperty(depth0, "firstName") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
             "name": "firstName",
             "hash": {},
             "data": data,
             "loc": {
                 "start": {
-                    "line": 8,
-                    "column": 12
+                    "line": 9,
+                    "column": 16
                 },
                 "end": {
-                    "line": 8,
-                    "column": 27
+                    "line": 9,
+                    "column": 31
                 }
             }
-        }) : helper)) != null ? stack1 : "") + "\n            " + ((stack1 = (helper = (helper = lookupProperty(helpers, "lastName") || (depth0 != null ? lookupProperty(depth0, "lastName") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+        }) : helper)) != null ? stack1 : "") + "\n                " + ((stack1 = (helper = (helper = lookupProperty(helpers, "lastName") || (depth0 != null ? lookupProperty(depth0, "lastName") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
             "name": "lastName",
             "hash": {},
             "data": data,
             "loc": {
                 "start": {
-                    "line": 9,
-                    "column": 12
+                    "line": 10,
+                    "column": 16
                 },
                 "end": {
-                    "line": 9,
-                    "column": 26
+                    "line": 10,
+                    "column": 30
                 }
             }
-        }) : helper)) != null ? stack1 : "") + "\n            " + ((stack1 = (helper = (helper = lookupProperty(helpers, "telephone") || (depth0 != null ? lookupProperty(depth0, "telephone") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+        }) : helper)) != null ? stack1 : "") + "\n                " + ((stack1 = (helper = (helper = lookupProperty(helpers, "telephone") || (depth0 != null ? lookupProperty(depth0, "telephone") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
             "name": "telephone",
             "hash": {},
             "data": data,
             "loc": {
                 "start": {
-                    "line": 10,
-                    "column": 12
+                    "line": 11,
+                    "column": 16
                 },
                 "end": {
-                    "line": 10,
-                    "column": 27
+                    "line": 11,
+                    "column": 31
                 }
             }
-        }) : helper)) != null ? stack1 : "") + "\n        </div>\n        <div class=\"group-btn\">\n            <div>" + ((stack1 = (helper = (helper = lookupProperty(helpers, "buttonSave") || (depth0 != null ? lookupProperty(depth0, "buttonSave") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+        }) : helper)) != null ? stack1 : "") + "\n            </form>\n        </div>\n        <div class=\"group-btn\">\n            <div>" + ((stack1 = (helper = (helper = lookupProperty(helpers, "buttonSave") || (depth0 != null ? lookupProperty(depth0, "buttonSave") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
             "name": "buttonSave",
             "hash": {},
             "data": data,
             "loc": {
                 "start": {
-                    "line": 13,
+                    "line": 15,
                     "column": 17
                 },
                 "end": {
-                    "line": 13,
+                    "line": 15,
                     "column": 33
                 }
             }
@@ -13017,11 +13026,11 @@ const templateFunction = _handlebarsDefault.default.template({
             "data": data,
             "loc": {
                 "start": {
-                    "line": 14,
+                    "line": 16,
                     "column": 17
                 },
                 "end": {
-                    "line": 14,
+                    "line": 16,
                     "column": 33
                 }
             }
@@ -13074,7 +13083,7 @@ const profileData = {
         href: '/profile'
     },
     buttonSave: {
-        id: 'btn-save',
+        id: 'btn-edit-password',
         value: 'Save'
     }
 };
@@ -13133,59 +13142,59 @@ const templateFunction = _handlebarsDefault.default.template({
                     "column": 41
                 }
             }
-        }) : helper)) != null ? stack1 : "") + "</div>\n    <div class=\"data-profile\">\n        <div class=\"items\">\n            " + ((stack1 = (helper = (helper = lookupProperty(helpers, "oldPassword") || (depth0 != null ? lookupProperty(depth0, "oldPassword") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+        }) : helper)) != null ? stack1 : "") + "</div>\n    <div class=\"data-profile\">\n        <div class=\"items\">\n            <form id=\"form-edit-password\">\n                " + ((stack1 = (helper = (helper = lookupProperty(helpers, "oldPassword") || (depth0 != null ? lookupProperty(depth0, "oldPassword") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
             "name": "oldPassword",
             "hash": {},
             "data": data,
             "loc": {
                 "start": {
-                    "line": 6,
-                    "column": 12
+                    "line": 7,
+                    "column": 16
                 },
                 "end": {
-                    "line": 6,
-                    "column": 29
+                    "line": 7,
+                    "column": 33
                 }
             }
-        }) : helper)) != null ? stack1 : "") + "\n            " + ((stack1 = (helper = (helper = lookupProperty(helpers, "newPassword") || (depth0 != null ? lookupProperty(depth0, "newPassword") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+        }) : helper)) != null ? stack1 : "") + "\n                " + ((stack1 = (helper = (helper = lookupProperty(helpers, "newPassword") || (depth0 != null ? lookupProperty(depth0, "newPassword") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
             "name": "newPassword",
             "hash": {},
             "data": data,
             "loc": {
                 "start": {
-                    "line": 7,
-                    "column": 12
+                    "line": 8,
+                    "column": 16
                 },
                 "end": {
-                    "line": 7,
-                    "column": 29
+                    "line": 8,
+                    "column": 33
                 }
             }
-        }) : helper)) != null ? stack1 : "") + "\n            " + ((stack1 = (helper = (helper = lookupProperty(helpers, "repeatPassword") || (depth0 != null ? lookupProperty(depth0, "repeatPassword") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+        }) : helper)) != null ? stack1 : "") + "\n                " + ((stack1 = (helper = (helper = lookupProperty(helpers, "repeatPassword") || (depth0 != null ? lookupProperty(depth0, "repeatPassword") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
             "name": "repeatPassword",
             "hash": {},
             "data": data,
             "loc": {
                 "start": {
-                    "line": 8,
-                    "column": 12
+                    "line": 9,
+                    "column": 16
                 },
                 "end": {
-                    "line": 8,
-                    "column": 32
+                    "line": 9,
+                    "column": 36
                 }
             }
-        }) : helper)) != null ? stack1 : "") + "\n        </div>\n        <div class=\"group-btn\">\n            <div>" + ((stack1 = (helper = (helper = lookupProperty(helpers, "buttonSave") || (depth0 != null ? lookupProperty(depth0, "buttonSave") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+        }) : helper)) != null ? stack1 : "") + "\n            </form>\n        </div>\n        <div class=\"group-btn\">\n            <div>" + ((stack1 = (helper = (helper = lookupProperty(helpers, "buttonSave") || (depth0 != null ? lookupProperty(depth0, "buttonSave") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
             "name": "buttonSave",
             "hash": {},
             "data": data,
             "loc": {
                 "start": {
-                    "line": 11,
+                    "line": 13,
                     "column": 17
                 },
                 "end": {
-                    "line": 11,
+                    "line": 13,
                     "column": 33
                 }
             }
@@ -13195,11 +13204,11 @@ const templateFunction = _handlebarsDefault.default.template({
             "data": data,
             "loc": {
                 "start": {
-                    "line": 12,
+                    "line": 14,
                     "column": 17
                 },
                 "end": {
-                    "line": 12,
+                    "line": 14,
                     "column": 33
                 }
             }
@@ -13382,7 +13391,7 @@ const templateFunction = _handlebarsDefault.default.template({
                     "column": 25
                 }
             }
-        })) != null ? stack1 : "") + "            </div>\n            <div class=\"active-chat-control\">\n                <div class=\"active-chat-control-attachment\">\n                    <svg width=\"21\" height=\"23\" viewBox=\"0 0 21 23\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n                        <path fill-rule=\"evenodd\" clip-rule=\"evenodd\"\n                              d=\"M4.33063 9.58338L9.63395 3.77502L10.2939 4.49785L4.99059 10.3062L4.33063 9.58338Z\"\n                              fill=\"#0B7AAA\" />\n                        <path fill-rule=\"evenodd\" clip-rule=\"evenodd\"\n                              d=\"M6.09045 11.5107L11.3937 5.70227L12.0537 6.42509L6.75042 12.2335L6.09045 11.5107Z\"\n                              fill=\"#0B7AAA\" />\n                        <path fill-rule=\"evenodd\" clip-rule=\"evenodd\"\n                              d=\"M9.83032 15.6068L15.1337 9.79846L15.7936 10.5213L10.4903 16.3296L9.83032 15.6068Z\"\n                              fill=\"#0B7AAA\" />\n                        <path fill-rule=\"evenodd\" clip-rule=\"evenodd\"\n                              d=\"M11.5902 17.5342L16.8935 11.7258L17.5534 12.4486L12.2502 18.257L11.5902 17.5342Z\"\n                              fill=\"#0B7AAA\" />\n                        <path fill-rule=\"evenodd\" clip-rule=\"evenodd\"\n                              d=\"M11.5902 17.5344C9.7596 19.5393 6.79826 19.5465 4.97581 17.5505C3.15336 15.5545 3.15996 12.3111 4.99054 10.3062L4.33058 9.58337C2.13387 11.9893 2.12596 15.8814 4.31289 18.2766C6.49983 20.6718 10.0535 20.6631 12.2502 18.2572L11.5902 17.5344Z\"\n                              fill=\"#0B7AAA\" />\n                        <path fill-rule=\"evenodd\" clip-rule=\"evenodd\"\n                              d=\"M15.1337 9.79847L15.7936 10.5213C17.5021 8.65 17.5083 5.62282 15.8074 3.75987C14.1064 1.89693 11.3425 1.90368 9.63391 3.77493L10.2939 4.49775C11.6363 3.02748 13.808 3.02218 15.1445 4.48592C16.4809 5.94967 16.4761 8.32816 15.1337 9.79847Z\"\n                              fill=\"#0B7AAA\" />\n                        <path fill-rule=\"evenodd\" clip-rule=\"evenodd\"\n                              d=\"M6.09066 11.511C4.87027 12.8476 4.86588 15.0099 6.08084 16.3405C7.29584 17.6712 9.27005 17.6664 10.4904 16.3298L9.83046 15.607C8.97619 16.5426 7.59425 16.546 6.74375 15.6145C5.89327 14.683 5.89635 13.1694 6.75063 12.2338L6.09066 11.511Z\"\n                              fill=\"#0B7AAA\" />\n                    </svg>\n                </div>\n                <input type=\"text\" placeholder=\"Message...\" />\n                <button class=\"circle-btn\">\n                    <svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n                        <path d=\"M23.0607 13.0607C23.6464 12.4749 23.6464 11.5251 23.0607 10.9393L13.5147 1.3934C12.9289 0.807611 11.9792 0.807611 11.3934 1.3934C10.8076 1.97919 10.8076 2.92893 11.3934 3.51472L19.8787 12L11.3934 20.4853C10.8076 21.0711 10.8076 22.0208 11.3934 22.6066C11.9792 23.1924 12.9289 23.1924 13.5147 22.6066L23.0607 13.0607ZM0 13.5L22 13.5V10.5L0 10.5L0 13.5Z\"\n                              fill=\"white\" />\n                    </svg>\n                </button>\n            </div>\n        </div>\n\n";
+        })) != null ? stack1 : "") + "            </div>\n            <div class=\"active-chat-control\">\n                <div class=\"active-chat-control-attachment\">\n                    <svg width=\"21\" height=\"23\" viewBox=\"0 0 21 23\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n                        <path fill-rule=\"evenodd\" clip-rule=\"evenodd\"\n                              d=\"M4.33063 9.58338L9.63395 3.77502L10.2939 4.49785L4.99059 10.3062L4.33063 9.58338Z\"\n                              fill=\"#0B7AAA\" />\n                        <path fill-rule=\"evenodd\" clip-rule=\"evenodd\"\n                              d=\"M6.09045 11.5107L11.3937 5.70227L12.0537 6.42509L6.75042 12.2335L6.09045 11.5107Z\"\n                              fill=\"#0B7AAA\" />\n                        <path fill-rule=\"evenodd\" clip-rule=\"evenodd\"\n                              d=\"M9.83032 15.6068L15.1337 9.79846L15.7936 10.5213L10.4903 16.3296L9.83032 15.6068Z\"\n                              fill=\"#0B7AAA\" />\n                        <path fill-rule=\"evenodd\" clip-rule=\"evenodd\"\n                              d=\"M11.5902 17.5342L16.8935 11.7258L17.5534 12.4486L12.2502 18.257L11.5902 17.5342Z\"\n                              fill=\"#0B7AAA\" />\n                        <path fill-rule=\"evenodd\" clip-rule=\"evenodd\"\n                              d=\"M11.5902 17.5344C9.7596 19.5393 6.79826 19.5465 4.97581 17.5505C3.15336 15.5545 3.15996 12.3111 4.99054 10.3062L4.33058 9.58337C2.13387 11.9893 2.12596 15.8814 4.31289 18.2766C6.49983 20.6718 10.0535 20.6631 12.2502 18.2572L11.5902 17.5344Z\"\n                              fill=\"#0B7AAA\" />\n                        <path fill-rule=\"evenodd\" clip-rule=\"evenodd\"\n                              d=\"M15.1337 9.79847L15.7936 10.5213C17.5021 8.65 17.5083 5.62282 15.8074 3.75987C14.1064 1.89693 11.3425 1.90368 9.63391 3.77493L10.2939 4.49775C11.6363 3.02748 13.808 3.02218 15.1445 4.48592C16.4809 5.94967 16.4761 8.32816 15.1337 9.79847Z\"\n                              fill=\"#0B7AAA\" />\n                        <path fill-rule=\"evenodd\" clip-rule=\"evenodd\"\n                              d=\"M6.09066 11.511C4.87027 12.8476 4.86588 15.0099 6.08084 16.3405C7.29584 17.6712 9.27005 17.6664 10.4904 16.3298L9.83046 15.607C8.97619 16.5426 7.59425 16.546 6.74375 15.6145C5.89327 14.683 5.89635 13.1694 6.75063 12.2338L6.09066 11.511Z\"\n                              fill=\"#0B7AAA\" />\n                    </svg>\n                </div>\n                <input type=\"text\" placeholder=\"Message...\" id=\"message-text\" name=\"message\" />\n                <button id=\"send-message-btn\" class=\"circle-btn\">\n                    <svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n                        <path d=\"M23.0607 13.0607C23.6464 12.4749 23.6464 11.5251 23.0607 10.9393L13.5147 1.3934C12.9289 0.807611 11.9792 0.807611 11.3934 1.3934C10.8076 1.97919 10.8076 2.92893 11.3934 3.51472L19.8787 12L11.3934 20.4853C10.8076 21.0711 10.8076 22.0208 11.3934 22.6066C11.9792 23.1924 12.9289 23.1924 13.5147 22.6066L23.0607 13.0607ZM0 13.5L22 13.5V10.5L0 10.5L0 13.5Z\"\n                              fill=\"white\" />\n                    </svg>\n                </button>\n            </div>\n        </div>\n\n";
     },
     "5": function(container, depth0, helpers, partials, data) {
         var stack1, lookupProperty = container.lookupProperty || function(parent, propertyName) {
@@ -13550,6 +13559,106 @@ const templateFunction = _handlebarsDefault.default.template({
 });
 exports.default = templateFunction;
 
-},{"handlebars":"i0QfX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"iwlg6":[function() {},{}],"1bhvm":[function() {},{}],"8rZcH":[function() {},{}],"8AiIv":[function() {},{}],"5gPci":[function() {},{}],"1lTKA":[function() {},{}],"5z0gz":[function() {},{}]},["8wcER","h7u1C"], "h7u1C", "parcelRequire40a5")
+},{"handlebars":"i0QfX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"iwlg6":[function() {},{}],"1bhvm":[function() {},{}],"8AiIv":[function() {},{}],"5gPci":[function() {},{}],"1lTKA":[function() {},{}],"5z0gz":[function() {},{}],"d7ctM":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "useSendMessage", ()=>useSendMessage
+);
+const useSendMessage = ()=>{
+    const btnSendMessage = document.getElementById('send-message-btn');
+    const inputMessage = document.getElementById('message-text');
+    if (btnSendMessage) btnSendMessage.addEventListener('click', ()=>{
+        console.log({
+            message: inputMessage?.value.trim()
+        });
+    });
+    if (inputMessage) inputMessage.addEventListener('keypress', (e)=>{
+        if (e.key === 'Enter') console.log({
+            message: inputMessage?.value.trim()
+        });
+    });
+};
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"dHmeT":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "useRegistration", ()=>useRegistration
+);
+const useRegistration = ()=>{
+    const btnRegistration = document.getElementById('btn-registration');
+    const formReg = document.getElementById('form-registration');
+    if (btnRegistration) btnRegistration.addEventListener('click', ()=>{
+        const data = new FormData(formReg);
+        const result = {
+            email: data.get('email'),
+            login: data.get('login'),
+            firstName: data.get('firstName'),
+            lastName: data.get('lastName'),
+            telephone: data.get('telephone'),
+            password: data.get('password'),
+            passwordRepeat: data.get('passwordRepeat')
+        };
+        console.log(result);
+    });
+};
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"94QS2":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "useAuthorization", ()=>useAuthorization
+);
+const useAuthorization = ()=>{
+    const btnAuthorization = document.getElementById('btn-authorization');
+    const formAuth = document.getElementById('form-authorization');
+    if (btnAuthorization) btnAuthorization.addEventListener('click', ()=>{
+        const data = new FormData(formAuth);
+        const result = {
+            login: data.get('login'),
+            password: data.get('password')
+        };
+        console.log(result);
+    });
+};
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"7QHv2":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "useEditProfile", ()=>useEditProfile
+);
+const useEditProfile = ()=>{
+    const btnEditProfile = document.getElementById('btn-edit-profile');
+    const formEdit = document.getElementById('form-edit-profile');
+    if (btnEditProfile) btnEditProfile.addEventListener('click', ()=>{
+        const data = new FormData(formEdit);
+        const result = {
+            email: data.get('email'),
+            login: data.get('login'),
+            firstName: data.get('firstName'),
+            lastName: data.get('lastName'),
+            telephone: data.get('telephone')
+        };
+        console.log(result);
+    });
+};
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"hHul6":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "useEditPassword", ()=>useEditPassword
+);
+const useEditPassword = ()=>{
+    const btnEditPassword = document.getElementById('btn-edit-password');
+    const formEdit = document.getElementById('form-edit-password');
+    if (btnEditPassword) btnEditPassword.addEventListener('click', ()=>{
+        const data = new FormData(formEdit);
+        const result = {
+            oldPassword: data.get('old_password'),
+            newPassword: data.get('new_password')
+        };
+        console.log(result);
+    });
+};
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["8wcER","h7u1C"], "h7u1C", "parcelRequire40a5")
 
 //# sourceMappingURL=index.b71e74eb.js.map

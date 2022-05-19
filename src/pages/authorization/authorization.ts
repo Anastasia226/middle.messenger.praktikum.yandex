@@ -20,7 +20,7 @@ const authorizationData = {
         type: 'password'
     },
     button: {
-        id: 'btn-enter',
+        id: 'btn-authorization',
         value: 'Enter',
     },
     link: {

@@ -2,7 +2,6 @@ import Handlebars from 'handlebars';
 import chats from './Chats.hbs';
 import './chats.scss ';
 
-
 const chatsData = {
     activeChat: {
         messages: [

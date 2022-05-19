@@ -1,0 +1,29 @@
+@import "../variable.scss";
+
+@mixin font(
+  $font-size: 16px,
+  $color: $green,
+  $letter-spacing: 0.25em,
+  $font-weight: 200,
+  $hover-color: null
+) {
+  font-style: normal;
+  font-size: $font-size;
+  color: $color;
+  letter-spacing: $letter-spacing;
+  font-weight: $font-weight;
+  transition: color 70ms ease;
+
+  @if $hover-color {
+    &:hover {
+      color: $hover-color;
+    }
+  }
+}
+
+@mixin text-ellipsis($max-width: 200px) {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: $max-width;
+}

@@ -1,8 +1,10 @@
+@import 'static/scss/variable.scss';
+
 .photo-profile {
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  background: linear-gradient(180deg, #EEEAEA 99.99%, rgba(255, 255, 255, 0) 100%);
+  background: $grey-05;
   display: flex;
   align-items: center;
   justify-content: center;
