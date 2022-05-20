@@ -142,7 +142,7 @@
       this[globalName] = mainExports;
     }
   }
-})({"8wcER":[function(require,module,exports) {
+})({"7mgxS":[function(require,module,exports) {
 "use strict";
 var HMR_HOST = null;
 var HMR_PORT = null;
@@ -223,7 +223,7 @@ function _arrayLikeToArray(arr, len) {
     for(var i = 0, arr2 = new Array(len); i < len; i++)arr2[i] = arr[i];
     return arr2;
 }
-/* global HMR_HOST, HMR_PORT, HMR_ENV_HASH, HMR_SECURE */ /*::
+/* global HMR_HOST, HMR_PORT, HMR_ENV_HASH, HMR_SECURE, chrome, browser */ /*::
 import type {
   HMRAsset,
   HMRMessage,
@@ -250,11 +250,18 @@ interface ParcelModule {
     _disposeCallbacks: Array<(mixed) => void>,
   |};
 }
+interface ExtensionContext {
+  runtime: {|
+    reload(): void,
+  |};
+}
 declare var module: {bundle: ParcelRequire, ...};
 declare var HMR_HOST: string;
 declare var HMR_PORT: string;
 declare var HMR_ENV_HASH: string;
 declare var HMR_SECURE: boolean;
+declare var chrome: ExtensionContext;
+declare var browser: ExtensionContext;
 */ var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
 function Module(moduleName) {
@@ -309,7 +316,12 @@ if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
                     var id = assetsToAccept[i][1];
                     if (!acceptedAssets[id]) hmrAcceptRun(assetsToAccept[i][0], id);
                 }
-            } else window.location.reload();
+            } else if ('reload' in location) location.reload();
+            else {
+                // Web extension context
+                var ext = typeof chrome === 'undefined' ? typeof browser === 'undefined' ? null : browser : chrome;
+                if (ext && ext.runtime && ext.runtime.reload) ext.runtime.reload();
+            }
         }
         if (data.type === 'error') {
             // Log parcel errors to console
@@ -403,7 +415,7 @@ function reloadCSS() {
             var href = links[i].getAttribute('href');
             var hostname = getHostname();
             var servedFromHMRServer = hostname === 'localhost' ? new RegExp('^(https?:\\/\\/(0.0.0.0|127.0.0.1)|localhost):' + getPort()).test(href) : href.indexOf(hostname + ':' + getPort());
-            var absolute = /^https?:\/\//i.test(href) && href.indexOf(window.location.origin) !== 0 && !servedFromHMRServer;
+            var absolute = /^https?:\/\//i.test(href) && href.indexOf(location.origin) !== 0 && !servedFromHMRServer;
             if (!absolute) updateLink(links[i]);
         }
         cssTimeout = null;
@@ -529,48 +541,98 @@ var _passwordEdit = require("./pages/password-edit/password-edit");
 var _passwordEditDefault = parcelHelpers.interopDefault(_passwordEdit);
 var _chats = require("./pages/chats/chats");
 var _chatsDefault = parcelHelpers.interopDefault(_chats);
-var _indexScss = require("../static/scss/index.scss");
+var _indexScss = require("./assets/scss/index.scss");
 var _inputScss = require("./components/input/input.scss");
 var _buttonScss = require("./components/button/button.scss");
 var _linkScss = require("./components/link/link.scss");
 var _profilePhotoScss = require("./components/profile-photo/profile-photo.scss");
-var _useSendMessage = require("./utils/use/useSendMessage");
-var _useRegistration = require("./utils/use/useRegistration");
-var _useAuthorization = require("./utils/use/useAuthorization");
-var _useEditProfile = require("./utils/use/useEditProfile");
-var _useEditPassword = require("./utils/use/useEditPassword");
+var _render = require("./utils/render/render");
 const root = document.getElementById('root');
 const currentPath = window.location.pathname;
 if (root) {
-    if (currentPath === '/registration') root.innerHTML = _registrationDefault.default();
-    else if (currentPath === '/authorization') root.innerHTML = _authorizationDefault.default();
-    else if (currentPath === '/profile') root.innerHTML = _profileDefault.default();
-    else if (currentPath === '/profile-edit') root.innerHTML = _profileEditDefault.default();
-    else if (currentPath === '/password-edit') root.innerHTML = _passwordEditDefault.default();
-    else if (currentPath === '/chats') root.innerHTML = _chatsDefault.default();
-    else if (currentPath === '/') root.innerHTML = _authorizationDefault.default();
-    else root.innerHTML = _errorDefault.default('404', 'This page not found');
+    let content;
+    switch(currentPath){
+        case '/registration':
+            content = new _registrationDefault.default();
+            _render.render(root, content);
+            break;
+        case '/authorization':
+            content = new _authorizationDefault.default();
+            _render.render(root, content);
+            break;
+        case '/profile':
+            content = new _profileDefault.default();
+            _render.render(root, content);
+            break;
+        case '/profile-edit':
+            content = new _profileEditDefault.default();
+            _render.render(root, content);
+            break;
+        case '/password-edit':
+            content = new _passwordEditDefault.default();
+            _render.render(root, content);
+            break;
+        case '/chats':
+            content = new _chatsDefault.default();
+            _render.render(root, content);
+            break;
+        case '/':
+            content = new _authorizationDefault.default();
+            _render.render(root, content);
+            break;
+        default:
+            content = new _errorDefault.default({
+                statusError: '404',
+                messageError: 'This page not found'
+            });
+            _render.render(root, content);
+    }
 }
-_useSendMessage.useSendMessage();
-_useRegistration.useRegistration();
-_useAuthorization.useAuthorization();
-_useEditProfile.useEditProfile();
-_useEditPassword.useEditPassword();
 
-},{"./pages/authorization/authorization":"9T2w8","./pages/registration/registration":"ipn4T","./pages/profile/profile":"atqZr","./pages/error/error":"kZohv","./pages/profile-edit/profile-edit":"9n8NC","./pages/password-edit/password-edit":"dvuwP","./pages/chats/chats":"gTikN","../static/scss/index.scss":"1bhvm","./components/input/input.scss":"8AiIv","./components/button/button.scss":"5gPci","./components/link/link.scss":"1lTKA","./components/profile-photo/profile-photo.scss":"5z0gz","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./utils/use/useSendMessage":"d7ctM","./utils/use/useRegistration":"dHmeT","./utils/use/useAuthorization":"94QS2","./utils/use/useEditProfile":"7QHv2","./utils/use/useEditPassword":"hHul6"}],"9T2w8":[function(require,module,exports) {
+},{"./assets/scss/index.scss":"dKu6X","./components/input/input.scss":"8AiIv","./components/button/button.scss":"5gPci","./components/link/link.scss":"1lTKA","./components/profile-photo/profile-photo.scss":"5z0gz","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./pages/authorization/authorization":"9T2w8","./pages/registration/registration":"ipn4T","./utils/render/render":"423ci","./pages/error/error":"kZohv","./pages/password-edit/password-edit":"dvuwP","./pages/profile-edit/profile-edit":"9n8NC","./pages/profile/profile":"atqZr","./pages/chats/chats":"gTikN"}],"dKu6X":[function() {},{}],"8AiIv":[function() {},{}],"5gPci":[function() {},{}],"1lTKA":[function() {},{}],"5z0gz":[function() {},{}],"gkKU3":[function(require,module,exports) {
+exports.interopDefault = function(a) {
+    return a && a.__esModule ? a : {
+        default: a
+    };
+};
+exports.defineInteropFlag = function(a) {
+    Object.defineProperty(a, '__esModule', {
+        value: true
+    });
+};
+exports.exportAll = function(source, dest) {
+    Object.keys(source).forEach(function(key) {
+        if (key === 'default' || key === '__esModule' || dest.hasOwnProperty(key)) return;
+        Object.defineProperty(dest, key, {
+            enumerable: true,
+            get: function() {
+                return source[key];
+            }
+        });
+    });
+    return dest;
+};
+exports.export = function(dest, destName, get) {
+    Object.defineProperty(dest, destName, {
+        enumerable: true,
+        get: get
+    });
+};
+
+},{}],"9T2w8":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-var _handlebars = require("handlebars");
-var _handlebarsDefault = parcelHelpers.interopDefault(_handlebars);
 var _authorizationHbs = require("./Authorization.hbs");
 var _authorizationHbsDefault = parcelHelpers.interopDefault(_authorizationHbs);
-var _inputHbs = require("../../components/input/Input.hbs");
-var _inputHbsDefault = parcelHelpers.interopDefault(_inputHbs);
-var _buttonHbs = require("../../components/button/Button.hbs");
-var _buttonHbsDefault = parcelHelpers.interopDefault(_buttonHbs);
-var _linkHbs = require("../../components/link/Link.hbs");
-var _linkHbsDefault = parcelHelpers.interopDefault(_linkHbs);
+var _input = require("../../components/input/input");
+var _inputDefault = parcelHelpers.interopDefault(_input);
+var _button = require("../../components/button/button");
+var _buttonDefault = parcelHelpers.interopDefault(_button);
+var _link = require("../../components/link/link");
+var _linkDefault = parcelHelpers.interopDefault(_link);
 var _authorizationScss = require("./authorization.scss ");
+var _block = require("../../services/block");
+var _blockDefault = parcelHelpers.interopDefault(_block);
 const authorizationData = {
     login: {
         name: 'login',
@@ -593,17 +655,103 @@ const authorizationData = {
         href: '/registration'
     }
 };
-_handlebarsDefault.default.registerPartial('authorization', _authorizationHbsDefault.default);
-exports.default = ()=>{
-    return _authorizationHbsDefault.default({
-        login: _inputHbsDefault.default(authorizationData.login),
-        password: _inputHbsDefault.default(authorizationData.password),
-        btnEnter: _buttonHbsDefault.default(authorizationData.button),
-        link: _linkHbsDefault.default(authorizationData.link)
-    });
-};
+class Authorization extends _blockDefault.default {
+    constructor(){
+        super({
+            login: new _inputDefault.default(authorizationData.login),
+            password: new _inputDefault.default(authorizationData.password),
+            btnEnter: new _buttonDefault.default({
+                ...authorizationData.button,
+                events: {
+                    click: ()=>{
+                        const formAuth = document.getElementById('form-authorization');
+                        const data = new FormData(formAuth);
+                        const result = {
+                            login: data.get('login'),
+                            password: data.get('password')
+                        };
+                        console.log(result);
+                    }
+                }
+            }),
+            link: new _linkDefault.default(authorizationData.link)
+        });
+    }
+    render() {
+        return this.compile(_authorizationHbsDefault.default, this.props);
+    }
+}
+exports.default = Authorization;
 
-},{"handlebars":"i0QfX","./authorization.scss ":"kGQd7","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./Authorization.hbs":"7uriw","../../components/button/Button.hbs":"gbr0o","../../components/link/Link.hbs":"3tCa2","../../components/input/Input.hbs":"1oUND"}],"i0QfX":[function(require,module,exports) {
+},{"./authorization.scss ":"kGQd7","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../../components/button/button":"9lSjy","./Authorization.hbs":"7uriw","../../services/block":"8ops0","../../components/input/input":"fIx3g","../../components/link/link":"9UCyh"}],"kGQd7":[function() {},{}],"9lSjy":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _buttonHbs = require("./Button.hbs");
+var _buttonHbsDefault = parcelHelpers.interopDefault(_buttonHbs);
+var _block = require("../../services/block");
+var _blockDefault = parcelHelpers.interopDefault(_block);
+class Button extends _blockDefault.default {
+    constructor(props){
+        super(props);
+    }
+    render() {
+        return this.compile(_buttonHbsDefault.default, {
+            ...this.props
+        });
+    }
+}
+exports.default = Button;
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./Button.hbs":"gbr0o","../../services/block":"8ops0"}],"gbr0o":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _handlebars = require("handlebars");
+var _handlebarsDefault = parcelHelpers.interopDefault(_handlebars);
+const templateFunction = _handlebarsDefault.default.template({
+    "compiler": [
+        8,
+        ">= 4.3.0"
+    ],
+    "main": function(container, depth0, helpers, partials, data) {
+        var helper, alias1 = depth0 != null ? depth0 : container.nullContext || {}, alias2 = container.hooks.helperMissing, alias3 = "function", alias4 = container.escapeExpression, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+            if (Object.prototype.hasOwnProperty.call(parent, propertyName)) return parent[propertyName];
+            return undefined;
+        };
+        return "<div class=\"button-default\">\n    <button id=\"" + alias4((helper = (helper = lookupProperty(helpers, "id") || (depth0 != null ? lookupProperty(depth0, "id") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+            "name": "id",
+            "hash": {},
+            "data": data,
+            "loc": {
+                "start": {
+                    "line": 2,
+                    "column": 16
+                },
+                "end": {
+                    "line": 2,
+                    "column": 22
+                }
+            }
+        }) : helper)) + "\">" + alias4((helper = (helper = lookupProperty(helpers, "value") || (depth0 != null ? lookupProperty(depth0, "value") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+            "name": "value",
+            "hash": {},
+            "data": data,
+            "loc": {
+                "start": {
+                    "line": 2,
+                    "column": 24
+                },
+                "end": {
+                    "line": 2,
+                    "column": 33
+                }
+            }
+        }) : helper)) + "</button>\n</div>";
+    },
+    "useData": true
+});
+exports.default = templateFunction;
+
+},{"handlebars":"i0QfX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"i0QfX":[function(require,module,exports) {
 // USAGE:
 // var handlebars = require('handlebars');
 /* eslint-disable no-var */ // var local = handlebars.create();
@@ -11921,37 +12069,298 @@ PrintVisitor.prototype.HashPair = function(pair) {
 },{"./visitor":"fk5sS"}],"jhUEF":[function(require,module,exports) {
 "use strict";
 
-},{}],"kGQd7":[function() {},{}],"gkKU3":[function(require,module,exports) {
-exports.interopDefault = function(a) {
-    return a && a.__esModule ? a : {
-        default: a
+},{}],"8ops0":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _eventBus = require("./event-bus");
+var _uuid = require("uuid");
+class Block {
+    static EVENTS = {
+        INIT: "init",
+        FLOW_CDM: "flow:component-did-mount",
+        FLOW_CDU: "flow:component-did-update",
+        FLOW_RENDER: "flow:render"
     };
-};
-exports.defineInteropFlag = function(a) {
-    Object.defineProperty(a, '__esModule', {
-        value: true
-    });
-};
-exports.exportAll = function(source, dest) {
-    Object.keys(source).forEach(function(key) {
-        if (key === 'default' || key === '__esModule' || dest.hasOwnProperty(key)) return;
-        Object.defineProperty(dest, key, {
-            enumerable: true,
-            get: function() {
-                return source[key];
+    id = _uuid.v4();
+    _element = null;
+    eventBus = new _eventBus.EventBus();
+    constructor(propsAndChildren = {}){
+        const { props , children  } = this._getChildren(propsAndChildren);
+        this.children = children;
+        this._meta = {
+            props
+        };
+        this.props = this._makePropsProxy(props);
+        this._registerEvents(this.eventBus);
+        this.eventBus.emit(Block.EVENTS.INIT);
+    }
+    _getChildren(propsAndChildren) {
+        const children = {};
+        const props = {};
+        Object.entries(propsAndChildren).forEach(([key, value])=>{
+            if (value instanceof Block) children[key] = value;
+            else props[key] = value;
+        });
+        return {
+            children,
+            props
+        };
+    }
+    _registerEvents(eventBus) {
+        eventBus.on(Block.EVENTS.INIT, this.init.bind(this));
+        eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
+        eventBus.on(Block.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
+        eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
+    }
+    init() {
+        this.eventBus.emit(Block.EVENTS.FLOW_RENDER);
+    }
+    _componentDidMount() {
+        this.componentDidMount();
+    }
+    componentDidMount() {}
+    dispatchComponentDidMount() {
+        this.eventBus.emit(Block.EVENTS.FLOW_CDM);
+    }
+    _componentDidUpdate(oldProps, newProps) {
+        const response = this.componentDidUpdate(oldProps, newProps);
+        if (response) this.eventBus.emit(Block.EVENTS.FLOW_RENDER);
+    }
+    componentDidUpdate(oldProps, newProps) {
+        return JSON.stringify(oldProps) !== JSON.stringify(newProps);
+    }
+    setProps = (nextProps)=>{
+        if (!nextProps) return;
+        //  Object.assign(this.props, nextProps);
+        this.props = {
+            ...this.props,
+            nextProps
+        };
+    };
+    get element() {
+        return this._element;
+    }
+    _addEvents() {
+        const { events ={}  } = this.props;
+        Object.keys(events).forEach((eventName)=>{
+            if (this._element) this._element.addEventListener(eventName, events[eventName]);
+        });
+    }
+    _removeEvents() {
+        const { events ={}  } = this.props;
+        Object.keys(events).forEach((eventName)=>{
+            if (this._element) this._element.removeEventListener(eventName, events[eventName]);
+        });
+    }
+    _render() {
+        const fragment = this.render();
+        const newElement = fragment.firstElementChild;
+        if (this._element) {
+            this._removeEvents();
+            this._element.replaceWith(newElement);
+        }
+        this._element = newElement;
+        this._addEvents();
+    }
+    render() {
+        return new DocumentFragment();
+    }
+    getContent() {
+        return this.element;
+    }
+    _makePropsProxy(props) {
+        // Можно и так передать this
+        // Такой способ больше не применяется с приходом ES6+
+        const self = this;
+        return new Proxy(props, {
+            get (target, prop) {
+                const value = target[prop];
+                return typeof value === 'function' ? value.blind(target) : value;
+            },
+            set (target, prop, value) {
+                target[prop] = value;
+                self.eventBus.emit(Block.EVENTS.FLOW_CDU);
+                return true;
+            },
+            deleteProperty () {
+                throw new Error('Нет доступа');
             }
         });
-    });
-    return dest;
-};
-exports.export = function(dest, destName, get) {
-    Object.defineProperty(dest, destName, {
-        enumerable: true,
-        get: get
-    });
-};
+    }
+    _createDocumentElement(tagName) {
+        // Можно сделать метод, который через фрагменты в цикле создаёт сразу несколько блоков
+        return document.createElement(tagName);
+    }
+    compile(template, props) {
+        Object.entries(this.children).forEach(([key, child])=>{
+            props[key] = `<div data-id="id-${child.id}"></div>`;
+        });
+        const fragment = this._createDocumentElement('template');
+        const htmlStr = template(props);
+        fragment.innerHTML = htmlStr;
+        Object.values(this.children).forEach((child)=>{
+            const stub = fragment.content.querySelector(`[data-id="id-${child.id}"]`);
+            if (!stub) return;
+            stub.replaceWith(child.getContent());
+        });
+        return fragment.content;
+    }
+    show = ()=>{
+        if (this._element) this._element.style.display = 'block';
+    };
+    hide = ()=>{
+        if (this._element) this._element.style.display = 'none';
+    };
+}
+exports.default = Block;
 
-},{}],"7uriw":[function(require,module,exports) {
+},{"./event-bus":"8txX3","uuid":"j4KJi","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"8txX3":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "EventBus", ()=>EventBus
+);
+class EventBus {
+    constructor(){
+        this.listeners = {};
+    }
+    on(event, callback) {
+        if (!this.listeners[event]) this.listeners[event] = [];
+        this.listeners[event].push(callback);
+    }
+    off(event, callback) {
+        if (!this.listeners[event]) throw new Error(`Нет события: ${event}`);
+        this.listeners[event] = this.listeners[event].filter((listener)=>listener !== callback
+        );
+    }
+    emit(event, ...args) {
+        if (!this.listeners[event]) return;
+        this.listeners[event].forEach((listener)=>{
+            listener(...args);
+        });
+    }
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"j4KJi":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "v1", ()=>_v1JsDefault.default
+);
+parcelHelpers.export(exports, "v3", ()=>_v3JsDefault.default
+);
+parcelHelpers.export(exports, "v4", ()=>_v4JsDefault.default
+);
+parcelHelpers.export(exports, "v5", ()=>_v5JsDefault.default
+);
+parcelHelpers.export(exports, "NIL", ()=>_nilJsDefault.default
+);
+parcelHelpers.export(exports, "version", ()=>_versionJsDefault.default
+);
+parcelHelpers.export(exports, "validate", ()=>_validateJsDefault.default
+);
+parcelHelpers.export(exports, "stringify", ()=>_stringifyJsDefault.default
+);
+parcelHelpers.export(exports, "parse", ()=>_parseJsDefault.default
+);
+var _v1Js = require("./v1.js");
+var _v1JsDefault = parcelHelpers.interopDefault(_v1Js);
+var _v3Js = require("./v3.js");
+var _v3JsDefault = parcelHelpers.interopDefault(_v3Js);
+var _v4Js = require("./v4.js");
+var _v4JsDefault = parcelHelpers.interopDefault(_v4Js);
+var _v5Js = require("./v5.js");
+var _v5JsDefault = parcelHelpers.interopDefault(_v5Js);
+var _nilJs = require("./nil.js");
+var _nilJsDefault = parcelHelpers.interopDefault(_nilJs);
+var _versionJs = require("./version.js");
+var _versionJsDefault = parcelHelpers.interopDefault(_versionJs);
+var _validateJs = require("./validate.js");
+var _validateJsDefault = parcelHelpers.interopDefault(_validateJs);
+var _stringifyJs = require("./stringify.js");
+var _stringifyJsDefault = parcelHelpers.interopDefault(_stringifyJs);
+var _parseJs = require("./parse.js");
+var _parseJsDefault = parcelHelpers.interopDefault(_parseJs);
+
+},{"./v1.js":false,"./v3.js":false,"./v4.js":"8zJtu","./v5.js":false,"./nil.js":false,"./version.js":false,"./validate.js":"eHPgI","./stringify.js":"5Y9F1","./parse.js":false,"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"8zJtu":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _rngJs = require("./rng.js");
+var _rngJsDefault = parcelHelpers.interopDefault(_rngJs);
+var _stringifyJs = require("./stringify.js");
+var _stringifyJsDefault = parcelHelpers.interopDefault(_stringifyJs);
+function v4(options, buf, offset) {
+    options = options || {};
+    var rnds = options.random || (options.rng || _rngJsDefault.default)(); // Per 4.4, set bits for version and `clock_seq_hi_and_reserved`
+    rnds[6] = rnds[6] & 0x0f | 0x40;
+    rnds[8] = rnds[8] & 0x3f | 0x80; // Copy bytes to buffer, if provided
+    if (buf) {
+        offset = offset || 0;
+        for(var i = 0; i < 16; ++i)buf[offset + i] = rnds[i];
+        return buf;
+    }
+    return _stringifyJsDefault.default(rnds);
+}
+exports.default = v4;
+
+},{"./rng.js":"2psyE","./stringify.js":"5Y9F1","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"2psyE":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+// Unique ID creation requires a high quality random # generator. In the browser we therefore
+// require the crypto API and do not support built-in fallback to lower quality random number
+// generators (like Math.random()).
+var getRandomValues;
+var rnds8 = new Uint8Array(16);
+function rng() {
+    // lazy load so that environments that need to polyfill have a chance to do so
+    if (!getRandomValues) {
+        // getRandomValues needs to be invoked in a context where "this" is a Crypto implementation. Also,
+        // find the complete implementation of crypto (msCrypto) on IE11.
+        getRandomValues = typeof crypto !== 'undefined' && crypto.getRandomValues && crypto.getRandomValues.bind(crypto) || typeof msCrypto !== 'undefined' && typeof msCrypto.getRandomValues === 'function' && msCrypto.getRandomValues.bind(msCrypto);
+        if (!getRandomValues) throw new Error('crypto.getRandomValues() not supported. See https://github.com/uuidjs/uuid#getrandomvalues-not-supported');
+    }
+    return getRandomValues(rnds8);
+}
+exports.default = rng;
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"5Y9F1":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _validateJs = require("./validate.js");
+var _validateJsDefault = parcelHelpers.interopDefault(_validateJs);
+/**
+ * Convert array of 16 byte values to UUID string format of the form:
+ * XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+ */ var byteToHex = [];
+for(var i = 0; i < 256; ++i)byteToHex.push((i + 0x100).toString(16).substr(1));
+function stringify(arr) {
+    var offset = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+    // Note: Be careful editing this code!  It's been tuned for performance
+    // and works in ways you may not expect. See https://github.com/uuidjs/uuid/pull/434
+    var uuid = (byteToHex[arr[offset + 0]] + byteToHex[arr[offset + 1]] + byteToHex[arr[offset + 2]] + byteToHex[arr[offset + 3]] + '-' + byteToHex[arr[offset + 4]] + byteToHex[arr[offset + 5]] + '-' + byteToHex[arr[offset + 6]] + byteToHex[arr[offset + 7]] + '-' + byteToHex[arr[offset + 8]] + byteToHex[arr[offset + 9]] + '-' + byteToHex[arr[offset + 10]] + byteToHex[arr[offset + 11]] + byteToHex[arr[offset + 12]] + byteToHex[arr[offset + 13]] + byteToHex[arr[offset + 14]] + byteToHex[arr[offset + 15]]).toLowerCase(); // Consistency check for valid UUID.  If this throws, it's likely due to one
+    // of the following:
+    // - One or more input array values don't map to a hex octet (leading to
+    // "undefined" in the uuid)
+    // - Invalid input values for the RFC `version` or `variant` fields
+    if (!_validateJsDefault.default(uuid)) throw TypeError('Stringified UUID is invalid');
+    return uuid;
+}
+exports.default = stringify;
+
+},{"./validate.js":"eHPgI","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"eHPgI":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _regexJs = require("./regex.js");
+var _regexJsDefault = parcelHelpers.interopDefault(_regexJs);
+function validate(uuid) {
+    return typeof uuid === 'string' && _regexJsDefault.default.test(uuid);
+}
+exports.default = validate;
+
+},{"./regex.js":"bUa5g","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"bUa5g":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+exports.default = /^(?:[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}|00000000-0000-0000-0000-000000000000)$/i;
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"7uriw":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _handlebars = require("handlebars");
@@ -12028,142 +12437,27 @@ const templateFunction = _handlebarsDefault.default.template({
 });
 exports.default = templateFunction;
 
-},{"handlebars":"i0QfX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gbr0o":[function(require,module,exports) {
+},{"handlebars":"i0QfX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"fIx3g":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-var _handlebars = require("handlebars");
-var _handlebarsDefault = parcelHelpers.interopDefault(_handlebars);
-const templateFunction = _handlebarsDefault.default.template({
-    "compiler": [
-        8,
-        ">= 4.3.0"
-    ],
-    "main": function(container, depth0, helpers, partials, data) {
-        var helper, alias1 = depth0 != null ? depth0 : container.nullContext || {}, alias2 = container.hooks.helperMissing, alias3 = "function", alias4 = container.escapeExpression, lookupProperty = container.lookupProperty || function(parent, propertyName) {
-            if (Object.prototype.hasOwnProperty.call(parent, propertyName)) return parent[propertyName];
-            return undefined;
-        };
-        return "<div class=\"button-default\">\n    <button id=\"" + alias4((helper = (helper = lookupProperty(helpers, "id") || (depth0 != null ? lookupProperty(depth0, "id") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
-            "name": "id",
-            "hash": {},
-            "data": data,
-            "loc": {
-                "start": {
-                    "line": 2,
-                    "column": 16
-                },
-                "end": {
-                    "line": 2,
-                    "column": 22
-                }
-            }
-        }) : helper)) + "\" type=\"submit\">" + alias4((helper = (helper = lookupProperty(helpers, "value") || (depth0 != null ? lookupProperty(depth0, "value") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
-            "name": "value",
-            "hash": {},
-            "data": data,
-            "loc": {
-                "start": {
-                    "line": 2,
-                    "column": 38
-                },
-                "end": {
-                    "line": 2,
-                    "column": 47
-                }
-            }
-        }) : helper)) + "</button>\n</div>";
-    },
-    "useData": true
-});
-exports.default = templateFunction;
+var _inputHbs = require("./Input.hbs");
+var _inputHbsDefault = parcelHelpers.interopDefault(_inputHbs);
+var _inputScss = require("./input.scss");
+var _block = require("../../services/block");
+var _blockDefault = parcelHelpers.interopDefault(_block);
+class Input extends _blockDefault.default {
+    constructor(props){
+        super(props);
+    }
+    render() {
+        return this.compile(_inputHbsDefault.default, {
+            ...this.props
+        });
+    }
+}
+exports.default = Input;
 
-},{"handlebars":"i0QfX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"3tCa2":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-var _handlebars = require("handlebars");
-var _handlebarsDefault = parcelHelpers.interopDefault(_handlebars);
-const templateFunction = _handlebarsDefault.default.template({
-    "1": function(container, depth0, helpers, partials, data) {
-        var helper, lookupProperty = container.lookupProperty || function(parent, propertyName) {
-            if (Object.prototype.hasOwnProperty.call(parent, propertyName)) return parent[propertyName];
-            return undefined;
-        };
-        return "        <span>" + container.escapeExpression((helper = (helper = lookupProperty(helpers, "icon") || (depth0 != null ? lookupProperty(depth0, "icon") : depth0)) != null ? helper : container.hooks.helperMissing, typeof helper === "function" ? helper.call(depth0 != null ? depth0 : container.nullContext || {}, {
-            "name": "icon",
-            "hash": {},
-            "data": data,
-            "loc": {
-                "start": {
-                    "line": 4,
-                    "column": 14
-                },
-                "end": {
-                    "line": 4,
-                    "column": 22
-                }
-            }
-        }) : helper)) + "</span>\n";
-    },
-    "compiler": [
-        8,
-        ">= 4.3.0"
-    ],
-    "main": function(container, depth0, helpers, partials, data) {
-        var stack1, helper, alias1 = depth0 != null ? depth0 : container.nullContext || {}, alias2 = container.hooks.helperMissing, alias3 = "function", alias4 = container.escapeExpression, lookupProperty = container.lookupProperty || function(parent, propertyName) {
-            if (Object.prototype.hasOwnProperty.call(parent, propertyName)) return parent[propertyName];
-            return undefined;
-        };
-        return "<span class=\"link\">\n    <a href=\"" + alias4((helper = (helper = lookupProperty(helpers, "href") || (depth0 != null ? lookupProperty(depth0, "href") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
-            "name": "href",
-            "hash": {},
-            "data": data,
-            "loc": {
-                "start": {
-                    "line": 2,
-                    "column": 13
-                },
-                "end": {
-                    "line": 2,
-                    "column": 21
-                }
-            }
-        }) : helper)) + "\">" + alias4((helper = (helper = lookupProperty(helpers, "text") || (depth0 != null ? lookupProperty(depth0, "text") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
-            "name": "text",
-            "hash": {},
-            "data": data,
-            "loc": {
-                "start": {
-                    "line": 2,
-                    "column": 23
-                },
-                "end": {
-                    "line": 2,
-                    "column": 31
-                }
-            }
-        }) : helper)) + "</a>\n" + ((stack1 = lookupProperty(helpers, "if").call(alias1, depth0 != null ? lookupProperty(depth0, "icon") : depth0, {
-            "name": "if",
-            "hash": {},
-            "fn": container.program(1, data, 0),
-            "inverse": container.noop,
-            "data": data,
-            "loc": {
-                "start": {
-                    "line": 3,
-                    "column": 4
-                },
-                "end": {
-                    "line": 5,
-                    "column": 11
-                }
-            }
-        })) != null ? stack1 : "") + "</span>";
-    },
-    "useData": true
-});
-exports.default = templateFunction;
-
-},{"handlebars":"i0QfX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"1oUND":[function(require,module,exports) {
+},{"./Input.hbs":"1oUND","./input.scss":"8AiIv","../../services/block":"8ops0","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"1oUND":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _handlebars = require("handlebars");
@@ -12254,20 +12548,125 @@ const templateFunction = _handlebarsDefault.default.template({
 });
 exports.default = templateFunction;
 
-},{"handlebars":"i0QfX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"ipn4T":[function(require,module,exports) {
+},{"handlebars":"i0QfX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"8AiIv":[function() {},{}],"9UCyh":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _linkHbs = require("./Link.hbs");
+var _linkHbsDefault = parcelHelpers.interopDefault(_linkHbs);
+var _block = require("../../services/block");
+var _blockDefault = parcelHelpers.interopDefault(_block);
+class Link extends _blockDefault.default {
+    constructor(props){
+        super(props);
+    }
+    render() {
+        return this.compile(_linkHbsDefault.default, {
+            ...this.props
+        });
+    }
+}
+exports.default = Link;
+
+},{"./Link.hbs":"3tCa2","../../services/block":"8ops0","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"3tCa2":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _handlebars = require("handlebars");
 var _handlebarsDefault = parcelHelpers.interopDefault(_handlebars);
+const templateFunction = _handlebarsDefault.default.template({
+    "1": function(container, depth0, helpers, partials, data) {
+        var helper, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+            if (Object.prototype.hasOwnProperty.call(parent, propertyName)) return parent[propertyName];
+            return undefined;
+        };
+        return "        <span>" + container.escapeExpression((helper = (helper = lookupProperty(helpers, "icon") || (depth0 != null ? lookupProperty(depth0, "icon") : depth0)) != null ? helper : container.hooks.helperMissing, typeof helper === "function" ? helper.call(depth0 != null ? depth0 : container.nullContext || {}, {
+            "name": "icon",
+            "hash": {},
+            "data": data,
+            "loc": {
+                "start": {
+                    "line": 4,
+                    "column": 14
+                },
+                "end": {
+                    "line": 4,
+                    "column": 22
+                }
+            }
+        }) : helper)) + "</span>\n";
+    },
+    "compiler": [
+        8,
+        ">= 4.3.0"
+    ],
+    "main": function(container, depth0, helpers, partials, data) {
+        var stack1, helper, alias1 = depth0 != null ? depth0 : container.nullContext || {}, alias2 = container.hooks.helperMissing, alias3 = "function", alias4 = container.escapeExpression, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+            if (Object.prototype.hasOwnProperty.call(parent, propertyName)) return parent[propertyName];
+            return undefined;
+        };
+        return "<span class=\"link\">\n    <a href=\"" + alias4((helper = (helper = lookupProperty(helpers, "href") || (depth0 != null ? lookupProperty(depth0, "href") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+            "name": "href",
+            "hash": {},
+            "data": data,
+            "loc": {
+                "start": {
+                    "line": 2,
+                    "column": 13
+                },
+                "end": {
+                    "line": 2,
+                    "column": 21
+                }
+            }
+        }) : helper)) + "\">" + alias4((helper = (helper = lookupProperty(helpers, "text") || (depth0 != null ? lookupProperty(depth0, "text") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+            "name": "text",
+            "hash": {},
+            "data": data,
+            "loc": {
+                "start": {
+                    "line": 2,
+                    "column": 23
+                },
+                "end": {
+                    "line": 2,
+                    "column": 31
+                }
+            }
+        }) : helper)) + "</a>\n" + ((stack1 = lookupProperty(helpers, "if").call(alias1, depth0 != null ? lookupProperty(depth0, "icon") : depth0, {
+            "name": "if",
+            "hash": {},
+            "fn": container.program(1, data, 0),
+            "inverse": container.noop,
+            "data": data,
+            "loc": {
+                "start": {
+                    "line": 3,
+                    "column": 4
+                },
+                "end": {
+                    "line": 5,
+                    "column": 11
+                }
+            }
+        })) != null ? stack1 : "") + "</span>";
+    },
+    "useData": true
+});
+exports.default = templateFunction;
+
+},{"handlebars":"i0QfX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"ipn4T":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
 var _registrationHbs = require("./Registration.hbs");
 var _registrationHbsDefault = parcelHelpers.interopDefault(_registrationHbs);
-var _inputHbs = require("../../components/input/Input.hbs");
-var _inputHbsDefault = parcelHelpers.interopDefault(_inputHbs);
-var _buttonHbs = require("../../components/button/Button.hbs");
-var _buttonHbsDefault = parcelHelpers.interopDefault(_buttonHbs);
-var _linkHbs = require("../../components/link/Link.hbs");
-var _linkHbsDefault = parcelHelpers.interopDefault(_linkHbs);
 var _registrationScss = require("./registration.scss");
+var _block = require("../../services/block");
+var _blockDefault = parcelHelpers.interopDefault(_block);
+var _input = require("../../components/input/input");
+var _inputDefault = parcelHelpers.interopDefault(_input);
+var _button = require("../../components/button/button");
+var _buttonDefault = parcelHelpers.interopDefault(_button);
+var _link = require("../../components/link/link");
+var _linkDefault = parcelHelpers.interopDefault(_link);
 const registrationData = {
     email: {
         name: 'email',
@@ -12320,22 +12719,45 @@ const registrationData = {
         href: '/authorization'
     }
 };
-_handlebarsDefault.default.registerPartial('registration', _registrationHbsDefault.default);
-exports.default = ()=>{
-    return _registrationHbsDefault.default({
-        email: _inputHbsDefault.default(registrationData.email),
-        login: _inputHbsDefault.default(registrationData.login),
-        firstName: _inputHbsDefault.default(registrationData.firstName),
-        lastName: _inputHbsDefault.default(registrationData.lastName),
-        telephone: _inputHbsDefault.default(registrationData.telephone),
-        password: _inputHbsDefault.default(registrationData.password),
-        passwordRepeat: _inputHbsDefault.default(registrationData.passwordRepeat),
-        btnOk: _buttonHbsDefault.default(registrationData.button),
-        link: _linkHbsDefault.default(registrationData.link)
-    });
-};
+class Registration extends _blockDefault.default {
+    constructor(){
+        super({
+            email: new _inputDefault.default(registrationData.email),
+            login: new _inputDefault.default(registrationData.login),
+            firstName: new _inputDefault.default(registrationData.firstName),
+            lastName: new _inputDefault.default(registrationData.lastName),
+            telephone: new _inputDefault.default(registrationData.telephone),
+            password: new _inputDefault.default(registrationData.password),
+            passwordRepeat: new _inputDefault.default(registrationData.passwordRepeat),
+            link: new _linkDefault.default(registrationData.link),
+            btnOk: new _buttonDefault.default({
+                ...registrationData.button,
+                events: {
+                    click: ()=>{
+                        const formReg = document.getElementById('form-registration');
+                        const data = new FormData(formReg);
+                        const result = {
+                            email: data.get('email'),
+                            login: data.get('login'),
+                            firstName: data.get('firstName'),
+                            lastName: data.get('lastName'),
+                            telephone: data.get('telephone'),
+                            password: data.get('password'),
+                            passwordRepeat: data.get('passwordRepeat')
+                        };
+                        console.log(result);
+                    }
+                }
+            })
+        });
+    }
+    render() {
+        return this.compile(_registrationHbsDefault.default, this.props);
+    }
+}
+exports.default = Registration;
 
-},{"handlebars":"i0QfX","./Registration.hbs":"cZ0MC","../../components/input/Input.hbs":"1oUND","../../components/button/Button.hbs":"gbr0o","../../components/link/Link.hbs":"3tCa2","./registration.scss":"bUBzq","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"cZ0MC":[function(require,module,exports) {
+},{"./Registration.hbs":"cZ0MC","./registration.scss":"bUBzq","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../../services/block":"8ops0","../../components/input/input":"fIx3g","../../components/button/button":"9lSjy","../../components/link/link":"9UCyh"}],"cZ0MC":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _handlebars = require("handlebars");
@@ -12482,264 +12904,30 @@ const templateFunction = _handlebarsDefault.default.template({
 });
 exports.default = templateFunction;
 
-},{"handlebars":"i0QfX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"bUBzq":[function() {},{}],"atqZr":[function(require,module,exports) {
+},{"handlebars":"i0QfX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"bUBzq":[function() {},{}],"423ci":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-var _handlebars = require("handlebars");
-var _handlebarsDefault = parcelHelpers.interopDefault(_handlebars);
-var _profileHbs = require("./Profile.hbs");
-var _profileHbsDefault = parcelHelpers.interopDefault(_profileHbs);
-var _linkHbs = require("../../components/link/Link.hbs");
-var _linkHbsDefault = parcelHelpers.interopDefault(_linkHbs);
-var _profilePhotoHbs = require("../../components/profile-photo/ProfilePhoto.hbs");
-var _profilePhotoHbsDefault = parcelHelpers.interopDefault(_profilePhotoHbs);
-var _profileScss = require("./profile.scss");
-const profileData = {
-    fields: [
-        {
-            name: 'Email',
-            value: 'bagaeva@yandex.ru'
-        },
-        {
-            name: 'Login',
-            value: 'anastasia.226'
-        },
-        {
-            name: 'FirstName',
-            value: 'Anastasiia'
-        },
-        {
-            name: 'LastName',
-            value: 'Bagaeva'
-        },
-        {
-            name: 'Telephone',
-            value: '89224411823'
-        }, 
-    ],
-    linkProfile: {
-        text: 'Edit profile',
-        href: '/profile-edit'
-    },
-    linkPassword: {
-        text: 'Edit password',
-        href: '/password-edit'
-    },
-    logOut: {
-        text: 'Exit',
-        href: '/authorization'
+parcelHelpers.export(exports, "render", ()=>render
+);
+function render(root, component) {
+    if (root) {
+        root.innerHTML = '';
+        root.appendChild(component.getContent());
     }
-};
-_handlebarsDefault.default.registerPartial('profile', _profileHbsDefault.default);
-exports.default = ()=>{
-    return _profileHbsDefault.default({
-        linkProfile: _linkHbsDefault.default(profileData.linkProfile),
-        linkPassword: _linkHbsDefault.default(profileData.linkPassword),
-        logOut: _linkHbsDefault.default(profileData.logOut),
-        profilePhoto: _profilePhotoHbsDefault.default(),
-        fields: profileData.fields
-    });
-};
+    component.dispatchComponentDidMount();
+    return root;
+}
 
-},{"handlebars":"i0QfX","./Profile.hbs":"3UcuH","../../components/link/Link.hbs":"3tCa2","../../components/profile-photo/ProfilePhoto.hbs":"3HD6q","./profile.scss":"bZDEH","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"3UcuH":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"kZohv":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-var _handlebars = require("handlebars");
-var _handlebarsDefault = parcelHelpers.interopDefault(_handlebars);
-const templateFunction = _handlebarsDefault.default.template({
-    "1": function(container, depth0, helpers, partials, data) {
-        var helper, alias1 = depth0 != null ? depth0 : container.nullContext || {}, alias2 = container.hooks.helperMissing, alias3 = "function", alias4 = container.escapeExpression, lookupProperty = container.lookupProperty || function(parent, propertyName) {
-            if (Object.prototype.hasOwnProperty.call(parent, propertyName)) return parent[propertyName];
-            return undefined;
-        };
-        return "                <div class=\"item\">\n                    <span>" + alias4((helper = (helper = lookupProperty(helpers, "name") || (depth0 != null ? lookupProperty(depth0, "name") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
-            "name": "name",
-            "hash": {},
-            "data": data,
-            "loc": {
-                "start": {
-                    "line": 8,
-                    "column": 26
-                },
-                "end": {
-                    "line": 8,
-                    "column": 34
-                }
-            }
-        }) : helper)) + "</span>\n                    <span>" + alias4((helper = (helper = lookupProperty(helpers, "value") || (depth0 != null ? lookupProperty(depth0, "value") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
-            "name": "value",
-            "hash": {},
-            "data": data,
-            "loc": {
-                "start": {
-                    "line": 9,
-                    "column": 26
-                },
-                "end": {
-                    "line": 9,
-                    "column": 35
-                }
-            }
-        }) : helper)) + "</span>\n                </div>\n";
-    },
-    "compiler": [
-        8,
-        ">= 4.3.0"
-    ],
-    "main": function(container, depth0, helpers, partials, data) {
-        var stack1, helper, alias1 = depth0 != null ? depth0 : container.nullContext || {}, alias2 = container.hooks.helperMissing, alias3 = "function", lookupProperty = container.lookupProperty || function(parent, propertyName) {
-            if (Object.prototype.hasOwnProperty.call(parent, propertyName)) return parent[propertyName];
-            return undefined;
-        };
-        return "<div class=\"page-profile\">\n    <div class=\"logout\"> " + ((stack1 = (helper = (helper = lookupProperty(helpers, "logOut") || (depth0 != null ? lookupProperty(depth0, "logOut") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
-            "name": "logOut",
-            "hash": {},
-            "data": data,
-            "loc": {
-                "start": {
-                    "line": 2,
-                    "column": 25
-                },
-                "end": {
-                    "line": 2,
-                    "column": 37
-                }
-            }
-        }) : helper)) != null ? stack1 : "") + "</div>\n    <div class=\"photo\">" + ((stack1 = (helper = (helper = lookupProperty(helpers, "profilePhoto") || (depth0 != null ? lookupProperty(depth0, "profilePhoto") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
-            "name": "profilePhoto",
-            "hash": {},
-            "data": data,
-            "loc": {
-                "start": {
-                    "line": 3,
-                    "column": 23
-                },
-                "end": {
-                    "line": 3,
-                    "column": 41
-                }
-            }
-        }) : helper)) != null ? stack1 : "") + "</div>\n    <div class=\"data-profile\">\n        <div>\n" + ((stack1 = lookupProperty(helpers, "each").call(alias1, depth0 != null ? lookupProperty(depth0, "fields") : depth0, {
-            "name": "each",
-            "hash": {},
-            "fn": container.program(1, data, 0),
-            "inverse": container.noop,
-            "data": data,
-            "loc": {
-                "start": {
-                    "line": 6,
-                    "column": 12
-                },
-                "end": {
-                    "line": 11,
-                    "column": 21
-                }
-            }
-        })) != null ? stack1 : "") + "        </div>\n        <div class=\"link-edit\">" + ((stack1 = (helper = (helper = lookupProperty(helpers, "linkProfile") || (depth0 != null ? lookupProperty(depth0, "linkProfile") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
-            "name": "linkProfile",
-            "hash": {},
-            "data": data,
-            "loc": {
-                "start": {
-                    "line": 13,
-                    "column": 31
-                },
-                "end": {
-                    "line": 13,
-                    "column": 48
-                }
-            }
-        }) : helper)) != null ? stack1 : "") + "</div>\n        <div class=\"link-edit\">" + ((stack1 = (helper = (helper = lookupProperty(helpers, "linkPassword") || (depth0 != null ? lookupProperty(depth0, "linkPassword") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
-            "name": "linkPassword",
-            "hash": {},
-            "data": data,
-            "loc": {
-                "start": {
-                    "line": 14,
-                    "column": 31
-                },
-                "end": {
-                    "line": 14,
-                    "column": 49
-                }
-            }
-        }) : helper)) != null ? stack1 : "") + "</div>\n    </div>\n</div>";
-    },
-    "useData": true
-});
-exports.default = templateFunction;
-
-},{"handlebars":"i0QfX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"3HD6q":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-var _handlebars = require("handlebars");
-var _handlebarsDefault = parcelHelpers.interopDefault(_handlebars);
-const templateFunction = _handlebarsDefault.default.template({
-    "1": function(container, depth0, helpers, partials, data) {
-        var helper, lookupProperty = container.lookupProperty || function(parent, propertyName) {
-            if (Object.prototype.hasOwnProperty.call(parent, propertyName)) return parent[propertyName];
-            return undefined;
-        };
-        return "        <img src=\"" + container.escapeExpression((helper = (helper = lookupProperty(helpers, "src") || (depth0 != null ? lookupProperty(depth0, "src") : depth0)) != null ? helper : container.hooks.helperMissing, typeof helper === "function" ? helper.call(depth0 != null ? depth0 : container.nullContext || {}, {
-            "name": "src",
-            "hash": {},
-            "data": data,
-            "loc": {
-                "start": {
-                    "line": 3,
-                    "column": 18
-                },
-                "end": {
-                    "line": 3,
-                    "column": 25
-                }
-            }
-        }) : helper)) + "\">\n";
-    },
-    "3": function(container, depth0, helpers, partials, data) {
-        return "        <svg width=\"40\" height=\"40\" viewBox=\"0 0 40 40\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n            <path fill-rule=\"evenodd\" clip-rule=\"evenodd\"\n                  d=\"M4 2H36C37.1046 2 38 2.89543 38 4V25.2667L25.3453 22.3139C24.4514 22.1053 23.5365 22 22.6186 22H17.3814C16.4635 22 15.5486 22.1053 14.6547 22.3139L2 25.2667V4C2 2.89543 2.89543 2 4 2ZM0 4C0 1.79086 1.79086 0 4 0H36C38.2091 0 40 1.79086 40 4V36C40 38.2091 38.2091 40 36 40H4C1.79086 40 0 38.2091 0 36V4ZM14.5455 10.9091C14.5455 12.9174 12.9174 14.5455 10.9091 14.5455C8.90082 14.5455 7.27276 12.9174 7.27276 10.9091C7.27276 8.90079 8.90082 7.27273 10.9091 7.27273C12.9174 7.27273 14.5455 8.90079 14.5455 10.9091Z\"\n                  fill=\"#CDCDCD\" />\n        </svg>\n";
-    },
-    "compiler": [
-        8,
-        ">= 4.3.0"
-    ],
-    "main": function(container, depth0, helpers, partials, data) {
-        var stack1, lookupProperty = container.lookupProperty || function(parent, propertyName) {
-            if (Object.prototype.hasOwnProperty.call(parent, propertyName)) return parent[propertyName];
-            return undefined;
-        };
-        return "<div class=\"photo-profile\">\n" + ((stack1 = lookupProperty(helpers, "if").call(depth0 != null ? depth0 : container.nullContext || {}, depth0 != null ? lookupProperty(depth0, "src") : depth0, {
-            "name": "if",
-            "hash": {},
-            "fn": container.program(1, data, 0),
-            "inverse": container.program(3, data, 0),
-            "data": data,
-            "loc": {
-                "start": {
-                    "line": 2,
-                    "column": 4
-                },
-                "end": {
-                    "line": 10,
-                    "column": 11
-                }
-            }
-        })) != null ? stack1 : "") + "</div>";
-    },
-    "useData": true
-});
-exports.default = templateFunction;
-
-},{"handlebars":"i0QfX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"bZDEH":[function() {},{}],"kZohv":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-var _handlebars = require("handlebars");
-var _handlebarsDefault = parcelHelpers.interopDefault(_handlebars);
 var _errorHbs = require("./Error.hbs");
 var _errorHbsDefault = parcelHelpers.interopDefault(_errorHbs);
-var _linkHbs = require("../../components/link/Link.hbs");
-var _linkHbsDefault = parcelHelpers.interopDefault(_linkHbs);
 var _errorScss = require("./error.scss");
+var _block = require("../../services/block");
+var _blockDefault = parcelHelpers.interopDefault(_block);
+var _link = require("../../components/link/link");
+var _linkDefault = parcelHelpers.interopDefault(_link);
 const errorData = {
     link: {
         text: `Come back`,
@@ -12747,16 +12935,22 @@ const errorData = {
         icon: '->'
     }
 };
-_handlebarsDefault.default.registerPartial('error', _errorHbsDefault.default);
-exports.default = (statusError, messageError)=>{
-    return _errorHbsDefault.default({
-        statusError,
-        messageError,
-        link: _linkHbsDefault.default(errorData.link)
-    });
-};
+class ErrorPage extends _blockDefault.default {
+    constructor(props){
+        super({
+            ...props,
+            link: new _linkDefault.default(errorData.link)
+        });
+    }
+    render() {
+        return this.compile(_errorHbsDefault.default, {
+            ...this.props
+        });
+    }
+}
+exports.default = ErrorPage;
 
-},{"handlebars":"i0QfX","./Error.hbs":"7ySGF","../../components/link/Link.hbs":"3tCa2","./error.scss":"OszSi","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"7ySGF":[function(require,module,exports) {
+},{"./Error.hbs":"7ySGF","./error.scss":"OszSi","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../../services/block":"8ops0","../../components/link/link":"9UCyh"}],"7ySGF":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _handlebars = require("handlebars");
@@ -12819,22 +13013,279 @@ const templateFunction = _handlebarsDefault.default.template({
 });
 exports.default = templateFunction;
 
-},{"handlebars":"i0QfX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"OszSi":[function() {},{}],"9n8NC":[function(require,module,exports) {
+},{"handlebars":"i0QfX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"OszSi":[function() {},{}],"dvuwP":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _passwordEditHbs = require("./PasswordEdit.hbs");
+var _passwordEditHbsDefault = parcelHelpers.interopDefault(_passwordEditHbs);
+var _profilePhotoHbs = require("../../components/profile-photo/ProfilePhoto.hbs");
+var _profilePhotoHbsDefault = parcelHelpers.interopDefault(_profilePhotoHbs);
+var _passwordEditScss = require("./password-edit.scss");
+var _block = require("../../services/block");
+var _blockDefault = parcelHelpers.interopDefault(_block);
+var _input = require("../../components/input/input");
+var _inputDefault = parcelHelpers.interopDefault(_input);
+var _button = require("../../components/button/button");
+var _buttonDefault = parcelHelpers.interopDefault(_button);
+var _link = require("../../components/link/link");
+var _linkDefault = parcelHelpers.interopDefault(_link);
+const profileData = {
+    oldPassword: {
+        name: 'old_password',
+        label: 'Old password',
+        placeholder: 'Old password',
+        type: 'password',
+        value: ''
+    },
+    newPassword: {
+        name: 'new_password',
+        label: 'New password',
+        placeholder: 'New password',
+        type: 'password',
+        value: ''
+    },
+    repeatPassword: {
+        name: 'repeat_password',
+        label: 'Repeat password',
+        placeholder: 'Repeat new password',
+        type: 'password',
+        value: ''
+    },
+    linkCancel: {
+        text: 'Cancel',
+        href: '/profile'
+    },
+    buttonSave: {
+        id: 'btn-edit-password',
+        value: 'Save'
+    }
+};
+class PasswordEdit extends _blockDefault.default {
+    constructor(){
+        super({
+            profilePhoto: _profilePhotoHbsDefault.default(),
+            linkCancel: new _linkDefault.default(profileData.linkCancel),
+            oldPassword: new _inputDefault.default(profileData.oldPassword),
+            newPassword: new _inputDefault.default(profileData.newPassword),
+            repeatPassword: new _inputDefault.default(profileData.repeatPassword),
+            buttonSave: new _buttonDefault.default({
+                ...profileData.buttonSave,
+                events: {
+                    click: ()=>{
+                        const formEdit = document.getElementById('form-edit-password');
+                        const data = new FormData(formEdit);
+                        const result = {
+                            oldPassword: data.get('old_password'),
+                            newPassword: data.get('new_password')
+                        };
+                        console.log(result);
+                    }
+                }
+            })
+        });
+    }
+    render() {
+        return this.compile(_passwordEditHbsDefault.default, this.props);
+    }
+}
+exports.default = PasswordEdit;
+
+},{"../../components/profile-photo/ProfilePhoto.hbs":"3HD6q","./password-edit.scss":"l3elj","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./PasswordEdit.hbs":"dmI8j","../../services/block":"8ops0","../../components/input/input":"fIx3g","../../components/button/button":"9lSjy","../../components/link/link":"9UCyh"}],"3HD6q":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _handlebars = require("handlebars");
 var _handlebarsDefault = parcelHelpers.interopDefault(_handlebars);
+const templateFunction = _handlebarsDefault.default.template({
+    "1": function(container, depth0, helpers, partials, data) {
+        var helper, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+            if (Object.prototype.hasOwnProperty.call(parent, propertyName)) return parent[propertyName];
+            return undefined;
+        };
+        return "        <img src=\"" + container.escapeExpression((helper = (helper = lookupProperty(helpers, "src") || (depth0 != null ? lookupProperty(depth0, "src") : depth0)) != null ? helper : container.hooks.helperMissing, typeof helper === "function" ? helper.call(depth0 != null ? depth0 : container.nullContext || {}, {
+            "name": "src",
+            "hash": {},
+            "data": data,
+            "loc": {
+                "start": {
+                    "line": 3,
+                    "column": 18
+                },
+                "end": {
+                    "line": 3,
+                    "column": 25
+                }
+            }
+        }) : helper)) + "\">\n";
+    },
+    "3": function(container, depth0, helpers, partials, data) {
+        return "        <svg width=\"40\" height=\"40\" viewBox=\"0 0 40 40\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n            <path fill-rule=\"evenodd\" clip-rule=\"evenodd\"\n                  d=\"M4 2H36C37.1046 2 38 2.89543 38 4V25.2667L25.3453 22.3139C24.4514 22.1053 23.5365 22 22.6186 22H17.3814C16.4635 22 15.5486 22.1053 14.6547 22.3139L2 25.2667V4C2 2.89543 2.89543 2 4 2ZM0 4C0 1.79086 1.79086 0 4 0H36C38.2091 0 40 1.79086 40 4V36C40 38.2091 38.2091 40 36 40H4C1.79086 40 0 38.2091 0 36V4ZM14.5455 10.9091C14.5455 12.9174 12.9174 14.5455 10.9091 14.5455C8.90082 14.5455 7.27276 12.9174 7.27276 10.9091C7.27276 8.90079 8.90082 7.27273 10.9091 7.27273C12.9174 7.27273 14.5455 8.90079 14.5455 10.9091Z\"\n                  fill=\"#CDCDCD\" />\n        </svg>\n";
+    },
+    "compiler": [
+        8,
+        ">= 4.3.0"
+    ],
+    "main": function(container, depth0, helpers, partials, data) {
+        var stack1, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+            if (Object.prototype.hasOwnProperty.call(parent, propertyName)) return parent[propertyName];
+            return undefined;
+        };
+        return "<div class=\"photo-profile\">\n" + ((stack1 = lookupProperty(helpers, "if").call(depth0 != null ? depth0 : container.nullContext || {}, depth0 != null ? lookupProperty(depth0, "src") : depth0, {
+            "name": "if",
+            "hash": {},
+            "fn": container.program(1, data, 0),
+            "inverse": container.program(3, data, 0),
+            "data": data,
+            "loc": {
+                "start": {
+                    "line": 2,
+                    "column": 4
+                },
+                "end": {
+                    "line": 10,
+                    "column": 11
+                }
+            }
+        })) != null ? stack1 : "") + "</div>";
+    },
+    "useData": true
+});
+exports.default = templateFunction;
+
+},{"handlebars":"i0QfX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"l3elj":[function() {},{}],"dmI8j":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _handlebars = require("handlebars");
+var _handlebarsDefault = parcelHelpers.interopDefault(_handlebars);
+const templateFunction = _handlebarsDefault.default.template({
+    "compiler": [
+        8,
+        ">= 4.3.0"
+    ],
+    "main": function(container, depth0, helpers, partials, data) {
+        var stack1, helper, alias1 = depth0 != null ? depth0 : container.nullContext || {}, alias2 = container.hooks.helperMissing, alias3 = "function", lookupProperty = container.lookupProperty || function(parent, propertyName) {
+            if (Object.prototype.hasOwnProperty.call(parent, propertyName)) return parent[propertyName];
+            return undefined;
+        };
+        return "<div class=\"page-password-edit\">\n    <div class=\"logout\"> " + ((stack1 = (helper = (helper = lookupProperty(helpers, "logOut") || (depth0 != null ? lookupProperty(depth0, "logOut") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+            "name": "logOut",
+            "hash": {},
+            "data": data,
+            "loc": {
+                "start": {
+                    "line": 2,
+                    "column": 25
+                },
+                "end": {
+                    "line": 2,
+                    "column": 37
+                }
+            }
+        }) : helper)) != null ? stack1 : "") + "</div>\n    <div class=\"photo\">" + ((stack1 = (helper = (helper = lookupProperty(helpers, "profilePhoto") || (depth0 != null ? lookupProperty(depth0, "profilePhoto") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+            "name": "profilePhoto",
+            "hash": {},
+            "data": data,
+            "loc": {
+                "start": {
+                    "line": 3,
+                    "column": 23
+                },
+                "end": {
+                    "line": 3,
+                    "column": 41
+                }
+            }
+        }) : helper)) != null ? stack1 : "") + "</div>\n    <div class=\"data-password\">\n        <div class=\"items\">\n            <form id=\"form-edit-password\">\n                " + ((stack1 = (helper = (helper = lookupProperty(helpers, "oldPassword") || (depth0 != null ? lookupProperty(depth0, "oldPassword") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+            "name": "oldPassword",
+            "hash": {},
+            "data": data,
+            "loc": {
+                "start": {
+                    "line": 7,
+                    "column": 16
+                },
+                "end": {
+                    "line": 7,
+                    "column": 33
+                }
+            }
+        }) : helper)) != null ? stack1 : "") + "\n                " + ((stack1 = (helper = (helper = lookupProperty(helpers, "newPassword") || (depth0 != null ? lookupProperty(depth0, "newPassword") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+            "name": "newPassword",
+            "hash": {},
+            "data": data,
+            "loc": {
+                "start": {
+                    "line": 8,
+                    "column": 16
+                },
+                "end": {
+                    "line": 8,
+                    "column": 33
+                }
+            }
+        }) : helper)) != null ? stack1 : "") + "\n                " + ((stack1 = (helper = (helper = lookupProperty(helpers, "repeatPassword") || (depth0 != null ? lookupProperty(depth0, "repeatPassword") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+            "name": "repeatPassword",
+            "hash": {},
+            "data": data,
+            "loc": {
+                "start": {
+                    "line": 9,
+                    "column": 16
+                },
+                "end": {
+                    "line": 9,
+                    "column": 36
+                }
+            }
+        }) : helper)) != null ? stack1 : "") + "\n            </form>\n        </div>\n        <div class=\"group-btn\">\n            <div>" + ((stack1 = (helper = (helper = lookupProperty(helpers, "buttonSave") || (depth0 != null ? lookupProperty(depth0, "buttonSave") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+            "name": "buttonSave",
+            "hash": {},
+            "data": data,
+            "loc": {
+                "start": {
+                    "line": 13,
+                    "column": 17
+                },
+                "end": {
+                    "line": 13,
+                    "column": 33
+                }
+            }
+        }) : helper)) != null ? stack1 : "") + "</div>\n            <div>" + ((stack1 = (helper = (helper = lookupProperty(helpers, "linkCancel") || (depth0 != null ? lookupProperty(depth0, "linkCancel") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+            "name": "linkCancel",
+            "hash": {},
+            "data": data,
+            "loc": {
+                "start": {
+                    "line": 14,
+                    "column": 17
+                },
+                "end": {
+                    "line": 14,
+                    "column": 33
+                }
+            }
+        }) : helper)) != null ? stack1 : "") + "</div>\n        </div>\n\n    </div>\n</div>";
+    },
+    "useData": true
+});
+exports.default = templateFunction;
+
+},{"handlebars":"i0QfX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"9n8NC":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
 var _profileEditHbs = require("./ProfileEdit.hbs");
 var _profileEditHbsDefault = parcelHelpers.interopDefault(_profileEditHbs);
-var _linkHbs = require("../../components/link/Link.hbs");
-var _linkHbsDefault = parcelHelpers.interopDefault(_linkHbs);
 var _profilePhotoHbs = require("../../components/profile-photo/ProfilePhoto.hbs");
 var _profilePhotoHbsDefault = parcelHelpers.interopDefault(_profilePhotoHbs);
 var _profileEditScss = require("./profile-edit.scss");
-var _inputHbs = require("../../components/input/Input.hbs");
-var _inputHbsDefault = parcelHelpers.interopDefault(_inputHbs);
-var _buttonHbs = require("../../components/button/Button.hbs");
-var _buttonHbsDefault = parcelHelpers.interopDefault(_buttonHbs);
+var _block = require("../../services/block");
+var _blockDefault = parcelHelpers.interopDefault(_block);
+var _link = require("../../components/link/link");
+var _linkDefault = parcelHelpers.interopDefault(_link);
+var _input = require("../../components/input/input");
+var _inputDefault = parcelHelpers.interopDefault(_input);
+var _button = require("../../components/button/button");
+var _buttonDefault = parcelHelpers.interopDefault(_button);
 const profileData = {
     email: {
         name: 'email',
@@ -12880,20 +13331,42 @@ const profileData = {
         value: 'Save'
     }
 };
-_handlebarsDefault.default.registerPartial('profileEdit', _profileEditHbsDefault.default);
-exports.default = ()=>_profileEditHbsDefault.default({
-        linkCancel: _linkHbsDefault.default(profileData.linkCancel),
-        profilePhoto: _profilePhotoHbsDefault.default(),
-        buttonSave: _buttonHbsDefault.default(profileData.buttonSave),
-        email: _inputHbsDefault.default(profileData.email),
-        login: _inputHbsDefault.default(profileData.login),
-        firstName: _inputHbsDefault.default(profileData.firstName),
-        lastName: _inputHbsDefault.default(profileData.lastName),
-        telephone: _inputHbsDefault.default(profileData.telephone)
-    })
-;
+class ProfileEdit extends _blockDefault.default {
+    constructor(){
+        super({
+            linkCancel: new _linkDefault.default(profileData.linkCancel),
+            profilePhoto: _profilePhotoHbsDefault.default(),
+            email: new _inputDefault.default(profileData.email),
+            login: new _inputDefault.default(profileData.login),
+            firstName: new _inputDefault.default(profileData.firstName),
+            lastName: new _inputDefault.default(profileData.lastName),
+            telephone: new _inputDefault.default(profileData.telephone),
+            buttonSave: new _buttonDefault.default({
+                ...profileData.buttonSave,
+                events: {
+                    click: ()=>{
+                        const formEdit = document.getElementById('form-edit-profile');
+                        const data = new FormData(formEdit);
+                        const result = {
+                            email: data.get('email'),
+                            login: data.get('login'),
+                            firstName: data.get('firstName'),
+                            lastName: data.get('lastName'),
+                            telephone: data.get('telephone')
+                        };
+                        console.log(result);
+                    }
+                }
+            })
+        });
+    }
+    render() {
+        return this.compile(_profileEditHbsDefault.default, this.props);
+    }
+}
+exports.default = ProfileEdit;
 
-},{"handlebars":"i0QfX","./ProfileEdit.hbs":"cShSF","../../components/link/Link.hbs":"3tCa2","../../components/profile-photo/ProfilePhoto.hbs":"3HD6q","./profile-edit.scss":"eOIE7","../../components/input/Input.hbs":"1oUND","../../components/button/Button.hbs":"gbr0o","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"cShSF":[function(require,module,exports) {
+},{"./ProfileEdit.hbs":"cShSF","../../components/profile-photo/ProfilePhoto.hbs":"3HD6q","./profile-edit.scss":"eOIE7","../../services/block":"8ops0","../../components/link/link":"9UCyh","../../components/input/input":"fIx3g","../../components/button/button":"9lSjy","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"cShSF":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _handlebars = require("handlebars");
@@ -13040,71 +13513,111 @@ const templateFunction = _handlebarsDefault.default.template({
 });
 exports.default = templateFunction;
 
-},{"handlebars":"i0QfX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"eOIE7":[function() {},{}],"dvuwP":[function(require,module,exports) {
+},{"handlebars":"i0QfX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"eOIE7":[function() {},{}],"atqZr":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-var _handlebars = require("handlebars");
-var _handlebarsDefault = parcelHelpers.interopDefault(_handlebars);
-var _passwordEditHbs = require("./PasswordEdit.hbs");
-var _passwordEditHbsDefault = parcelHelpers.interopDefault(_passwordEditHbs);
-var _linkHbs = require("../../components/link/Link.hbs");
-var _linkHbsDefault = parcelHelpers.interopDefault(_linkHbs);
 var _profilePhotoHbs = require("../../components/profile-photo/ProfilePhoto.hbs");
 var _profilePhotoHbsDefault = parcelHelpers.interopDefault(_profilePhotoHbs);
-var _passwordEditScss = require("./password-edit.scss");
-var _inputHbs = require("../../components/input/Input.hbs");
-var _inputHbsDefault = parcelHelpers.interopDefault(_inputHbs);
-var _buttonHbs = require("../../components/button/Button.hbs");
-var _buttonHbsDefault = parcelHelpers.interopDefault(_buttonHbs);
+var _profileScss = require("./profile.scss");
+var _block = require("../../services/block");
+var _blockDefault = parcelHelpers.interopDefault(_block);
+var _link = require("../../components/link/link");
+var _linkDefault = parcelHelpers.interopDefault(_link);
+var _profileHbs = require("./Profile.hbs");
+var _profileHbsDefault = parcelHelpers.interopDefault(_profileHbs);
 const profileData = {
-    oldPassword: {
-        name: 'old_password',
-        label: 'Old password',
-        placeholder: 'Old password',
-        type: 'password',
-        value: ''
+    fields: [
+        {
+            name: 'Email',
+            value: 'bagaeva@yandex.ru'
+        },
+        {
+            name: 'Login',
+            value: 'anastasia.226'
+        },
+        {
+            name: 'FirstName',
+            value: 'Anastasiia'
+        },
+        {
+            name: 'LastName',
+            value: 'Bagaeva'
+        },
+        {
+            name: 'Telephone',
+            value: '89224411823'
+        }, 
+    ],
+    linkProfile: {
+        text: 'Edit profile',
+        href: '/profile-edit'
     },
-    newPassword: {
-        name: 'new_password',
-        label: 'New password',
-        placeholder: 'New password',
-        type: 'password',
-        value: ''
+    linkPassword: {
+        text: 'Edit password',
+        href: '/password-edit'
     },
-    repeatPassword: {
-        name: 'repeat_password',
-        label: 'Repeat password',
-        placeholder: 'Repeat new password',
-        type: 'password',
-        value: ''
-    },
-    linkCancel: {
-        text: 'Cancel',
-        href: '/profile'
-    },
-    buttonSave: {
-        id: 'btn-edit-password',
-        value: 'Save'
+    logOut: {
+        text: 'Exit',
+        href: '/authorization'
     }
 };
-_handlebarsDefault.default.registerPartial('passwordEdit', _passwordEditHbsDefault.default);
-exports.default = ()=>{
-    return _passwordEditHbsDefault.default({
-        profilePhoto: _profilePhotoHbsDefault.default(),
-        linkCancel: _linkHbsDefault.default(profileData.linkCancel),
-        buttonSave: _buttonHbsDefault.default(profileData.buttonSave),
-        oldPassword: _inputHbsDefault.default(profileData.oldPassword),
-        newPassword: _inputHbsDefault.default(profileData.newPassword),
-        repeatPassword: _inputHbsDefault.default(profileData.repeatPassword)
-    });
-};
+class ProfileEdit extends _blockDefault.default {
+    constructor(){
+        super({
+            linkProfile: new _linkDefault.default(profileData.linkProfile),
+            linkPassword: new _linkDefault.default(profileData.linkPassword),
+            logOut: new _linkDefault.default(profileData.logOut),
+            profilePhoto: _profilePhotoHbsDefault.default(),
+            fields: profileData.fields
+        });
+    }
+    render() {
+        return this.compile(_profileHbsDefault.default, this.props);
+    }
+}
+exports.default = ProfileEdit;
 
-},{"handlebars":"i0QfX","./PasswordEdit.hbs":"dmI8j","../../components/link/Link.hbs":"3tCa2","../../components/profile-photo/ProfilePhoto.hbs":"3HD6q","./password-edit.scss":"l3elj","../../components/input/Input.hbs":"1oUND","../../components/button/Button.hbs":"gbr0o","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"dmI8j":[function(require,module,exports) {
+},{"../../components/profile-photo/ProfilePhoto.hbs":"3HD6q","./profile.scss":"bZDEH","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../../services/block":"8ops0","../../components/link/link":"9UCyh","./Profile.hbs":"3UcuH"}],"bZDEH":[function() {},{}],"3UcuH":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _handlebars = require("handlebars");
 var _handlebarsDefault = parcelHelpers.interopDefault(_handlebars);
 const templateFunction = _handlebarsDefault.default.template({
+    "1": function(container, depth0, helpers, partials, data) {
+        var helper, alias1 = depth0 != null ? depth0 : container.nullContext || {}, alias2 = container.hooks.helperMissing, alias3 = "function", alias4 = container.escapeExpression, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+            if (Object.prototype.hasOwnProperty.call(parent, propertyName)) return parent[propertyName];
+            return undefined;
+        };
+        return "                <div class=\"item\">\n                    <span>" + alias4((helper = (helper = lookupProperty(helpers, "name") || (depth0 != null ? lookupProperty(depth0, "name") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+            "name": "name",
+            "hash": {},
+            "data": data,
+            "loc": {
+                "start": {
+                    "line": 8,
+                    "column": 26
+                },
+                "end": {
+                    "line": 8,
+                    "column": 34
+                }
+            }
+        }) : helper)) + "</span>\n                    <span>" + alias4((helper = (helper = lookupProperty(helpers, "value") || (depth0 != null ? lookupProperty(depth0, "value") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+            "name": "value",
+            "hash": {},
+            "data": data,
+            "loc": {
+                "start": {
+                    "line": 9,
+                    "column": 26
+                },
+                "end": {
+                    "line": 9,
+                    "column": 35
+                }
+            }
+        }) : helper)) + "</span>\n                </div>\n";
+    },
     "compiler": [
         8,
         ">= 4.3.0"
@@ -13114,7 +13627,7 @@ const templateFunction = _handlebarsDefault.default.template({
             if (Object.prototype.hasOwnProperty.call(parent, propertyName)) return parent[propertyName];
             return undefined;
         };
-        return "<div class=\"page-profile-edit\">\n    <div class=\"logout\"> " + ((stack1 = (helper = (helper = lookupProperty(helpers, "logOut") || (depth0 != null ? lookupProperty(depth0, "logOut") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+        return "<div class=\"page-profile\">\n    <div class=\"logout\"> " + ((stack1 = (helper = (helper = lookupProperty(helpers, "logOut") || (depth0 != null ? lookupProperty(depth0, "logOut") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
             "name": "logOut",
             "hash": {},
             "data": data,
@@ -13142,90 +13655,64 @@ const templateFunction = _handlebarsDefault.default.template({
                     "column": 41
                 }
             }
-        }) : helper)) != null ? stack1 : "") + "</div>\n    <div class=\"data-profile\">\n        <div class=\"items\">\n            <form id=\"form-edit-password\">\n                " + ((stack1 = (helper = (helper = lookupProperty(helpers, "oldPassword") || (depth0 != null ? lookupProperty(depth0, "oldPassword") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
-            "name": "oldPassword",
+        }) : helper)) != null ? stack1 : "") + "</div>\n    <div class=\"data-profile\">\n        <div>\n" + ((stack1 = lookupProperty(helpers, "each").call(alias1, depth0 != null ? lookupProperty(depth0, "fields") : depth0, {
+            "name": "each",
             "hash": {},
+            "fn": container.program(1, data, 0),
+            "inverse": container.noop,
             "data": data,
             "loc": {
                 "start": {
-                    "line": 7,
-                    "column": 16
+                    "line": 6,
+                    "column": 12
                 },
                 "end": {
-                    "line": 7,
-                    "column": 33
+                    "line": 11,
+                    "column": 21
                 }
             }
-        }) : helper)) != null ? stack1 : "") + "\n                " + ((stack1 = (helper = (helper = lookupProperty(helpers, "newPassword") || (depth0 != null ? lookupProperty(depth0, "newPassword") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
-            "name": "newPassword",
-            "hash": {},
-            "data": data,
-            "loc": {
-                "start": {
-                    "line": 8,
-                    "column": 16
-                },
-                "end": {
-                    "line": 8,
-                    "column": 33
-                }
-            }
-        }) : helper)) != null ? stack1 : "") + "\n                " + ((stack1 = (helper = (helper = lookupProperty(helpers, "repeatPassword") || (depth0 != null ? lookupProperty(depth0, "repeatPassword") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
-            "name": "repeatPassword",
-            "hash": {},
-            "data": data,
-            "loc": {
-                "start": {
-                    "line": 9,
-                    "column": 16
-                },
-                "end": {
-                    "line": 9,
-                    "column": 36
-                }
-            }
-        }) : helper)) != null ? stack1 : "") + "\n            </form>\n        </div>\n        <div class=\"group-btn\">\n            <div>" + ((stack1 = (helper = (helper = lookupProperty(helpers, "buttonSave") || (depth0 != null ? lookupProperty(depth0, "buttonSave") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
-            "name": "buttonSave",
+        })) != null ? stack1 : "") + "        </div>\n        <div class=\"link-edit\">" + ((stack1 = (helper = (helper = lookupProperty(helpers, "linkProfile") || (depth0 != null ? lookupProperty(depth0, "linkProfile") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+            "name": "linkProfile",
             "hash": {},
             "data": data,
             "loc": {
                 "start": {
                     "line": 13,
-                    "column": 17
+                    "column": 31
                 },
                 "end": {
                     "line": 13,
-                    "column": 33
+                    "column": 48
                 }
             }
-        }) : helper)) != null ? stack1 : "") + "</div>\n            <div>" + ((stack1 = (helper = (helper = lookupProperty(helpers, "linkCancel") || (depth0 != null ? lookupProperty(depth0, "linkCancel") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
-            "name": "linkCancel",
+        }) : helper)) != null ? stack1 : "") + "</div>\n        <div class=\"link-edit\">" + ((stack1 = (helper = (helper = lookupProperty(helpers, "linkPassword") || (depth0 != null ? lookupProperty(depth0, "linkPassword") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+            "name": "linkPassword",
             "hash": {},
             "data": data,
             "loc": {
                 "start": {
                     "line": 14,
-                    "column": 17
+                    "column": 31
                 },
                 "end": {
                     "line": 14,
-                    "column": 33
+                    "column": 49
                 }
             }
-        }) : helper)) != null ? stack1 : "") + "</div>\n        </div>\n\n    </div>\n</div>";
+        }) : helper)) != null ? stack1 : "") + "</div>\n    </div>\n</div>";
     },
     "useData": true
 });
 exports.default = templateFunction;
 
-},{"handlebars":"i0QfX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"l3elj":[function() {},{}],"gTikN":[function(require,module,exports) {
+},{"handlebars":"i0QfX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gTikN":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-var _handlebars = require("handlebars");
-var _handlebarsDefault = parcelHelpers.interopDefault(_handlebars);
 var _chatsHbs = require("./Chats.hbs");
 var _chatsHbsDefault = parcelHelpers.interopDefault(_chatsHbs);
 var _chatsScss = require("./chats.scss ");
+var _block = require("../../services/block");
+var _blockDefault = parcelHelpers.interopDefault(_block);
 const chatsData = {
     activeChat: {
         messages: [
@@ -13284,15 +13771,20 @@ const chatsData = {
         }
     ]
 };
-_handlebarsDefault.default.registerPartial('chats', _chatsHbsDefault.default);
-exports.default = ()=>{
-    return _chatsHbsDefault.default({
-        chats: chatsData.chats,
-        activeChat: chatsData.activeChat
-    });
-};
+class Chats extends _blockDefault.default {
+    constructor(){
+        super({
+            chats: chatsData.chats,
+            activeChat: chatsData.activeChat
+        });
+    }
+    render() {
+        return this.compile(_chatsHbsDefault.default, this.props);
+    }
+}
+exports.default = Chats;
 
-},{"handlebars":"i0QfX","./Chats.hbs":"9TkdU","./chats.scss ":"iwlg6","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"9TkdU":[function(require,module,exports) {
+},{"./Chats.hbs":"9TkdU","./chats.scss ":"iwlg6","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../../services/block":"8ops0"}],"9TkdU":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _handlebars = require("handlebars");
@@ -13559,106 +14051,6 @@ const templateFunction = _handlebarsDefault.default.template({
 });
 exports.default = templateFunction;
 
-},{"handlebars":"i0QfX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"iwlg6":[function() {},{}],"1bhvm":[function() {},{}],"8AiIv":[function() {},{}],"5gPci":[function() {},{}],"1lTKA":[function() {},{}],"5z0gz":[function() {},{}],"d7ctM":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "useSendMessage", ()=>useSendMessage
-);
-const useSendMessage = ()=>{
-    const btnSendMessage = document.getElementById('send-message-btn');
-    const inputMessage = document.getElementById('message-text');
-    if (btnSendMessage) btnSendMessage.addEventListener('click', ()=>{
-        console.log({
-            message: inputMessage?.value.trim()
-        });
-    });
-    if (inputMessage) inputMessage.addEventListener('keypress', (e)=>{
-        if (e.key === 'Enter') console.log({
-            message: inputMessage?.value.trim()
-        });
-    });
-};
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"dHmeT":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "useRegistration", ()=>useRegistration
-);
-const useRegistration = ()=>{
-    const btnRegistration = document.getElementById('btn-registration');
-    const formReg = document.getElementById('form-registration');
-    if (btnRegistration) btnRegistration.addEventListener('click', ()=>{
-        const data = new FormData(formReg);
-        const result = {
-            email: data.get('email'),
-            login: data.get('login'),
-            firstName: data.get('firstName'),
-            lastName: data.get('lastName'),
-            telephone: data.get('telephone'),
-            password: data.get('password'),
-            passwordRepeat: data.get('passwordRepeat')
-        };
-        console.log(result);
-    });
-};
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"94QS2":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "useAuthorization", ()=>useAuthorization
-);
-const useAuthorization = ()=>{
-    const btnAuthorization = document.getElementById('btn-authorization');
-    const formAuth = document.getElementById('form-authorization');
-    if (btnAuthorization) btnAuthorization.addEventListener('click', ()=>{
-        const data = new FormData(formAuth);
-        const result = {
-            login: data.get('login'),
-            password: data.get('password')
-        };
-        console.log(result);
-    });
-};
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"7QHv2":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "useEditProfile", ()=>useEditProfile
-);
-const useEditProfile = ()=>{
-    const btnEditProfile = document.getElementById('btn-edit-profile');
-    const formEdit = document.getElementById('form-edit-profile');
-    if (btnEditProfile) btnEditProfile.addEventListener('click', ()=>{
-        const data = new FormData(formEdit);
-        const result = {
-            email: data.get('email'),
-            login: data.get('login'),
-            firstName: data.get('firstName'),
-            lastName: data.get('lastName'),
-            telephone: data.get('telephone')
-        };
-        console.log(result);
-    });
-};
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"hHul6":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "useEditPassword", ()=>useEditPassword
-);
-const useEditPassword = ()=>{
-    const btnEditPassword = document.getElementById('btn-edit-password');
-    const formEdit = document.getElementById('form-edit-password');
-    if (btnEditPassword) btnEditPassword.addEventListener('click', ()=>{
-        const data = new FormData(formEdit);
-        const result = {
-            oldPassword: data.get('old_password'),
-            newPassword: data.get('new_password')
-        };
-        console.log(result);
-    });
-};
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["8wcER","h7u1C"], "h7u1C", "parcelRequire40a5")
+},{"handlebars":"i0QfX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"iwlg6":[function() {},{}]},["7mgxS","h7u1C"], "h7u1C", "parcelRequire40a5")
 
 //# sourceMappingURL=index.b71e74eb.js.map

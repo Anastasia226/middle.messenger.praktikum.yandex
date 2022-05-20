@@ -1,10 +1,10 @@
-import Handlebars from 'handlebars';
 import passwordEdit from './PasswordEdit.hbs';
-import link from '../../components/link/Link.hbs';
 import profilePhoto from '../../components/profile-photo/ProfilePhoto.hbs';
 import './password-edit.scss';
-import input from '../../components/input/Input.hbs';
-import button from '../../components/button/Button.hbs';
+import Block from "../../services/block";
+import Input from "../../components/input/input";
+import Button from "../../components/button/button";
+import Link from "../../components/link/link";
 
 const profileData = {
     oldPassword: {
@@ -38,14 +38,33 @@ const profileData = {
     },
 };
 
-Handlebars.registerPartial('passwordEdit', passwordEdit);
-export default () => {
-    return passwordEdit({
-        profilePhoto: profilePhoto(),
-        linkCancel: link(profileData.linkCancel),
-        buttonSave: button(profileData.buttonSave),
-        oldPassword: input(profileData.oldPassword),
-        newPassword: input(profileData.newPassword),
-        repeatPassword: input(profileData.repeatPassword),
-    });
+export default class PasswordEdit extends Block {
+    constructor() {
+        super({
+            profilePhoto: profilePhoto(),
+            linkCancel: new Link(profileData.linkCancel),
+            oldPassword: new Input(profileData.oldPassword),
+            newPassword: new Input(profileData.newPassword),
+            repeatPassword: new Input(profileData.repeatPassword),
+            buttonSave: new Button(
+                {
+                    ...profileData.buttonSave, events: {
+                        click: () => {
+                            const formEdit = document.getElementById('form-edit-password') as HTMLFormElement;
+                            const data = new FormData(formEdit);
+                            const result = {
+                                oldPassword: data.get('old_password'),
+                                newPassword: data.get('new_password'),
+                            }
+                            console.log(result);
+                        }
+                    }
+                }
+            ),
+        });
+    }
+
+    render() {
+        return this.compile(passwordEdit, this.props);
+    }
 }

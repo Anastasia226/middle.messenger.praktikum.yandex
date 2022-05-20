@@ -531,8 +531,8 @@ declare var HMR_SECURE: boolean;
     const _passwordEditDefault = parcelHelpers.interopDefault(_passwordEdit);
     const _chats = require('./pages/chats/chats');
     const _chatsDefault = parcelHelpers.interopDefault(_chats);
-    const _indexScss = require('../static/scss/index.scss');
-    const _variableScss = require('../static/scss/variable.scss');
+    const _indexScss = require('../src/assets/scss/index.scss');
+    const _variableScss = require('../src/assets/scss/variable.scss');
     const _inputScss = require('./components/input/input.scss');
     const _buttonScss = require('./components/button/button.scss');
     const _linkScss = require('./components/link/link.scss');
@@ -9465,7 +9465,7 @@ declare var HMR_SECURE: boolean;
       },
     };
     (function () {
-      var reservedWords = 'break else new var case finally return void catch for switch while continue function this with default if throw delete in try do instanceof typeof abstract enum int short boolean export interface static byte extends long super char final native synchronized class float package throws const goto private transient debugger implements protected volatile double import public let yield await null true false'.split(' ');
+      var reservedWords = 'break else new var case finally return void catch for switch while continue function this with default if throw delete in try do instanceof typeof abstract enum int short boolean export interface assets byte extends long super char final native synchronized class float package throws const goto private transient debugger implements protected volatile double import public let yield await null true false'.split(' ');
       var compilerWords = JavaScriptCompiler.RESERVED_WORDS = {};
       for (var i = 0, l = reservedWords.length; i < l; i++)compilerWords[reservedWords[i]] = true;
     }());

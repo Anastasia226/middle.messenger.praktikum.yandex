@@ -1,7 +1,7 @@
-import Handlebars from "handlebars";
 import error from './Error.hbs';
-import link from "../../components/link/Link.hbs";
 import './error.scss'
+import Block from "../../services/block";
+import Link from "../../components/link/link";
 
 const errorData = {
     link: {
@@ -11,7 +11,17 @@ const errorData = {
     }
 }
 
-Handlebars.registerPartial('error', error);
-export default (statusError: string, messageError: string) => {
-    return error({ statusError, messageError, link: link(errorData.link), })
+type ErrorProps = {
+    statusError: string;
+    messageError: string;
+}
+
+export default class ErrorPage extends Block {
+    constructor(props: ErrorProps) {
+        super({ ...props, link: new Link(errorData.link), });
+    }
+
+    render() {
+        return this.compile(error, { ...this.props });
+    }
 }

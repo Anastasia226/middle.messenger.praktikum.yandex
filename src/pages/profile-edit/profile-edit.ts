@@ -1,10 +1,10 @@
-import Handlebars from 'handlebars';
 import profileEdit from './ProfileEdit.hbs';
-import link from '../../components/link/Link.hbs';
 import profilePhoto from '../../components/profile-photo/ProfilePhoto.hbs';
 import './profile-edit.scss';
-import input from '../../components/input/Input.hbs';
-import button from '../../components/button/Button.hbs';
+import Block from "../../services/block";
+import Link from "../../components/link/link";
+import Input from "../../components/input/input";
+import Button from "../../components/button/button";
 
 const profileData = {
     email: {
@@ -52,14 +52,38 @@ const profileData = {
     },
 };
 
-Handlebars.registerPartial('profileEdit', profileEdit);
-export default () => profileEdit({
-    linkCancel: link(profileData.linkCancel),
-    profilePhoto: profilePhoto(),
-    buttonSave: button(profileData.buttonSave),
-    email: input(profileData.email),
-    login: input(profileData.login),
-    firstName: input(profileData.firstName),
-    lastName: input(profileData.lastName),
-    telephone: input(profileData.telephone),
-});
+export default class ProfileEdit extends Block {
+    constructor() {
+        super({
+            linkCancel: new Link(profileData.linkCancel),
+            profilePhoto: profilePhoto(),
+            email: new Input(profileData.email),
+            login: new Input(profileData.login),
+            firstName: new Input(profileData.firstName),
+            lastName: new Input(profileData.lastName),
+            telephone: new Input(profileData.telephone),
+            buttonSave: new Button(
+                {
+                    ...profileData.buttonSave, events: {
+                        click: () => {
+                            const formEdit = document.getElementById('form-edit-profile') as HTMLFormElement;
+                            const data = new FormData(formEdit);
+                            const result = {
+                                email: data.get('email'),
+                                login: data.get('login'),
+                                firstName: data.get('firstName'),
+                                lastName: data.get('lastName'),
+                                telephone: data.get('telephone'),
+                            }
+                            console.log(result);
+                        }
+                    }
+                }
+            ),
+        });
+    }
+
+    render() {
+        return this.compile(profileEdit, this.props);
+    }
+}

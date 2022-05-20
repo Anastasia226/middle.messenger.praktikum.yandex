@@ -1,8 +1,8 @@
-import Handlebars from 'handlebars';
-import profile from './Profile.hbs';
-import link from '../../components/link/Link.hbs';
 import profilePhoto from '../../components/profile-photo/ProfilePhoto.hbs';
 import './profile.scss';
+import Block from "../../services/block";
+import Link from "../../components/link/link";
+import profile from './Profile.hbs';
 
 const profileData = {
     fields: [
@@ -41,13 +41,19 @@ const profileData = {
     },
 };
 
-Handlebars.registerPartial('profile', profile);
-export default () => {
-    return profile({
-        linkProfile: link(profileData.linkProfile),
-        linkPassword: link(profileData.linkPassword),
-        logOut: link(profileData.logOut),
-        profilePhoto: profilePhoto(),
-        fields: profileData.fields,
-    });
+
+export default class ProfileEdit extends Block {
+    constructor() {
+        super({
+            linkProfile: new Link(profileData.linkProfile),
+            linkPassword: new Link(profileData.linkPassword),
+            logOut: new Link(profileData.logOut),
+            profilePhoto: profilePhoto(),
+            fields: profileData.fields,
+        });
+    }
+
+    render() {
+        return this.compile(profile, this.props);
+    }
 }

@@ -1,9 +1,9 @@
-import Handlebars from 'handlebars';
 import registration from './Registration.hbs';
-import input from '../../components/input/Input.hbs';
-import button from '../../components/button/Button.hbs';
-import link from '../../components/link/Link.hbs';
 import './registration.scss';
+import Block from "../../services/block";
+import Input from "../../components/input/input";
+import Button from "../../components/button/button";
+import Link from "../../components/link/link";
 
 const registrationData = {
     email: {
@@ -58,17 +58,41 @@ const registrationData = {
     }
 };
 
-Handlebars.registerPartial('registration', registration);
-export default () => {
-    return registration({
-        email: input(registrationData.email),
-        login: input(registrationData.login),
-        firstName: input(registrationData.firstName),
-        lastName: input(registrationData.lastName),
-        telephone: input(registrationData.telephone),
-        password: input(registrationData.password),
-        passwordRepeat: input(registrationData.passwordRepeat),
-        btnOk: button(registrationData.button),
-        link: link(registrationData.link),
-    });
+export default class Registration extends Block {
+    constructor() {
+        super({
+            email: new Input(registrationData.email),
+            login: new Input(registrationData.login),
+            firstName: new Input(registrationData.firstName),
+            lastName: new Input(registrationData.lastName),
+            telephone: new Input(registrationData.telephone),
+            password: new Input(registrationData.password),
+            passwordRepeat: new Input(registrationData.passwordRepeat),
+            link: new Link(registrationData.link),
+            btnOk: new Button(
+                {
+                    ...registrationData.button, events: {
+                        click: () => {
+                            const formReg = document.getElementById('form-registration') as HTMLFormElement;
+                            const data = new FormData(formReg);
+                            const result = {
+                                email: data.get('email'),
+                                login: data.get('login'),
+                                firstName: data.get('firstName'),
+                                lastName: data.get('lastName'),
+                                telephone: data.get('telephone'),
+                                password: data.get('password'),
+                                passwordRepeat: data.get('passwordRepeat'),
+                            }
+                            console.log(result);
+                        }
+                    }
+                }
+            ),
+        });
+    }
+
+    render() {
+        return this.compile(registration, this.props);
+    }
 }

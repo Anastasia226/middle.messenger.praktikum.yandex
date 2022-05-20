@@ -1,7 +1,18 @@
-import Handlebars from 'handlebars';
 import button from './Button.hbs';
+import Block from "../../services/block";
 
-Handlebars.registerPartial('button', button);
-export default (id: string, value: string) => {
-    return button({ id, value })
+type ButtonProps = {
+    id: string,
+    value: string,
+    events?: { [key: string]: () => void },
+}
+
+export default class Button extends Block {
+    constructor(props: ButtonProps) {
+        super(props);
+    }
+
+    render() {
+        return this.compile(button, { ...this.props });
+    }
 }

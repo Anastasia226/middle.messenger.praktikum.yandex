@@ -1,6 +1,6 @@
-import Handlebars from 'handlebars';
 import chats from './Chats.hbs';
 import './chats.scss ';
+import Block from "../../services/block";
 
 const chatsData = {
     activeChat: {
@@ -45,10 +45,15 @@ const chatsData = {
     ]
 };
 
-Handlebars.registerPartial('chats', chats);
-export default () => {
-    return chats({
-        chats: chatsData.chats,
-        activeChat: chatsData.activeChat
-    });
+export default class Chats extends Block {
+    constructor() {
+        super({
+            chats: chatsData.chats,
+            activeChat: chatsData.activeChat
+        });
+    }
+
+    render() {
+        return this.compile(chats, this.props);
+    }
 }

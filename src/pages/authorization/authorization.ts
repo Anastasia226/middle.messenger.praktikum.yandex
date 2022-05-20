@@ -1,10 +1,9 @@
-import Handlebars from "handlebars";
 import authorization from './Authorization.hbs';
-import input from "../../components/input/Input.hbs";
-import button from "../../components/button/Button.hbs";
-import link from "../../components/link/Link.hbs";
+import Input from "../../components/input/input";
+import Button from "../../components/button/button";
+import Link from "../../components/link/link";
 import './authorization.scss '
-
+import Block from "../../services/block";
 
 const authorizationData = {
     login: {
@@ -29,12 +28,31 @@ const authorizationData = {
     }
 }
 
-Handlebars.registerPartial('authorization', authorization);
-export default () => {
-    return authorization({
-        login: input(authorizationData.login),
-        password: input(authorizationData.password),
-        btnEnter: button(authorizationData.button),
-        link: link(authorizationData.link),
-    })
+export default class Authorization extends Block {
+    constructor() {
+        super({
+            login: new Input(authorizationData.login),
+            password: new Input(authorizationData.password),
+            btnEnter: new Button(
+                {
+                    ...authorizationData.button, events: {
+                        click: () => {
+                            const formAuth = document.getElementById('form-authorization') as HTMLFormElement;
+                            const data = new FormData(formAuth);
+                            const result = {
+                                login: data.get('login'),
+                                password: data.get('password'),
+                            }
+                            console.log(result);
+                        }
+                    }
+                }
+            ),
+            link: new Link(authorizationData.link),
+        });
+    }
+
+    render() {
+        return this.compile(authorization, this.props);
+    }
 }
