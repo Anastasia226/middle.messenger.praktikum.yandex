@@ -15,5 +15,5 @@ npm install
 
 npm run start
 =======
-# sprint_1
-https://github.com/Anastasia226/sprint_1/pull/2
+# sprint_2
+[https://github.com/Anastasia226/sprint_1/pull/2](https://github.com/Anastasia226/middle.messenger.praktikum.yandex/pull/3)
