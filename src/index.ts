@@ -12,7 +12,7 @@ import './components/button/button.scss';
 import './components/link/link.scss';
 import './components/profile-photo/profile-photo.scss';
 import { render } from './utils/render/render';
-import Block from './services/block';
+import Block from './utils/block/block';
 
 
 const root = document.getElementById('root');

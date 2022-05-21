@@ -1,5 +1,5 @@
 import button from './Button.hbs';
-import Block from "../../services/block";
+import Block from "../../utils/block/block";
 
 type ButtonProps = {
     id: string,

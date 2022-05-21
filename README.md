@@ -13,3 +13,7 @@ npm install
 # Запустить
 
 npm run start
+
+# ссылка на Netlify
+
+https://jocular-croquembouche-d33b70.netlify.app/

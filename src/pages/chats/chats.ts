@@ -1,8 +1,12 @@
 import chats from './Chats.hbs';
 import './chats.scss ';
-import Block from "../../services/block";
+import Block from "../../utils/block/block";
+import ButtonCircle from "../../components/button/button-circle/buttonCircle";
 
 const chatsData = {
+    buttonSend: {
+        id: 'send-message-btn',
+    },
     activeChat: {
         messages: [
             { text: 'hello', time: '12:32', isYouSender: true },
@@ -41,7 +45,7 @@ const chatsData = {
             name: 'Olya',
             message: 'Hello',
             date: '25.03.2021',
-        }
+        },
     ]
 };
 
@@ -49,7 +53,19 @@ export default class Chats extends Block {
     constructor() {
         super({
             chats: chatsData.chats,
-            activeChat: chatsData.activeChat
+            activeChat: chatsData.activeChat,
+            buttonCircle: new ButtonCircle(
+                {
+                    ...chatsData.buttonSend, events: {
+                        click: () => {
+                            const inputMessage = document.getElementById('message-text') as HTMLInputElement;
+                            if (inputMessage?.value.trim().length > 0)
+                                console.log({
+                                    message: inputMessage.value.trim()
+                                })
+                        }
+                    }
+                })
         });
     }
 

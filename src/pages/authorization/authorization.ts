@@ -3,20 +3,23 @@ import Input from "../../components/input/input";
 import Button from "../../components/button/button";
 import Link from "../../components/link/link";
 import './authorization.scss '
-import Block from "../../services/block";
+import Block from '../../utils/block/block';
+import { loginRule, passwordRule } from '../../const/regex';
 
 const authorizationData = {
     login: {
         name: 'login',
         label: 'Login',
         placeholder: 'Login',
-        type: 'text'
+        type: 'text',
+        validation: loginRule,
     },
     password: {
         name: 'password',
         label: 'Password',
         placeholder: 'Password',
-        type: 'password'
+        type: 'password',
+        validation: passwordRule,
     },
     button: {
         id: 'btn-authorization',

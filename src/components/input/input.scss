@@ -1,5 +1,6 @@
 @import '../../assets/scss/variable.scss';
 .form-item {
+  position: relative;
   label {
     display: block;
     font-weight: 200;
@@ -7,9 +8,12 @@
     line-height: 19px;
     color: $grey;
   }
+  &.error input {
+    box-shadow: 0 0 4px $red;
+  }
   input {
     display: block;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
     width: 350px;
     height: 45px;
     box-shadow: 0 0 4px $blue-25;

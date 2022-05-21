@@ -1,6 +1,6 @@
 import error from './Error.hbs';
 import './error.scss'
-import Block from "../../services/block";
+import Block from "../../utils/block/block";
 import Link from "../../components/link/link";
 
 const errorData = {

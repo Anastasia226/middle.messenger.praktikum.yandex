@@ -1,4 +1,4 @@
-import Block from "@/services/block";
+import Block from "../block/block";
 
 export function render(root: HTMLElement | null, component: Block) {
     if (root) {

@@ -1,10 +1,11 @@
 import profileEdit from './ProfileEdit.hbs';
 import profilePhoto from '../../components/profile-photo/ProfilePhoto.hbs';
 import './profile-edit.scss';
-import Block from "../../services/block";
+import Block from "../../utils/block/block";
 import Link from "../../components/link/link";
 import Input from "../../components/input/input";
 import Button from "../../components/button/button";
+import { emailRule, loginRule, nameRule, phoneRule } from "../../const/regex";
 
 const profileData = {
     email: {
@@ -13,13 +14,15 @@ const profileData = {
         placeholder: 'Email',
         type: 'email',
         value: 'bagaeva@yandex.ru',
+        validation: emailRule,
     },
     login: {
         name: 'login',
         label: 'Login',
         placeholder: 'Login',
         type: 'text',
-        value: 'anastasia.226',
+        value: 'anastasia226',
+        validation: loginRule,
     },
     firstName: {
         name: 'firstName',
@@ -27,6 +30,7 @@ const profileData = {
         placeholder: 'First Name',
         type: 'text',
         value: 'Anastasiia',
+        validation: nameRule,
     },
     lastName: {
         name: 'lastName',
@@ -34,6 +38,7 @@ const profileData = {
         placeholder: 'Last Name',
         type: 'text',
         value: 'Bagaeva',
+        validation: nameRule,
     },
     telephone: {
         name: 'telephone',
@@ -41,6 +46,7 @@ const profileData = {
         placeholder: 'Telephone',
         type: 'tel',
         value: '89224411823',
+        validation: phoneRule,
     },
     linkCancel: {
         text: 'Cancel',

@@ -1,6 +1,6 @@
 import profilePhoto from '../../components/profile-photo/ProfilePhoto.hbs';
 import './profile.scss';
-import Block from "../../services/block";
+import Block from "../../utils/block/block";
 import Link from "../../components/link/link";
 import profile from './Profile.hbs';
 

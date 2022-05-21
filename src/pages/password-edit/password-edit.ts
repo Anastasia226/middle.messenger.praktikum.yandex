@@ -1,10 +1,11 @@
 import passwordEdit from './PasswordEdit.hbs';
 import profilePhoto from '../../components/profile-photo/ProfilePhoto.hbs';
 import './password-edit.scss';
-import Block from "../../services/block";
+import Block from "../../utils/block/block";
 import Input from "../../components/input/input";
 import Button from "../../components/button/button";
 import Link from "../../components/link/link";
+import { passwordRule } from "../../const/regex";
 
 const profileData = {
     oldPassword: {
@@ -12,21 +13,24 @@ const profileData = {
         label: 'Old password',
         placeholder: 'Old password',
         type: 'password',
-        value: ''
+        value: '',
+        validation: passwordRule,
     },
     newPassword: {
         name: 'new_password',
         label: 'New password',
         placeholder: 'New password',
         type: 'password',
-        value: ''
+        value: '',
+        validation: passwordRule,
     },
     repeatPassword: {
         name: 'repeat_password',
         label: 'Repeat password',
         placeholder: 'Repeat new password',
         type: 'password',
-        value: ''
+        value: '',
+        validation: passwordRule,
     },
     linkCancel: {
         text: 'Cancel',

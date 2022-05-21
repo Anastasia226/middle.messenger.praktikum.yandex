@@ -1,9 +1,10 @@
 import registration from './Registration.hbs';
 import './registration.scss';
-import Block from "../../services/block";
+import Block from "../../utils/block/block";
 import Input from "../../components/input/input";
 import Button from "../../components/button/button";
 import Link from "../../components/link/link";
+import { emailRule, loginRule, nameRule, passwordRule, phoneRule } from "../../const/regex";
 
 const registrationData = {
     email: {
@@ -11,42 +12,49 @@ const registrationData = {
         label: 'Email',
         placeholder: 'Email',
         type: 'email',
+        validation: emailRule,
     },
     login: {
         name: 'login',
         label: 'Login',
         placeholder: 'Login',
-        type: 'text'
+        type: 'text',
+        validation: loginRule,
     },
     firstName: {
         name: 'firstName',
         label: 'First Name',
         placeholder: 'First Name',
-        type: 'text'
+        type: 'text',
+        validation: nameRule,
     },
     lastName: {
         name: 'lastName',
         label: 'Last Name',
         placeholder: 'Last Name',
-        type: 'text'
+        type: 'text',
+        validation: nameRule,
     },
     telephone: {
         name: 'telephone',
         label: 'Telephone',
         placeholder: 'Telephone',
-        type: 'tel'
+        type: 'tel',
+        validation: phoneRule,
     },
     password: {
         name: 'password',
         label: 'Password',
         placeholder: 'Password',
-        type: 'password'
+        type: 'password',
+        validation: passwordRule,
     },
     passwordRepeat: {
         name: 'passwordRepeat',
         label: 'Password repeat',
         placeholder: 'Password repeat',
-        type: 'password'
+        type: 'password',
+        validation: passwordRule,
     },
     button: {
         id: 'btn-registration',

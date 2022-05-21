@@ -1,4 +1,4 @@
-import { EventBus } from "./event-bus";
+import { EventBus } from "../event-bus/event-bus";
 import { v4 as makeUUID } from 'uuid';
 
 export default class Block {
@@ -8,7 +8,7 @@ export default class Block {
         FLOW_CDU: "flow:component-did-update",
         FLOW_RENDER: "flow:render"
     };
-    public id = makeUUID();
+    public _id = makeUUID();
     private _element: HTMLElement | null = null;
     _meta: { props: Record<string, any> };
     protected props: Record<string, any>;
@@ -18,7 +18,7 @@ export default class Block {
     constructor(propsAndChildren: any = {}) {
         const { props, children } = this._getChildren(propsAndChildren);
         this.children = children
-
+        this.initChildren();
         this._meta = {
             props
         };
@@ -44,6 +44,9 @@ export default class Block {
         return { children, props };
     }
 
+    protected initChildren() {
+    }
+
     _registerEvents(eventBus: EventBus): void {
         eventBus.on(Block.EVENTS.INIT, this.init.bind(this));
         eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
@@ -58,6 +61,9 @@ export default class Block {
 
     _componentDidMount(): void {
         this.componentDidMount();
+        Object.values(this.children).forEach(child => {
+            child.dispatchComponentDidMount();
+        });
     }
 
     componentDidMount(): void {
@@ -82,8 +88,7 @@ export default class Block {
         if (!nextProps) {
             return;
         }
-        //  Object.assign(this.props, nextProps);
-        this.props = { ...this.props, nextProps }
+        Object.assign(this.props, nextProps);
     };
 
     get element(): HTMLElement | null {
@@ -130,14 +135,12 @@ export default class Block {
     }
 
     _makePropsProxy(props: any) {
-        // Можно и так передать this
-        // Такой способ больше не применяется с приходом ES6+
         const self = this;
 
         return new Proxy(props, {
             get(target, prop) {
                 const value = target[prop];
-                return typeof value === 'function' ? value.blind(target) : value;
+                return typeof value === 'function' ? value.bind(target) : value;
             },
             set(target, prop, value) {
                 target[prop] = value;
@@ -151,21 +154,22 @@ export default class Block {
     }
 
     _createDocumentElement(tagName: string) {
-        // Можно сделать метод, который через фрагменты в цикле создаёт сразу несколько блоков
-        return document.createElement(tagName);
+        const element = document.createElement(tagName);
+        element.setAttribute('data-id', this._id);
+        return element;
     }
 
     compile(template: (context: any) => string, props?: any) {
 
         Object.entries(this.children).forEach(([key, child]) => {
-            props[key] = `<div data-id="id-${child.id}"></div>`
+            props[key] = `<div data-id="id-${child._id}"></div>`
         });
 
         const fragment = this._createDocumentElement('template') as HTMLTemplateElement;
         const htmlStr = template(props);
         fragment.innerHTML = htmlStr;
         Object.values(this.children).forEach(child => {
-            const stub = fragment.content.querySelector(`[data-id="id-${child.id}"]`);
+            const stub = fragment.content.querySelector(`[data-id="id-${child._id}"]`);
             if (!stub) {
                 return
             }

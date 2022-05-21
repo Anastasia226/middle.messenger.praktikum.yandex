@@ -1,5 +1,5 @@
 import link from './Link.hbs';
-import Block from "../../services/block";
+import Block from "../../utils/block/block";
 
 type LinkProps = {
     text: string;
