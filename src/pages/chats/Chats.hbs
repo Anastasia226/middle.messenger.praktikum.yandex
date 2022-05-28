@@ -45,7 +45,80 @@
             {{/each}}
         </div>
     </div>
-    <div class="empty-chat">
-        Choose chat to start
-    </div>
+    {{#if activeChat}}
+        <div class="active-chat">
+            <div class="active-chat-header">
+                <div>
+                    <svg width="5" height="27" viewBox="0 0 5 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5 14C5 15.3807 3.88071 16.5 2.5 16.5C1.11929 16.5 0 15.3807 0 14C0 12.6193 1.11929 11.5 2.5 11.5C3.88071 11.5 5 12.6193 5 14Z"
+                              fill="#0B7AAA" />
+                        <circle cx="2.5" cy="24.5" r="2.5" fill="#0B7AAA" />
+                        <circle cx="2.5" cy="2.5" r="2.5" fill="#0B7AAA" />
+                    </svg>
+                </div>
+                <div class="active-chat-header-companion">
+                    <div class="active-chat-header-name">{{activeChat.name}}</div>
+                    <div class="photo-profile-chat">
+                        <svg width="20" height="20" viewBox="0 0 40 40" fill="none"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                  d="M4 2H36C37.1046 2 38 2.89543 38 4V25.2667L25.3453 22.3139C24.4514 22.1053 23.5365 22 22.6186 22H17.3814C16.4635 22 15.5486 22.1053 14.6547 22.3139L2 25.2667V4C2 2.89543 2.89543 2 4 2ZM0 4C0 1.79086 1.79086 0 4 0H36C38.2091 0 40 1.79086 40 4V36C40 38.2091 38.2091 40 36 40H4C1.79086 40 0 38.2091 0 36V4ZM14.5455 10.9091C14.5455 12.9174 12.9174 14.5455 10.9091 14.5455C8.90082 14.5455 7.27276 12.9174 7.27276 10.9091C7.27276 8.90079 8.90082 7.27273 10.9091 7.27273C12.9174 7.27273 14.5455 8.90079 14.5455 10.9091Z"
+                                  fill="#CDCDCD" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            <div class="active-chat-messages">
+                {{#each activeChat.messages}}
+                    {{#with this}}
+                        {{#if isYouSender}}
+                            <div class="active-chat-message right">
+                                <div class="active-chat-message-text"> {{text}}</div>
+                                <div class="active-chat-message-time"> {{time}}</div>
+                            </div>
+                        {{else}}
+                            <div class="active-chat-message left">
+                                <div class="active-chat-message-text"> {{text}}</div>
+                                <div class="active-chat-message-time"> {{time}}</div>
+                            </div>
+                        {{/if}}
+                    {{/with}}
+                {{/each}}
+            </div>
+            <div class="active-chat-control">
+                <div class="active-chat-control-attachment">
+                    <svg width="21" height="23" viewBox="0 0 21 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                              d="M4.33063 9.58338L9.63395 3.77502L10.2939 4.49785L4.99059 10.3062L4.33063 9.58338Z"
+                              fill="#0B7AAA" />
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                              d="M6.09045 11.5107L11.3937 5.70227L12.0537 6.42509L6.75042 12.2335L6.09045 11.5107Z"
+                              fill="#0B7AAA" />
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                              d="M9.83032 15.6068L15.1337 9.79846L15.7936 10.5213L10.4903 16.3296L9.83032 15.6068Z"
+                              fill="#0B7AAA" />
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                              d="M11.5902 17.5342L16.8935 11.7258L17.5534 12.4486L12.2502 18.257L11.5902 17.5342Z"
+                              fill="#0B7AAA" />
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                              d="M11.5902 17.5344C9.7596 19.5393 6.79826 19.5465 4.97581 17.5505C3.15336 15.5545 3.15996 12.3111 4.99054 10.3062L4.33058 9.58337C2.13387 11.9893 2.12596 15.8814 4.31289 18.2766C6.49983 20.6718 10.0535 20.6631 12.2502 18.2572L11.5902 17.5344Z"
+                              fill="#0B7AAA" />
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                              d="M15.1337 9.79847L15.7936 10.5213C17.5021 8.65 17.5083 5.62282 15.8074 3.75987C14.1064 1.89693 11.3425 1.90368 9.63391 3.77493L10.2939 4.49775C11.6363 3.02748 13.808 3.02218 15.1445 4.48592C16.4809 5.94967 16.4761 8.32816 15.1337 9.79847Z"
+                              fill="#0B7AAA" />
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                              d="M6.09066 11.511C4.87027 12.8476 4.86588 15.0099 6.08084 16.3405C7.29584 17.6712 9.27005 17.6664 10.4904 16.3298L9.83046 15.607C8.97619 16.5426 7.59425 16.546 6.74375 15.6145C5.89327 14.683 5.89635 13.1694 6.75063 12.2338L6.09066 11.511Z"
+                              fill="#0B7AAA" />
+                    </svg>
+                </div>
+                <input type="text" placeholder="Message..." id="message-text" name="message" />
+                {{{buttonCircle}}}
+            </div>
+        </div>
+
+    {{else}}
+        <div class="empty-chat">
+            Choose chat to start
+        </div>
+    {{/if}}
 </div>

@@ -1,9 +1,4 @@
-$red: #B12E11;
-$black: #000000;
-
-$font-size_600: 64px;
-$font-size_300: 32px;
-$letter-spacing: 0.25em;
+@import '../../assets/scss/variable.scss';
 
 .error-page {
   display: flex;
