@@ -26,8 +26,8 @@ export default class Input extends Block {
                 textError: props?.validation?.messageError
             }),
             events: {
-                focusout: (event: any) => {
-                    if (!event.target.value.match(props.validation?.regex)) {
+                focusout: (event: Event) => {
+                    if (event && !(event.target as HTMLInputElement)?.value.match(props.validation?.regex as RegExp)) {
                         this.addClassName('error')
                     } else {
                         this.removeClassName('error')

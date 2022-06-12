@@ -3,12 +3,11 @@ import Block from "../../utils/block/block";
 
 type LinkProps = {
     text: string;
-    href: string;
     icon?: string;
     events?: { [key: string]: () => void };
 }
 
-export default class Link extends Block {
+export default class Link extends Block<LinkProps> {
     constructor(props: LinkProps) {
         super(props);
     }

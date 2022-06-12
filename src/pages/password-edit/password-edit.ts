@@ -6,6 +6,7 @@ import Input from "../../components/input/input";
 import Button from "../../components/button/button";
 import Link from "../../components/link/link";
 import { passwordRule } from "../../const/regex";
+import { Router } from "../../utils/router/router";
 
 const profileData = {
     oldPassword: {
@@ -34,7 +35,6 @@ const profileData = {
     },
     linkCancel: {
         text: 'Cancel',
-        href: '/profile',
     },
     buttonSave: {
         id: 'btn-edit-password',
@@ -43,10 +43,19 @@ const profileData = {
 };
 
 export default class PasswordEdit extends Block {
+    router: Router;
+
     constructor() {
         super({
             profilePhoto: profilePhoto(),
-            linkCancel: new Link(profileData.linkCancel),
+            linkCancel: new Link({
+                ...profileData.linkCancel,
+                events: {
+                    click: () => {
+                        this.router.go('/profile');
+                    },
+                }
+            }),
             oldPassword: new Input(profileData.oldPassword),
             newPassword: new Input(profileData.newPassword),
             repeatPassword: new Input(profileData.repeatPassword),
@@ -66,6 +75,7 @@ export default class PasswordEdit extends Block {
                 }
             ),
         });
+        this.router = new Router();
     }
 
     render() {

@@ -1,4 +1,4 @@
-enum METHOD {
+enum Method {
     GET = 'GET',
     POST = 'POST',
     PUT = 'PUT',
@@ -6,7 +6,7 @@ enum METHOD {
 };
 
 type Options = {
-    method: METHOD;
+    method: Method;
     data?: any;
 };
 
@@ -20,29 +20,35 @@ function queryStringify(data: OptionsWithoutMethod) {
     return queryParams === '' ? queryParams : `?${queryParams.slice(0, -1)}`
 }
 
-class HTTPTransport {
+export class HTTPTransport {
+    protected url;
+
+    constructor(url: string) {
+        this.url = url;
+    }
+
     get(url: string, options: OptionsWithoutMethod = {}): Promise<XMLHttpRequest> {
-        return this.request(url, { ...options, method: METHOD.GET });
+        return this.request(url, { ...options, method: Method.GET });
     };
 
     put(url: string, options: OptionsWithoutMethod = {}): Promise<XMLHttpRequest> {
-        return this.request(url, { ...options, method: METHOD.PUT });
+        return this.request(url, { ...options, method: Method.PUT });
     };
 
     post(url: string, options: OptionsWithoutMethod = {}): Promise<XMLHttpRequest> {
-        return this.request(url, { ...options, method: METHOD.POST });
+        return this.request(url, { ...options, method: Method.POST });
     };
 
     delete(url: string, options: OptionsWithoutMethod = {}): Promise<XMLHttpRequest> {
-        return this.request(url, { ...options, method: METHOD.DELETE });
+        return this.request(url, { ...options, method: Method.DELETE });
     };
 
-    request(url: string, options: Options = { method: METHOD.GET }): Promise<XMLHttpRequest> {
+    request(url: string, options: Options = { method: Method.GET }): Promise<XMLHttpRequest> {
         const { method, data } = options;
 
         return new Promise((resolve, reject) => {
             const xhr = new XMLHttpRequest();
-            if (method === METHOD.GET) {
+            if (method === Method.GET) {
                 url = url + queryStringify(options.data);
             }
             xhr.open(method, url);
@@ -55,7 +61,7 @@ class HTTPTransport {
             xhr.onerror = reject;
             xhr.ontimeout = reject;
 
-            if (method === METHOD.GET || !data) {
+            if (method === Method.GET || !data) {
                 xhr.send();
             } else {
                 xhr.send(data);

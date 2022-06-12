@@ -5,6 +5,7 @@ import Input from "../../components/input/input";
 import Button from "../../components/button/button";
 import Link from "../../components/link/link";
 import { emailRule, loginRule, nameRule, passwordRule, phoneRule } from "../../const/regex";
+import { Router } from '../../utils/router/router';
 
 const registrationData = {
     email: {
@@ -67,6 +68,8 @@ const registrationData = {
 };
 
 export default class Registration extends Block {
+    router: Router;
+
     constructor() {
         super({
             email: new Input(registrationData.email),
@@ -76,7 +79,14 @@ export default class Registration extends Block {
             telephone: new Input(registrationData.telephone),
             password: new Input(registrationData.password),
             passwordRepeat: new Input(registrationData.passwordRepeat),
-            link: new Link(registrationData.link),
+            link: new Link({
+                ...registrationData.link,
+                events: {
+                    click: () => {
+                        this.router.go('/authorization');
+                    },
+                }
+            }),
             btnOk: new Button(
                 {
                     ...registrationData.button, events: {
@@ -98,6 +108,7 @@ export default class Registration extends Block {
                 }
             ),
         });
+        this.router = new Router();
     }
 
     render() {

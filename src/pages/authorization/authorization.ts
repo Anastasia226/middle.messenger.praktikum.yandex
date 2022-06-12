@@ -5,6 +5,7 @@ import Link from "../../components/link/link";
 import './authorization.scss '
 import Block from '../../utils/block/block';
 import { loginRule, passwordRule } from '../../const/regex';
+import { Router } from '../../utils/router/router';
 
 const authorizationData = {
     login: {
@@ -31,8 +32,18 @@ const authorizationData = {
     }
 }
 
-export default class Authorization extends Block {
+interface PropsType {
+    login: Block;
+    password: Block;
+    btnEnter: Block;
+    link: Block;
+}
+
+export default class Authorization extends Block<PropsType> {
+    router: Router;
+
     constructor() {
+
         super({
             login: new Input(authorizationData.login),
             password: new Input(authorizationData.password),
@@ -51,8 +62,15 @@ export default class Authorization extends Block {
                     }
                 }
             ),
-            link: new Link(authorizationData.link),
+            link: new Link({
+                ...authorizationData.link, events: {
+                    click: () => {
+                        this.router.go('/registration');
+                    },
+                }
+            }),
         });
+        this.router = new Router();
     }
 
     render() {

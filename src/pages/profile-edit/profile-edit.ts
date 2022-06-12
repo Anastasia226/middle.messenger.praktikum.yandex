@@ -6,6 +6,7 @@ import Link from "../../components/link/link";
 import Input from "../../components/input/input";
 import Button from "../../components/button/button";
 import { emailRule, loginRule, nameRule, phoneRule } from "../../const/regex";
+import { Router } from "../../utils/router/router";
 
 const profileData = {
     email: {
@@ -50,7 +51,6 @@ const profileData = {
     },
     linkCancel: {
         text: 'Cancel',
-        href: '/profile',
     },
     buttonSave: {
         id: 'btn-edit-profile',
@@ -59,9 +59,18 @@ const profileData = {
 };
 
 export default class ProfileEdit extends Block {
+    router: Router;
+
     constructor() {
         super({
-            linkCancel: new Link(profileData.linkCancel),
+            linkCancel: new Link({
+                ...profileData.linkCancel,
+                events: {
+                    click: () => {
+                        this.router.go('/profile');
+                    },
+                }
+            }),
             profilePhoto: profilePhoto(),
             email: new Input(profileData.email),
             login: new Input(profileData.login),
@@ -87,6 +96,7 @@ export default class ProfileEdit extends Block {
                 }
             ),
         });
+        this.router = new Router();
     }
 
     render() {
