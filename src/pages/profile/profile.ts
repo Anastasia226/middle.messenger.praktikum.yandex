@@ -3,8 +3,9 @@ import './profile.scss';
 import Block from "../../utils/block/block";
 import Link from "../../components/link/link";
 import profile from './Profile.hbs';
-import store, { StoreEvents } from '../../utils/store/store';
+import store from '../../utils/store/store';
 import { Router } from "../../utils/router/router";
+import { userAPI } from "../../api/user/user-login";
 
 const profileData = {
     fields: [
@@ -37,13 +38,13 @@ const profileData = {
     },
     logOut: {
         text: 'Exit',
-        href: '/authorization',
     },
 };
 
 
 export default class ProfileEdit extends Block {
     router: Router;
+    controller: userAPI;
 
     constructor() {
         super({
@@ -65,19 +66,20 @@ export default class ProfileEdit extends Block {
             }),
             logOut: new Link({
                 ...profileData.logOut, events: {
-                    click: () => {
-                        this.router.go('/authorization');
+                    click: async () => {
+                        const response = await this.controller.logOut();
+                        if (response) {
+                            store.set('user', null);
+                            this.router.go('/authorization');
+                        }
                     },
                 }
             }),
             profilePhoto: profilePhoto(),
             fields: profileData.fields,
         });
-        store.on(StoreEvents.Updated, () => {
-            // вызываем обновление компонента, передав данные из хранилища
-            this.setProps(store.getState());
-        });
         this.router = new Router();
+        this.controller = new userAPI();
     }
 
     render() {

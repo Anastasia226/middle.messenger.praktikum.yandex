@@ -1,0 +1,47 @@
+import { PayloadSend } from "./types"
+
+export class MessagesAPI {
+    protected socket: WebSocket
+
+    constructor(
+        token: string,
+        userId: number,
+        chatId: number,
+        callback: {
+            onOpen: () => void
+            onClose: (event: CloseEvent) => void
+            onError: (event: ErrorEvent) => void
+            onMessage: (event: MessageEvent) => void
+        }
+    ) {
+        this.socket = new WebSocket(
+            `wss://ya-praktikum.tech/ws/chats/${userId}/${chatId}/${token}`
+        )
+
+        this.socket.addEventListener("open", callback.onOpen)
+        this.socket.addEventListener("close", callback.onClose)
+        this.socket.addEventListener("message", callback.onMessage)
+        // @ts-expect-error
+        this.socket.addEventListener("error", callback.onError)
+    }
+
+    private _send(data: PayloadSend) {
+        return this.socket.send(JSON.stringify(data))
+    }
+
+    sendMessage(content: string) {
+        return this._send({ content, type: "message" })
+    }
+
+    requestMessages(from: number) {
+        return this._send({ content: String(from), type: "get old" })
+    }
+
+    ping() {
+        return this._send({ content: "", type: "ping" })
+    }
+
+    close() {
+        return this.socket.close()
+    }
+}

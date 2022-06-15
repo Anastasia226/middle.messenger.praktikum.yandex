@@ -1,12 +1,11 @@
 import { EventBus } from "../event-bus/event-bus";
+import { Indexed } from "../../typings/types";
+import { merge } from "../mydash/merge";
 
 export enum StoreEvents {
     Updated = 'updated',
 }
 
-interface Indexed {
-    [key: string]: Record<string, unknown>
-}
 
 class Store extends EventBus {
     private state: Indexed = {};
@@ -16,7 +15,10 @@ class Store extends EventBus {
     }
 
     public set(path: string, value: unknown) {
-        //  set(this.state, path, value); later..
+        const result = path.split('.').reduceRight<Indexed>((acc, key) => ({
+            [key]: acc,
+        }), value as any);
+        this.state = merge(this.state as Indexed, result);
         this.emit(StoreEvents.Updated);
     };
 }

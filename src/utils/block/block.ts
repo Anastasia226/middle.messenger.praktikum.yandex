@@ -85,10 +85,12 @@ export default class Block<T = any> {
     }
 
     setProps = (nextProps: any): void => {
+        // debugger
         if (!nextProps) {
             return;
         }
         Object.assign(this.props, nextProps);
+        this.eventBus.emit(Block.EVENTS.FLOW_CDU);
     };
 
     get element(): HTMLElement | null {

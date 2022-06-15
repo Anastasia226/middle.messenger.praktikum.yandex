@@ -1,8 +1,7 @@
 import { HTTPTransport } from '../../utils/api/api';
-import store from "../../utils/store/store";
+import { ChatType } from "@/pages/chats/types";
 
-
-export class userAPI {
+export class chatsAPI {
     request: HTTPTransport;
     baseUrl: string;
 
@@ -11,34 +10,33 @@ export class userAPI {
         this.baseUrl = 'https://ya-praktikum.tech/api/v2';
     }
 
-    async signUp(data: any): Promise<XMLHttpRequest> {
-        const response = await this.request.post(`${this.baseUrl}/auth/signup`, {
+    async getChats(): Promise<ChatType[]> {
+        const response = await this.request.get<ChatType[]>(`${this.baseUrl}/chats`, {
+            headers: {
+                'Content-type': 'application/x-www-form-urlencoded',
+            },
+        });
+        return response
+
+    }
+
+    async createChat(data: any): Promise<XMLHttpRequest> {
+        const response = await this.request.post(`${this.baseUrl}/chats`, {
             headers: {
                 'Content-type': 'application/x-www-form-urlencoded',
             },
             data,
         });
         return response
-
     }
 
-    async signIn(data: any): Promise<XMLHttpRequest> {
-        const response = await this.request.post(`${this.baseUrl}/auth/signin`, {
-            headers: {
-                'Content-type': 'application/x-www-form-urlencoded',
-            },
-            data,
-        });
-        return response
-    }
-
-    async getUser(): Promise<XMLHttpRequest> {
+    async newMessage(data: any): Promise<XMLHttpRequest> {
         const response = await this.request.get(`${this.baseUrl}/auth/user`, {
             headers: {
                 'Content-type': 'application/x-www-form-urlencoded',
             },
+            data,
         });
-        store.set('user', response)
         return response
     }
 

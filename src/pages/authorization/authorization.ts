@@ -6,6 +6,9 @@ import './authorization.scss '
 import Block from '../../utils/block/block';
 import { loginRule, passwordRule } from '../../const/regex';
 import { Router } from '../../utils/router/router';
+import { userAPI } from "../../api/user/user-login";
+import { chatsAPI } from "../../api/user/chats";
+import store from '../../utils/store/store';
 
 const authorizationData = {
     login: {
@@ -41,23 +44,32 @@ interface PropsType {
 
 export default class Authorization extends Block<PropsType> {
     router: Router;
+    controller: userAPI;
+    controllerChats: chatsAPI;
 
     constructor() {
-
         super({
             login: new Input(authorizationData.login),
             password: new Input(authorizationData.password),
             btnEnter: new Button(
                 {
                     ...authorizationData.button, events: {
-                        click: () => {
+                        click: async () => {
                             const formAuth = document.getElementById('form-authorization') as HTMLFormElement;
                             const data = new FormData(formAuth);
                             const result = {
                                 login: data.get('login'),
                                 password: data.get('password'),
                             }
-                            console.log(result);
+                            this.controller.signIn(result).then(async () => {
+                                const response = await this.controller.getUser();
+                                if (response) {
+                                    store.set('user', response)
+                                    this.router.go('/messenger');
+                                }
+
+                            });
+
                         }
                     }
                 }
@@ -71,6 +83,9 @@ export default class Authorization extends Block<PropsType> {
             }),
         });
         this.router = new Router();
+        this.controller = new userAPI();
+        this.controllerChats = new chatsAPI();
+
     }
 
     render() {

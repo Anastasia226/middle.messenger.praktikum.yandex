@@ -1,6 +1,7 @@
 import Block from "../block/block";
 import isEqual from "../mydash/isEqual";
 import { render } from "../render/render";
+import store from "../store/store";
 
 class Route {
     private _pathname: string;
@@ -72,11 +73,23 @@ export class Router {
     }
 
     _onRoute(pathname: string) {
+        const state = store.getState()
+        if (state?.user && (pathname === '/registration' || pathname === '/authorization' || pathname === '/')) {
+            this.go('/messenger');
+            return;
+        }
+        if (!state?.user && !(pathname === '/registration' || pathname === '/authorization' || pathname === '/')) {
+            this.go('/');
+            return;
+        }
         const route = this.getRoute(pathname);
         if (!route) {
             return;
         }
         route.render();
+        return;
+
+
     }
 
     go(pathname: string) {
@@ -95,4 +108,5 @@ export class Router {
     getRoute(pathname: string) {
         return this.routes.find(route => route.match(pathname));
     }
+
 }

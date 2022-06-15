@@ -1,34 +1,25 @@
+import { queryStringify } from '../mydash/query-string';
+
 enum Method {
     GET = 'GET',
     POST = 'POST',
     PUT = 'PUT',
     DELETE = 'DELETE'
-};
+}
+
 
 type Options = {
+    headers?: Record<string, string>,
     method: Method;
     data?: any;
 };
 
 type OptionsWithoutMethod = Omit<Options, 'method'>;
 
-function queryStringify(data: OptionsWithoutMethod) {
-    let queryParams = '';
-    Object.keys(data).forEach((key) =>
-        queryParams = `${queryParams}${key}=${String(data.data[key])}&`
-    );
-    return queryParams === '' ? queryParams : `?${queryParams.slice(0, -1)}`
-}
 
 export class HTTPTransport {
-    protected url;
-
-    constructor(url: string) {
-        this.url = url;
-    }
-
-    get(url: string, options: OptionsWithoutMethod = {}): Promise<XMLHttpRequest> {
-        return this.request(url, { ...options, method: Method.GET });
+    async get<T = XMLHttpRequest>(url: string, options: OptionsWithoutMethod = {}): Promise<T> {
+        return JSON.parse((await this.request(url, { ...options, method: Method.GET })).response);
     };
 
     put(url: string, options: OptionsWithoutMethod = {}): Promise<XMLHttpRequest> {
@@ -36,35 +27,46 @@ export class HTTPTransport {
     };
 
     post(url: string, options: OptionsWithoutMethod = {}): Promise<XMLHttpRequest> {
+
         return this.request(url, { ...options, method: Method.POST });
+
     };
 
     delete(url: string, options: OptionsWithoutMethod = {}): Promise<XMLHttpRequest> {
         return this.request(url, { ...options, method: Method.DELETE });
     };
 
-    request(url: string, options: Options = { method: Method.GET }): Promise<XMLHttpRequest> {
-        const { method, data } = options;
+    request(url: string, options: Options): Promise<XMLHttpRequest> {
+        const { method, data, headers = {} } = options;
 
         return new Promise((resolve, reject) => {
             const xhr = new XMLHttpRequest();
             if (method === Method.GET) {
-                url = url + queryStringify(options.data);
+                url = url + queryStringify(data || {});
             }
             xhr.open(method, url);
-
+            Object.keys(headers).forEach((key) => {
+                xhr.setRequestHeader(key, headers[key]);
+            });
             xhr.onload = function () {
-                resolve(xhr);
+                const { status } = xhr;
+                if (status === 200) {
+                    resolve(xhr);
+                } else {
+                    const errorText = JSON.parse(xhr.response).reason ?? 'Bad request, repeat please';
+                    reject(new Error(errorText));
+                }
             };
 
             xhr.onabort = reject;
             xhr.onerror = reject;
             xhr.ontimeout = reject;
+            xhr.withCredentials = true
 
             if (method === Method.GET || !data) {
                 xhr.send();
             } else {
-                xhr.send(data);
+                xhr.send(queryStringify(data || {}));
             }
         });
     };
