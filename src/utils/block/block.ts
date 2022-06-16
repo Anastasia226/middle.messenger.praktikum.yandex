@@ -1,6 +1,7 @@
 import { EventBus } from "../event-bus/event-bus";
 import { v4 as makeUUID } from 'uuid';
 import isEqual from "../mydash/isEqual";
+import store, { StoreEvents } from "../store/store";
 
 export default class Block<T = any> {
     static EVENTS = {
@@ -53,6 +54,9 @@ export default class Block<T = any> {
         eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
         eventBus.on(Block.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
         eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
+        store.on(StoreEvents.UpdatedUser, () => {
+            console.log('hello')
+        });
     }
 
 

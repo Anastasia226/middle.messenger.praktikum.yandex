@@ -3,7 +3,7 @@ import { Indexed } from "../../typings/types";
 import { merge } from "../mydash/merge";
 
 export enum StoreEvents {
-    Updated = 'updated',
+    UpdatedUser = 'updatedUser',
 }
 
 
@@ -19,7 +19,7 @@ class Store extends EventBus {
             [key]: acc,
         }), value as any);
         this.state = merge(this.state as Indexed, result);
-        this.emit(StoreEvents.Updated);
+        this.emit(StoreEvents.UpdatedUser);
     };
 }
 

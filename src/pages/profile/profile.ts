@@ -3,7 +3,7 @@ import './profile.scss';
 import Block from "../../utils/block/block";
 import Link from "../../components/link/link";
 import profile from './Profile.hbs';
-import store from '../../utils/store/store';
+import store, { StoreEvents } from '../../utils/store/store';
 import { Router } from "../../utils/router/router";
 import { userAPI } from "../../api/user/user-login";
 

@@ -7,14 +7,18 @@ import Input from "../../components/input/input";
 import Button from "../../components/button/button";
 import { emailRule, loginRule, nameRule, phoneRule } from "../../const/regex";
 import { Router } from "../../utils/router/router";
+import store from "../../utils/store/store";
+import { userSettingsAPI } from "../../api/user/user";
 
+const { user } = store.getState()
+console.log(user)
 const profileData = {
     email: {
         name: 'email',
         label: 'Email',
         placeholder: 'Email',
         type: 'email',
-        value: 'bagaeva@yandex.ru',
+        value: user?.email as string, // TODO: получить данные из стора
         validation: emailRule,
     },
     login: {
@@ -25,8 +29,8 @@ const profileData = {
         value: 'anastasia226',
         validation: loginRule,
     },
-    firstName: {
-        name: 'firstName',
+    first_name: {
+        name: 'first_name',
         label: 'First Name',
         placeholder: 'First Name',
         type: 'text',
@@ -34,7 +38,7 @@ const profileData = {
         validation: nameRule,
     },
     lastName: {
-        name: 'lastName',
+        name: 'second_name',
         label: 'Last Name',
         placeholder: 'Last Name',
         type: 'text',
@@ -60,6 +64,7 @@ const profileData = {
 
 export default class ProfileEdit extends Block {
     router: Router;
+    controller: userSettingsAPI;
 
     constructor() {
         super({
@@ -72,9 +77,10 @@ export default class ProfileEdit extends Block {
                 }
             }),
             profilePhoto: profilePhoto(),
+            data: profileData.email,
             email: new Input(profileData.email),
             login: new Input(profileData.login),
-            firstName: new Input(profileData.firstName),
+            firstName: new Input(profileData.first_name),
             lastName: new Input(profileData.lastName),
             telephone: new Input(profileData.telephone),
             buttonSave: new Button(
@@ -86,20 +92,36 @@ export default class ProfileEdit extends Block {
                             const result = {
                                 email: data.get('email'),
                                 login: data.get('login'),
-                                firstName: data.get('firstName'),
-                                lastName: data.get('lastName'),
-                                telephone: data.get('telephone'),
+                                first_name: data.get('first_name'),
+                                display_name: data.get('first_name'),
+                                second_name: data.get('second_name'),
+                                phone: data.get('telephone'),
                             }
-                            console.log(result);
+                            this.controller.updateProfile(result).then(() => {
+                                this.router.go('/profile');
+                            });
                         }
                     }
                 }
             ),
         });
         this.router = new Router();
+        this.controller = new userSettingsAPI();
+
+        // const { user } = store.getState()
+        // profileData.email = { ...profileData.email, value: user?.email as string }
+        // profileData.login = { ...profileData.login, value: user?.login as string }
+        // profileData.first_name = { ...profileData.first_name, value: user?.first_name as string }
+        // profileData.lastName = { ...profileData.lastName, value: user?.second_name as string }
+        // profileData.telephone = { ...profileData.telephone, value: user?.phone as string }
+        // this.getContent()
+        // console.log(this.getContent(), 1)
+        // // console.log(this.compile(input, profileData.email).firstElementChild as HTMLElement, 3)
+        // this.setProps({ email: this.compile(input, profileData.email).firstElementChild, data: profileData.email });
     }
 
     render() {
+
         return this.compile(profileEdit, this.props);
     }
 }

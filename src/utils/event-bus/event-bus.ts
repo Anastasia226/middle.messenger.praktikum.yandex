@@ -29,8 +29,8 @@ export class EventBus {
         if (!this.listeners[event]) {
             return;
         }
-
         this.listeners[event].forEach((listener) => {
+
             listener(...args);
         });
     }

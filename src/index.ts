@@ -21,7 +21,7 @@ const router = new Router('#root');
 async function isUserLogin() {
     const controller = new userAPI();
     await controller.getUser()
-
+    console.log(store.getState())
 
 }
 

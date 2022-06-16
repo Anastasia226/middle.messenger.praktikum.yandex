@@ -6,6 +6,7 @@ import { chatsAPI } from '../../api/user/chats';
 import { ChatsType } from "./types";
 import menuControl from './components/menu-control';
 import { Router } from "../../utils/router/router";
+import store from "../../utils/store/store";
 
 const chatsData: ChatsType = {
     buttonSend: {
@@ -66,6 +67,15 @@ export default class Chats extends Block {
         });
         this.controller = new chatsAPI();
         this.router = new Router();
+        this.controller.getChats().then((response) => {
+            store.set('chats', response)
+            const { chats } = store.getState()
+            console.log(chats)
+            chatsData.chats = chats;
+            this.setProps({ chats: chatsData.chats });
+        })
+
+
     }
 
     async getChats() {
