@@ -1,5 +1,6 @@
 import { EventBus } from "../event-bus/event-bus";
 import { v4 as makeUUID } from 'uuid';
+import isEqual from "../mydash/isEqual";
 
 export default class Block<T = any> {
     static EVENTS = {
@@ -78,18 +79,21 @@ export default class Block<T = any> {
         if (response) {
             this.eventBus.emit(Block.EVENTS.FLOW_RENDER);
         }
+
     }
 
     componentDidUpdate(oldProps: any, newProps: any): boolean {
-        return (JSON.stringify(oldProps) !== JSON.stringify(newProps))
+        return (!isEqual(oldProps, newProps))
     }
 
     setProps = (nextProps: any): void => {
-        // debugger
         if (!nextProps) {
             return;
         }
-        Object.assign(this.props, nextProps);
+        if (!isEqual(nextProps, this.props)) {
+            Object.assign(this.props, nextProps);
+            this.eventBus.emit(Block.EVENTS.FLOW_RENDER);
+        }
         this.eventBus.emit(Block.EVENTS.FLOW_CDU);
     };
 

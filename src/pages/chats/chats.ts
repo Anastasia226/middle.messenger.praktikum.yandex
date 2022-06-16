@@ -1,9 +1,11 @@
 import chats from './Chats.hbs';
 import './chats.scss ';
 import Block from '../../utils/block/block';
-import ButtonCircle from '../../components/button/button-circle/buttonCircle';
+import ButtonCircle from '../../components/button/button-circle/button-circle';
 import { chatsAPI } from '../../api/user/chats';
 import { ChatsType } from "./types";
+import menuControl from './components/menu-control';
+import { Router } from "../../utils/router/router";
 
 const chatsData: ChatsType = {
     buttonSend: {
@@ -36,11 +38,19 @@ const chatsData: ChatsType = {
 
 export default class Chats extends Block {
     controller: chatsAPI;
+    router: Router;
 
     constructor() {
         super({
             chats: chatsData.chats,
             activeChat: chatsData.activeChat,
+            menuControl: new menuControl({
+                events: {
+                    click: () => {
+                        this.router.go('/profile');
+                    }
+                }
+            }),
             buttonCircle: new ButtonCircle(
                 {
                     ...chatsData.buttonSend, events: {
@@ -55,7 +65,7 @@ export default class Chats extends Block {
                 })
         });
         this.controller = new chatsAPI();
-        // this.getChats();
+        this.router = new Router();
     }
 
     async getChats() {

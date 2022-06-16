@@ -1,7 +1,7 @@
 import input from './Input.hbs';
 import './input.scss';
 import Block from "../../utils/block/block";
-import errorValidation from "../error-validation/errorValidation";
+import errorValidation from "../error-validation/error-validation";
 
 
 type InputProps = {
