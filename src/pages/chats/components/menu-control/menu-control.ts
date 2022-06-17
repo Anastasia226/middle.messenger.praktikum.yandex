@@ -1,5 +1,5 @@
 import MenuControl from './MenuControl.hbs';
-import Block from '../../../utils/block/block';
+import Block from '../../../../utils/block/block';
 
 type MenuProps = {
     events?: { [key: string]: () => void },

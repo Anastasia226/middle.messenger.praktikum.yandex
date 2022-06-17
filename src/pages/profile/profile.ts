@@ -1,4 +1,3 @@
-import profilePhoto from '../../components/profile-photo/ProfilePhoto.hbs';
 import './profile.scss';
 import Block from "../../utils/block/block";
 import Link from "../../components/link/link";
@@ -6,6 +5,7 @@ import profile from './Profile.hbs';
 import store, { StoreEvents } from '../../utils/store/store';
 import { Router } from "../../utils/router/router";
 import { userAPI } from "../../api/user/user-login";
+import { getAvatar } from "../chats/helpers";
 
 const profileData = {
     fields: [],
@@ -27,7 +27,7 @@ const profileData = {
 export default class ProfileEdit extends Block {
     router: Router;
     controller: userAPI;
-    fields: Array<{ name: string, value: string }>
+    fields: Array<{ name: string, value: string }> = []
 
     constructor() {
         super({
@@ -66,12 +66,21 @@ export default class ProfileEdit extends Block {
                     },
                 }
             }),
-            profilePhoto: profilePhoto(),
+            avatarProfile: '',
             fields: [],
         });
         this.router = new Router();
         this.controller = new userAPI();
+        this.updateProfile();
+        store.on(StoreEvents.UpdatedUser, () => {
+            this.updateProfile()
+        });
+
+    }
+
+    updateProfile() {
         const { user } = store.getState()
+        this.setProps({ avatarProfile: getAvatar(user.avatar as string) });
         this.fields = [
             {
                 name: 'Email',

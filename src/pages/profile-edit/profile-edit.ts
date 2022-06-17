@@ -1,5 +1,4 @@
 import profileEdit from './ProfileEdit.hbs';
-import profilePhoto from '../../components/profile-photo/ProfilePhoto.hbs';
 import './profile-edit.scss';
 import Block from "../../utils/block/block";
 import Link from "../../components/link/link";
@@ -7,8 +6,10 @@ import Input from "../../components/input/input";
 import Button from "../../components/button/button";
 import { emailRule, loginRule, nameRule, phoneRule } from "../../const/regex";
 import { Router } from "../../utils/router/router";
-import store from "../../utils/store/store";
+import store, { StoreEvents } from "../../utils/store/store";
 import { userSettingsAPI } from "../../api/user/user";
+import { getAvatar } from "../chats/helpers";
+import InputFile from './components/input-file/input-file'
 
 const { user } = store.getState()
 console.log(user)
@@ -26,7 +27,7 @@ const profileData = {
         label: 'Login',
         placeholder: 'Login',
         type: 'text',
-        value: 'anastasia226',
+        value: '',
         validation: loginRule,
     },
     first_name: {
@@ -34,7 +35,7 @@ const profileData = {
         label: 'First Name',
         placeholder: 'First Name',
         type: 'text',
-        value: 'Anastasiia',
+        value: '',
         validation: nameRule,
     },
     lastName: {
@@ -42,7 +43,7 @@ const profileData = {
         label: 'Last Name',
         placeholder: 'Last Name',
         type: 'text',
-        value: 'Bagaeva',
+        value: '',
         validation: nameRule,
     },
     telephone: {
@@ -50,7 +51,7 @@ const profileData = {
         label: 'Telephone',
         placeholder: 'Telephone',
         type: 'tel',
-        value: '89224411823',
+        value: '',
         validation: phoneRule,
     },
     linkCancel: {
@@ -76,7 +77,8 @@ export default class ProfileEdit extends Block {
                     },
                 }
             }),
-            profilePhoto: profilePhoto(),
+            avatarProfile: '',
+            inputFile: new InputFile(),
             data: profileData.email,
             email: new Input(profileData.email),
             login: new Input(profileData.login),
@@ -107,17 +109,15 @@ export default class ProfileEdit extends Block {
         });
         this.router = new Router();
         this.controller = new userSettingsAPI();
+        this.updateProfile();
+        store.on(StoreEvents.UpdatedUser, () => {
+            this.updateProfile()
+        });
+    }
 
-        // const { user } = store.getState()
-        // profileData.email = { ...profileData.email, value: user?.email as string }
-        // profileData.login = { ...profileData.login, value: user?.login as string }
-        // profileData.first_name = { ...profileData.first_name, value: user?.first_name as string }
-        // profileData.lastName = { ...profileData.lastName, value: user?.second_name as string }
-        // profileData.telephone = { ...profileData.telephone, value: user?.phone as string }
-        // this.getContent()
-        // console.log(this.getContent(), 1)
-        // // console.log(this.compile(input, profileData.email).firstElementChild as HTMLElement, 3)
-        // this.setProps({ email: this.compile(input, profileData.email).firstElementChild, data: profileData.email });
+    updateProfile() {
+        const { user } = store.getState()
+        this.setProps({ avatarProfile: getAvatar(user.avatar as string) });
     }
 
     render() {

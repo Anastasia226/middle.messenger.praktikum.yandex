@@ -1,5 +1,4 @@
 import passwordEdit from './PasswordEdit.hbs';
-import profilePhoto from '../../components/profile-photo/ProfilePhoto.hbs';
 import './password-edit.scss';
 import Block from "../../utils/block/block";
 import Input from "../../components/input/input";
@@ -8,6 +7,8 @@ import Link from "../../components/link/link";
 import { passwordRule } from "../../const/regex";
 import { Router } from "../../utils/router/router";
 import { userSettingsAPI } from "../../api/user/user";
+import store, { StoreEvents } from "../../utils/store/store";
+import { getAvatar } from "../chats/helpers";
 
 const profileData = {
     oldPassword: {
@@ -41,7 +42,7 @@ export default class PasswordEdit extends Block {
 
     constructor() {
         super({
-            profilePhoto: profilePhoto(),
+            avatarProfile: '',
             linkCancel: new Link({
                 ...profileData.linkCancel,
                 events: {
@@ -72,6 +73,15 @@ export default class PasswordEdit extends Block {
         });
         this.router = new Router();
         this.controller = new userSettingsAPI();
+        this.updateProfileAvatar();
+        store.on(StoreEvents.UpdatedUser, () => {
+            this.updateProfileAvatar()
+        });
+    }
+
+    updateProfileAvatar() {
+        const { user } = store.getState()
+        this.setProps({ avatarProfile: getAvatar(user.avatar as string) });
     }
 
     render() {

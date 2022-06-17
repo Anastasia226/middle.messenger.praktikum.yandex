@@ -18,7 +18,10 @@ export class userSettingsAPI {
             },
             data,
         });
-        return response
+        const user = JSON.parse(response.response);
+        store.set('user', user);
+        store.emit(StoreEvents.UpdatedUser);
+        return user;
     }
 
     async updatePassword(data: any): Promise<XMLHttpRequest> {
@@ -28,8 +31,17 @@ export class userSettingsAPI {
             },
             data,
         });
-        store.set('user', response)
-        store.emit(StoreEvents.UpdatedUser)
-        return response
+        return response;
+    }
+
+    async updateProfileAvatar(data: any): Promise<XMLHttpRequest> {
+        const response = await this.request.put(`${this.baseUrl}/user/profile/avatar`, {
+            headers: {},
+            data
+        });
+        const user = JSON.parse(response.response);
+        store.set('user', user);
+        store.emit(StoreEvents.UpdatedUser);
+        return user;
     }
 }

@@ -10,6 +10,45 @@
     margin-top: 100px;
     display: flex;
     justify-content: center;
+    position: relative;
+    width: 100px;
+    height: 100px;
+    margin-left: calc(50% - 50px);
+    img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: $grey-05;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 0;
+      position: absolute;
+    }
+    .change-avatar {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      background: black;
+      opacity: 0;
+      border-radius: 50%;
+      z-index: 100;
+      &:after {
+        content: 'change';
+        bottom: -20px;
+        left: 28px;
+        position: absolute;
+      }
+      &:hover {
+        opacity: 0.5;
+      }
+      input, form {
+        cursor: pointer;
+        width: 100%;
+        opacity: 0;
+        height: 100%;
+      }
+    }
   }
   .data-profile {
     margin: auto;

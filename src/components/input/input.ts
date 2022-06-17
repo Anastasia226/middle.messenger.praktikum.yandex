@@ -12,7 +12,7 @@ type InputProps = {
     className?: string,
     value?: string,
     validation?: { regex: RegExp, messageError: string }
-    events?: { [key: string]: () => void },
+    events?: { [key: string]: (event?: Event) => void },
 }
 
 export default class Input extends Block {

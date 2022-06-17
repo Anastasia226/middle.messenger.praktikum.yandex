@@ -30,22 +30,12 @@ export class chatsAPI {
         return response
     }
 
-    async newMessage(data: any): Promise<XMLHttpRequest> {
-        const response = await this.request.get(`${this.baseUrl}/auth/user`, {
-            headers: {
-                'Content-type': 'application/x-www-form-urlencoded',
-            },
-            data,
-        });
-        return response
-    }
-
-    async logOut(): Promise<XMLHttpRequest> {
-        const response = await this.request.post(`${this.baseUrl}/auth/logout`, {
+    async getChatToken(id: string): Promise<{ token: string }> {
+        const response = await this.request.post(`${this.baseUrl}/chats/token/${id}`, {
             headers: {
                 'Content-type': 'application/x-www-form-urlencoded',
             },
         });
-        return response
+        return JSON.parse((response).response)
     }
 }

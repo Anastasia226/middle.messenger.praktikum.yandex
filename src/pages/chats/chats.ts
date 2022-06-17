@@ -1,40 +1,21 @@
 import chats from './Chats.hbs';
 import './chats.scss ';
 import Block from '../../utils/block/block';
-import ButtonCircle from '../../components/button/button-circle/button-circle';
 import { chatsAPI } from '../../api/user/chats';
 import { ChatsType } from "./types";
-import menuControl from './components/menu-control';
+import menuControl from './components/menu-control/menu-control';
 import { Router } from "../../utils/router/router";
 import store from "../../utils/store/store";
+import { getAvatar, getDataToChats } from "./helpers";
+import Link from "../../components/link/link";
+import itemChat from "./components/item-chat/item-chat";
+import currentChat from "./components/current-chat/current-chat";
 
 const chatsData: ChatsType = {
-    buttonSend: {
-        id: 'send-message-btn',
+    addChat: {
+        text: 'Add new chat + ',
     },
-    activeChat: {},
-    //     {
-    //     messages: [
-    //         { text: 'hello', time: '12:32', isYouSender: true },
-    //         { text: 'helfdsfdsflo', time: '12:32', isYouSender: false },
-    //         { text: 'helldsfdsfdso', time: '12:32', isYouSender: true },
-    //         { text: 'hegh  nrthrthrt   llo', time: '12:32', isYouSender: true },
-    //         {
-    //             text: 'helregrebgre fbhregreb regregbrfb regreglo helregrebgre fbhregreb regregbrfb regreglo helregrebgre fbhregreb regregbrfb regreglo helregrebgre fbhregreb regregbrfb regreglo helregrebgre fbhregreb regregbrfb regreglo',
-    //             time: '12:32',
-    //             isYouSender: false
-    //         }
-    //     ],
-    //     name: 'Nastya'
-    // },
-    chats: [{
-        avatar: null,
-        created_by: 37765,
-        id: 331,
-        last_message: null,
-        title: "Иван Иванович",
-        unread_count: 0
-    }]
+    chats: []
 };
 
 export default class Chats extends Block {
@@ -43,8 +24,9 @@ export default class Chats extends Block {
 
     constructor() {
         super({
-            chats: chatsData.chats,
-            activeChat: chatsData.activeChat,
+            chats: new itemChat(),
+            currentChat: new currentChat(),
+            avatarProfile: '',
             menuControl: new menuControl({
                 events: {
                     click: () => {
@@ -52,42 +34,36 @@ export default class Chats extends Block {
                     }
                 }
             }),
-            buttonCircle: new ButtonCircle(
-                {
-                    ...chatsData.buttonSend, events: {
-                        click: () => {
-                            const inputMessage = document.getElementById('message-text') as HTMLInputElement;
-                            if (inputMessage?.value.trim().length > 0)
-                                console.log({
-                                    message: inputMessage.value.trim()
-                                })
+
+            addChat: new Link({
+                ...chatsData.addChat, events: {
+                    click: () => {
+                        const title = prompt('Please enter chat name')
+                        if (title) {
+                            this.controller.createChat({ title }).then(() => {
+                                this.updateChats()
+                            })
                         }
-                    }
-                })
+                    },
+                }
+            }),
         });
         this.controller = new chatsAPI();
         this.router = new Router();
-        this.controller.getChats().then((response) => {
-            store.set('chats', response)
-            const { chats } = store.getState()
-            console.log(chats)
-            chatsData.chats = chats;
-            this.setProps({ chats: chatsData.chats });
-        })
-
-
+        const { user } = store.getState();
+        this.setProps({ avatarProfile: getAvatar(user.avatar as string) });
+        this.updateChats();
     }
 
-    async getChats() {
-        const response = await this.controller.getChats();
-        if (response) {
-            chatsData.chats = response;
-            this.setProps({ chats: chatsData.chats });
-        }
-
+    updateChats() {
+        this.controller.getChats().then((response) => {
+            const chatsResponse = getDataToChats(response);
+            store.set('chats', chatsResponse)
+        })
     }
 
     render() {
         return this.compile(chats, this.props);
     }
 }
+

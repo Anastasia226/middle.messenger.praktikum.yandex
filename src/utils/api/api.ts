@@ -22,8 +22,8 @@ export class HTTPTransport {
         return JSON.parse((await this.request(url, { ...options, method: Method.GET })).response);
     };
 
-    put(url: string, options: OptionsWithoutMethod = {}): Promise<XMLHttpRequest> {
-        return this.request(url, { ...options, method: Method.PUT });
+    async put(url: string, options: OptionsWithoutMethod = {}): Promise<XMLHttpRequest> {
+        return await this.request(url, { ...options, method: Method.PUT });
     };
 
     post(url: string, options: OptionsWithoutMethod = {}): Promise<XMLHttpRequest> {
@@ -66,6 +66,8 @@ export class HTTPTransport {
 
             if (method === Method.GET || !data) {
                 xhr.send();
+            } else if (data instanceof FormData) {
+                xhr.send(data)
             } else {
                 xhr.send(queryStringify(data || {}));
             }
