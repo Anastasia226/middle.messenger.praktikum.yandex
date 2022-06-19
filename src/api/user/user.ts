@@ -1,4 +1,4 @@
-import { HTTPTransport } from '../../utils/api/api';
+import { HTTPTransport } from '../api';
 import store from "../../utils/store/store";
 import { UsersChat } from "@/pages/chats/types";
 

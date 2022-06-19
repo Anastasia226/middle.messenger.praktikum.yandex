@@ -30,41 +30,8 @@ export default class Block<T = any> {
         this.eventBus.emit(Block.EVENTS.INIT);
     }
 
-    _getChildren(propsAndChildren: any) {
-        const children: any = {};
-        const props: any = {};
-
-        Object.entries(propsAndChildren).forEach(([key, value]) => {
-            if (value instanceof Block) {
-                children[key] = value;
-            } else {
-                props[key] = value;
-            }
-        });
-
-        return { children, props };
-    }
-
-    protected initChildren() {
-    }
-
-    private _registerEvents(eventBus: EventBus): void {
-        eventBus.on(Block.EVENTS.INIT, this.init.bind(this));
-        eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
-        eventBus.on(Block.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
-        eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
-    }
-
-
     init(): void {
         this.eventBus.emit(Block.EVENTS.FLOW_RENDER);
-    }
-
-    private _componentDidMount(): void {
-        this.componentDidMount();
-        Object.values(this.children).forEach(child => {
-            child.dispatchComponentDidMount();
-        });
     }
 
     componentDidMount(): void {
@@ -72,14 +39,6 @@ export default class Block<T = any> {
 
     dispatchComponentDidMount(): void {
         this.eventBus.emit(Block.EVENTS.FLOW_CDM)
-    }
-
-    private _componentDidUpdate(oldProps: any, newProps: any): void {
-        const response = this.componentDidUpdate(oldProps, newProps);
-        if (response) {
-            this.eventBus.emit(Block.EVENTS.FLOW_RENDER);
-        }
-
     }
 
     componentDidUpdate(oldProps: any, newProps: any): boolean {
@@ -96,6 +55,88 @@ export default class Block<T = any> {
         }
         this.eventBus.emit(Block.EVENTS.FLOW_CDU);
     };
+
+    render(): DocumentFragment {
+        return new DocumentFragment();
+    }
+
+    getContent(): HTMLElement | null {
+        return this.element;
+    }
+
+    compile(template: (context: any) => string, props?: any) {
+
+        Object.entries(this.children).forEach(([key, child]) => {
+            props[key] = `<div data-id="id-${child._id}"></div>`
+        });
+
+        const fragment = this._createDocumentElement('template') as HTMLTemplateElement;
+        const htmlStr = template(props);
+        fragment.innerHTML = htmlStr;
+        Object.values(this.children).forEach(child => {
+            const stub = fragment.content.querySelector(`[data-id="id-${child._id}"]`);
+            if (!stub) {
+                return
+            }
+            stub.replaceWith(child.getContent()!);
+        });
+
+        return fragment.content;
+    }
+
+    show = (): void => {
+        if (this._element) {
+            this._element.style.display = 'block';
+        }
+    }
+
+    hide = (): void => {
+        if (this._element) {
+            this._element.style.display = 'none';
+        }
+    }
+
+    protected initChildren() {
+    }
+
+    private _getChildren(propsAndChildren: any) {
+        const children: any = {};
+        const props: any = {};
+
+        Object.entries(propsAndChildren).forEach(([key, value]) => {
+            if (value instanceof Block) {
+                children[key] = value;
+            } else {
+                props[key] = value;
+            }
+        });
+
+        return { children, props };
+    }
+
+    private _registerEvents(eventBus: EventBus): void {
+        eventBus.on(Block.EVENTS.INIT, this.init.bind(this));
+        eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
+        eventBus.on(Block.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
+        eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
+    }
+
+    private _componentDidMount(): void {
+        this.componentDidMount();
+        Object.values(this.children).forEach(child => {
+            child.dispatchComponentDidMount();
+        });
+    }
+
+
+    private _componentDidUpdate(oldProps: any, newProps: any): void {
+        const response = this.componentDidUpdate(oldProps, newProps);
+        if (response) {
+            this.eventBus.emit(Block.EVENTS.FLOW_RENDER);
+        }
+
+    }
+
 
     get element(): HTMLElement | null {
         return this._element;
@@ -132,14 +173,6 @@ export default class Block<T = any> {
         this._addEvents();
     }
 
-    render(): DocumentFragment {
-        return new DocumentFragment();
-    }
-
-    getContent(): HTMLElement | null {
-        return this.element;
-    }
-
     private _makePropsProxy(props: any) {
         const self = this;
 
@@ -165,35 +198,5 @@ export default class Block<T = any> {
         return element;
     }
 
-    compile(template: (context: any) => string, props?: any) {
 
-        Object.entries(this.children).forEach(([key, child]) => {
-            props[key] = `<div data-id="id-${child._id}"></div>`
-        });
-
-        const fragment = this._createDocumentElement('template') as HTMLTemplateElement;
-        const htmlStr = template(props);
-        fragment.innerHTML = htmlStr;
-        Object.values(this.children).forEach(child => {
-            const stub = fragment.content.querySelector(`[data-id="id-${child._id}"]`);
-            if (!stub) {
-                return
-            }
-            stub.replaceWith(child.getContent()!);
-        });
-
-        return fragment.content;
-    }
-
-    show = (): void => {
-        if (this._element) {
-            this._element.style.display = 'block';
-        }
-    }
-
-    hide = (): void => {
-        if (this._element) {
-            this._element.style.display = 'none';
-        }
-    }
 }

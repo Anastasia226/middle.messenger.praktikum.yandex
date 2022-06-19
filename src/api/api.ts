@@ -1,4 +1,4 @@
-import { queryStringify } from '../mydash/query-string';
+import { queryStringify } from '../utils/mydash/query-string';
 
 enum Method {
     GET = 'GET',

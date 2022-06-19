@@ -1,4 +1,4 @@
-import { HTTPTransport } from '../../utils/api/api';
+import { HTTPTransport } from '../api';
 import { ChatType, UsersChat } from "@/pages/chats/types";
 
 export class chatsAPI {
