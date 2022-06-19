@@ -1,11 +1,14 @@
 import passwordEdit from './PasswordEdit.hbs';
-import profilePhoto from '../../components/profile-photo/ProfilePhoto.hbs';
 import './password-edit.scss';
 import Block from "../../utils/block/block";
 import Input from "../../components/input/input";
 import Button from "../../components/button/button";
 import Link from "../../components/link/link";
 import { passwordRule } from "../../const/regex";
+import { Router } from "../../utils/router/router";
+import { userSettingsAPI } from "../../api/user/user";
+import store, { StoreEvents } from "../../utils/store/store";
+import { getAvatar } from "../chats/helpers";
 
 const profileData = {
     oldPassword: {
@@ -24,17 +27,8 @@ const profileData = {
         value: '',
         validation: passwordRule,
     },
-    repeatPassword: {
-        name: 'repeat_password',
-        label: 'Repeat password',
-        placeholder: 'Repeat new password',
-        type: 'password',
-        value: '',
-        validation: passwordRule,
-    },
     linkCancel: {
         text: 'Cancel',
-        href: '/profile',
     },
     buttonSave: {
         id: 'btn-edit-password',
@@ -43,13 +37,22 @@ const profileData = {
 };
 
 export default class PasswordEdit extends Block {
+    router: Router;
+    controller: userSettingsAPI;
+
     constructor() {
         super({
-            profilePhoto: profilePhoto(),
-            linkCancel: new Link(profileData.linkCancel),
+            avatarProfile: '',
+            linkCancel: new Link({
+                ...profileData.linkCancel,
+                events: {
+                    click: () => {
+                        this.router.go('/profile');
+                    },
+                }
+            }),
             oldPassword: new Input(profileData.oldPassword),
             newPassword: new Input(profileData.newPassword),
-            repeatPassword: new Input(profileData.repeatPassword),
             buttonSave: new Button(
                 {
                     ...profileData.buttonSave, events: {
@@ -60,12 +63,25 @@ export default class PasswordEdit extends Block {
                                 oldPassword: data.get('old_password'),
                                 newPassword: data.get('new_password'),
                             }
-                            console.log(result);
+                            this.controller.updatePassword(result).then(() => {
+                                this.router.go('/profile');
+                            });
                         }
                     }
                 }
             ),
         });
+        this.router = new Router();
+        this.controller = new userSettingsAPI();
+        this.updateProfileAvatar();
+        store.on(StoreEvents.UpdatedUser, () => {
+            this.updateProfileAvatar()
+        });
+    }
+
+    updateProfileAvatar() {
+        const { user } = store.getState()
+        this.setProps({ avatarProfile: getAvatar(user?.avatar as string) });
     }
 
     render() {

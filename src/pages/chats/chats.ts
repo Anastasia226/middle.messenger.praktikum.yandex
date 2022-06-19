@@ -1,75 +1,70 @@
 import chats from './Chats.hbs';
 import './chats.scss ';
-import Block from "../../utils/block/block";
-import ButtonCircle from "../../components/button/button-circle/buttonCircle";
-
-const chatsData = {
-    buttonSend: {
-        id: 'send-message-btn',
-    },
-    activeChat: {
-        messages: [
-            { text: 'hello', time: '12:32', isYouSender: true },
-            { text: 'helfdsfdsflo', time: '12:32', isYouSender: false },
-            { text: 'helldsfdsfdso', time: '12:32', isYouSender: true },
-            { text: 'hegh  nrthrthrt   llo', time: '12:32', isYouSender: true },
-            {
-                text: 'helregrebgre fbhregreb regregbrfb regreglo helregrebgre fbhregreb regregbrfb regreglo helregrebgre fbhregreb regregbrfb regreglo helregrebgre fbhregreb regregbrfb regreglo helregrebgre fbhregreb regregbrfb regreglo',
-                time: '12:32',
-                isYouSender: false
-            }
-        ],
-        name: 'Nastya'
-    },
-    chats: [
-        {
-            photoSrc: '',
-            name: 'Sasha',
-            message: 'Hi',
-            date: '13:15',
-        },
-        {
-            photoSrc: '',
-            name: 'Nastya',
-            message: 'Helloo',
-            date: '27.03.2021',
-        },
-        {
-            photoSrc: '',
-            name: 'Katya',
-            message: 'Hello',
-            date: '26.03.2021',
-        },
-        {
-            photoSrc: '',
-            name: 'Olya',
-            message: 'Hello',
-            date: '25.03.2021',
-        },
-    ]
-};
+import Block from '../../utils/block/block';
+import { chatsAPI } from '../../api/chat/chats';
+import menuControl from './components/menu-control/menu-control';
+import { Router } from "../../utils/router/router";
+import store, { StoreEvents } from "../../utils/store/store";
+import { getAvatar, getDataToChats } from "./helpers";
+import Link from "../../components/link/link";
+import itemChat from "./components/item-chat/item-chat";
+import currentChat from "./components/current-chat/current-chat";
 
 export default class Chats extends Block {
+    controller: chatsAPI;
+    router: Router;
+
     constructor() {
         super({
-            chats: chatsData.chats,
-            activeChat: chatsData.activeChat,
-            buttonCircle: new ButtonCircle(
-                {
-                    ...chatsData.buttonSend, events: {
-                        click: () => {
-                            const inputMessage = document.getElementById('message-text') as HTMLInputElement;
-                            if (inputMessage?.value.trim().length > 0)
-                                console.log({
-                                    message: inputMessage.value.trim()
-                                })
-                        }
+            chats: new itemChat(),
+            currentChat: new currentChat(),
+            avatarProfile: '',
+            menuControl: new menuControl({
+                events: {
+                    click: () => {
+                        this.router.go('/profile');
                     }
-                })
+                }
+            }),
+
+            addChat: new Link({
+                text: 'Add new chat + ',
+                events: {
+                    click: () => {
+                        const title = prompt('Please enter chat name')
+                        if (title) {
+                            this.controller.createChat({ title }).then(() => {
+                                this.updateChats()
+                            })
+                        }
+                    },
+                }
+            }),
         });
+        this.controller = new chatsAPI();
+        this.router = new Router();
+        this.updateProfileAvatar();
+        this.updateChats();
+        store.on(StoreEvents.UpdatedUser, () => {
+            this.updateProfileAvatar()
+        });
+    }
+
+    updateChats() {
+        this.controller.getChats().then((response) => {
+            const chatsResponse = getDataToChats(response);
+            store.set('chats', chatsResponse)
+            store.emit(StoreEvents.UpdatedChats);
+        })
+    }
+
+    updateProfileAvatar() {
+        const { user } = store.getState()
+        this.setProps({ avatarProfile: getAvatar(user?.avatar as string) });
     }
 
     render() {
         return this.compile(chats, this.props);
     }
 }
+

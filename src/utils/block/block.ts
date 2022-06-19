@@ -1,7 +1,8 @@
 import { EventBus } from "../event-bus/event-bus";
 import { v4 as makeUUID } from 'uuid';
+import isEqual from "../mydash/isEqual";
 
-export default class Block {
+export default class Block<T = any> {
     static EVENTS = {
         INIT: "init",
         FLOW_CDM: "flow:component-did-mount",
@@ -15,7 +16,7 @@ export default class Block {
     protected children: Record<string, Block>;
     private eventBus: EventBus = new EventBus();
 
-    constructor(propsAndChildren: any = {}) {
+    constructor(propsAndChildren: T) {
         const { props, children } = this._getChildren(propsAndChildren);
         this.children = children
         this.initChildren();
@@ -47,7 +48,7 @@ export default class Block {
     protected initChildren() {
     }
 
-    _registerEvents(eventBus: EventBus): void {
+    private _registerEvents(eventBus: EventBus): void {
         eventBus.on(Block.EVENTS.INIT, this.init.bind(this));
         eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
         eventBus.on(Block.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
@@ -59,7 +60,7 @@ export default class Block {
         this.eventBus.emit(Block.EVENTS.FLOW_RENDER);
     }
 
-    _componentDidMount(): void {
+    private _componentDidMount(): void {
         this.componentDidMount();
         Object.values(this.children).forEach(child => {
             child.dispatchComponentDidMount();
@@ -73,29 +74,34 @@ export default class Block {
         this.eventBus.emit(Block.EVENTS.FLOW_CDM)
     }
 
-    _componentDidUpdate(oldProps: any, newProps: any): void {
+    private _componentDidUpdate(oldProps: any, newProps: any): void {
         const response = this.componentDidUpdate(oldProps, newProps);
         if (response) {
             this.eventBus.emit(Block.EVENTS.FLOW_RENDER);
         }
+
     }
 
     componentDidUpdate(oldProps: any, newProps: any): boolean {
-        return (JSON.stringify(oldProps) !== JSON.stringify(newProps))
+        return (!isEqual(oldProps, newProps))
     }
 
     setProps = (nextProps: any): void => {
         if (!nextProps) {
             return;
         }
-        Object.assign(this.props, nextProps);
+        if (!isEqual(nextProps, this.props)) {
+            Object.assign(this.props, nextProps);
+            this.eventBus.emit(Block.EVENTS.FLOW_RENDER);
+        }
+        this.eventBus.emit(Block.EVENTS.FLOW_CDU);
     };
 
     get element(): HTMLElement | null {
         return this._element;
     }
 
-    _addEvents(): void {
+    private _addEvents(): void {
         const { events = {} } = this.props;
 
         Object.keys(events).forEach(eventName => {
@@ -104,7 +110,7 @@ export default class Block {
         });
     }
 
-    _removeEvents(): void {
+    private _removeEvents(): void {
         const { events = {} } = this.props;
 
         Object.keys(events).forEach(eventName => {
@@ -113,7 +119,7 @@ export default class Block {
         });
     }
 
-    _render(): void {
+    private _render(): void {
         const fragment = this.render();
         const newElement = fragment.firstElementChild as HTMLElement;
 
@@ -134,7 +140,7 @@ export default class Block {
         return this.element;
     }
 
-    _makePropsProxy(props: any) {
+    private _makePropsProxy(props: any) {
         const self = this;
 
         return new Proxy(props, {
@@ -153,7 +159,7 @@ export default class Block {
         })
     }
 
-    _createDocumentElement(tagName: string) {
+    private _createDocumentElement(tagName: string) {
         const element = document.createElement(tagName);
         element.setAttribute('data-id', this._id);
         return element;

@@ -19,6 +19,9 @@
       }
     }
   }
+  .add-chat {
+    margin: 0 0 10px 10px;
+  }
   .search-input input {
     padding: 10px;
     width: 100%;
@@ -48,16 +51,26 @@
     &-header {
       border-bottom: 1px solid $blue-07;
       padding: 10px;
-      display: flex;
+      display: grid;
+      grid-template-columns: 50px 150px 1fr;
+      column-gap: 15px;
       justify-content: space-between;
       align-items: center;
+      .photo {
+        position: relative;
+      }
+      .photo img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50px;
+      }
       &-companion {
         display: flex;
         align-items: center;
         column-gap: 15px;
       }
       &-name {
-        @include font();
+        @include font(16px, $grey);
       }
     }
 
@@ -106,7 +119,7 @@
     }
 
   }
-  .photo-profile-chat {
+  .photo-profile-chat img {
     width: 50px;
     height: 50px;
     border-radius: 50%;

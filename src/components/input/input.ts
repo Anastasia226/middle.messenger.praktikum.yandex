@@ -1,7 +1,7 @@
 import input from './Input.hbs';
 import './input.scss';
 import Block from "../../utils/block/block";
-import errorValidation from "../error-validation/errorValidation";
+import errorValidation from "../error-validation/error-validation";
 
 
 type InputProps = {
@@ -12,7 +12,7 @@ type InputProps = {
     className?: string,
     value?: string,
     validation?: { regex: RegExp, messageError: string }
-    events?: { [key: string]: () => void },
+    events?: { [key: string]: (event?: Event) => void },
 }
 
 export default class Input extends Block {
@@ -26,8 +26,8 @@ export default class Input extends Block {
                 textError: props?.validation?.messageError
             }),
             events: {
-                focusout: (event: any) => {
-                    if (!event.target.value.match(props.validation?.regex)) {
+                focusout: (event: Event) => {
+                    if (event && !(event.target as HTMLInputElement)?.value.match(props.validation?.regex as RegExp)) {
                         this.addClassName('error')
                     } else {
                         this.removeClassName('error')

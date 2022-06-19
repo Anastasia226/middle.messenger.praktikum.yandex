@@ -17,3 +17,6 @@ npm run start
 # ссылка на Netlify
 
 https://jocular-croquembouche-d33b70.netlify.app/
+
+# sprint_2
+[https://github.com/Anastasia226/sprint_1/pull/2](https://github.com/Anastasia226/middle.messenger.praktikum.yandex/pull/3)

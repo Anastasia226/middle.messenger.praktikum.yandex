@@ -1,11 +1,15 @@
 import profileEdit from './ProfileEdit.hbs';
-import profilePhoto from '../../components/profile-photo/ProfilePhoto.hbs';
 import './profile-edit.scss';
 import Block from "../../utils/block/block";
 import Link from "../../components/link/link";
 import Input from "../../components/input/input";
 import Button from "../../components/button/button";
 import { emailRule, loginRule, nameRule, phoneRule } from "../../const/regex";
+import { Router } from "../../utils/router/router";
+import store, { StoreEvents } from "../../utils/store/store";
+import { userSettingsAPI } from "../../api/user/user";
+import { getAvatar } from "../chats/helpers";
+import InputFile from '../../components/input-file/input-file'
 
 const profileData = {
     email: {
@@ -13,7 +17,7 @@ const profileData = {
         label: 'Email',
         placeholder: 'Email',
         type: 'email',
-        value: 'bagaeva@yandex.ru',
+        value: '',
         validation: emailRule,
     },
     login: {
@@ -21,23 +25,23 @@ const profileData = {
         label: 'Login',
         placeholder: 'Login',
         type: 'text',
-        value: 'anastasia226',
+        value: '',
         validation: loginRule,
     },
-    firstName: {
-        name: 'firstName',
+    first_name: {
+        name: 'first_name',
         label: 'First Name',
         placeholder: 'First Name',
         type: 'text',
-        value: 'Anastasiia',
+        value: '',
         validation: nameRule,
     },
     lastName: {
-        name: 'lastName',
+        name: 'second_name',
         label: 'Last Name',
         placeholder: 'Last Name',
         type: 'text',
-        value: 'Bagaeva',
+        value: '',
         validation: nameRule,
     },
     telephone: {
@@ -45,12 +49,11 @@ const profileData = {
         label: 'Telephone',
         placeholder: 'Telephone',
         type: 'tel',
-        value: '89224411823',
+        value: '',
         validation: phoneRule,
     },
     linkCancel: {
         text: 'Cancel',
-        href: '/profile',
     },
     buttonSave: {
         id: 'btn-edit-profile',
@@ -59,13 +62,35 @@ const profileData = {
 };
 
 export default class ProfileEdit extends Block {
+    router: Router;
+    controller: userSettingsAPI;
+
     constructor() {
         super({
-            linkCancel: new Link(profileData.linkCancel),
-            profilePhoto: profilePhoto(),
+            linkCancel: new Link({
+                ...profileData.linkCancel,
+                events: {
+                    click: () => {
+                        this.router.go('/profile');
+                    },
+                }
+            }),
+            avatarProfile: '',
+            inputFile: new InputFile({
+                events: {
+                    change: () => {
+                        const myUserForm = document.getElementById('myUserForm') as HTMLFormElement;
+                        const form = new FormData(myUserForm);
+                        this.controller.updateProfileAvatar(form).then(() => {
+                            alert('Avatar changed')
+                        });
+                    }
+                }
+            }),
+            data: profileData.email,
             email: new Input(profileData.email),
             login: new Input(profileData.login),
-            firstName: new Input(profileData.firstName),
+            firstName: new Input(profileData.first_name),
             lastName: new Input(profileData.lastName),
             telephone: new Input(profileData.telephone),
             buttonSave: new Button(
@@ -77,19 +102,34 @@ export default class ProfileEdit extends Block {
                             const result = {
                                 email: data.get('email'),
                                 login: data.get('login'),
-                                firstName: data.get('firstName'),
-                                lastName: data.get('lastName'),
-                                telephone: data.get('telephone'),
+                                first_name: data.get('first_name'),
+                                display_name: data.get('first_name'),
+                                second_name: data.get('second_name'),
+                                phone: data.get('telephone'),
                             }
-                            console.log(result);
+                            this.controller.updateProfile(result).then(() => {
+                                this.router.go('/profile');
+                            });
                         }
                     }
                 }
             ),
         });
+        this.router = new Router();
+        this.controller = new userSettingsAPI();
+        this.updateProfile();
+        store.on(StoreEvents.UpdatedUser, () => {
+            this.updateProfile()
+        });
+    }
+
+    updateProfile() {
+        const { user } = store.getState()
+        this.setProps({ avatarProfile: getAvatar(user?.avatar as string) });
     }
 
     render() {
+
         return this.compile(profileEdit, this.props);
     }
 }
