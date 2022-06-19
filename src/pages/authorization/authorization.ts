@@ -7,8 +7,9 @@ import Block from '../../utils/block/block';
 import { loginRule, passwordRule } from '../../const/regex';
 import { Router } from '../../utils/router/router';
 import { userAPI } from "../../api/user/user-login";
-import { chatsAPI } from "../../api/user/chats";
-import store from '../../utils/store/store';
+import { chatsAPI } from "../../api/chat/chats";
+import store, { StoreEvents } from '../../utils/store/store';
+import { getDataToChats } from "../chats/helpers";
 
 const authorizationData = {
     login: {
@@ -67,6 +68,14 @@ export default class Authorization extends Block<PropsType> {
                                     store.set('user', response)
                                     this.router.go('/messenger');
                                 }
+
+                                const chatsResponse = await this.controllerChats.getChats();
+                                if (chatsResponse) {
+                                    const chats = getDataToChats(chatsResponse);
+                                    store.set('chats', chats)
+                                    store.emit(StoreEvents.UpdatedChats);
+                                }
+
 
                             });
 

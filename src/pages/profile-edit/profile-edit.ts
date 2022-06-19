@@ -9,7 +9,7 @@ import { Router } from "../../utils/router/router";
 import store, { StoreEvents } from "../../utils/store/store";
 import { userSettingsAPI } from "../../api/user/user";
 import { getAvatar } from "../chats/helpers";
-import InputFile from './components/input-file/input-file'
+import InputFile from '../../components/input-file/input-file'
 
 const { user } = store.getState()
 console.log(user)
@@ -78,7 +78,17 @@ export default class ProfileEdit extends Block {
                 }
             }),
             avatarProfile: '',
-            inputFile: new InputFile(),
+            inputFile: new InputFile({
+                events: {
+                    change: () => {
+                        const myUserForm = document.getElementById('myUserForm') as HTMLFormElement;
+                        const form = new FormData(myUserForm);
+                        this.controller.updateProfileAvatar(form).then(() => {
+                            alert('Avatar changed')
+                        });
+                    }
+                }
+            }),
             data: profileData.email,
             email: new Input(profileData.email),
             login: new Input(profileData.login),
@@ -117,7 +127,7 @@ export default class ProfileEdit extends Block {
 
     updateProfile() {
         const { user } = store.getState()
-        this.setProps({ avatarProfile: getAvatar(user.avatar as string) });
+        this.setProps({ avatarProfile: getAvatar(user?.avatar as string) });
     }
 
     render() {

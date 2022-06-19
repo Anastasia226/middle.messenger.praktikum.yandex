@@ -1,5 +1,6 @@
 import { HTTPTransport } from '../../utils/api/api';
 import store, { StoreEvents } from "../../utils/store/store";
+import { UsersChat } from "@/pages/chats/types";
 
 
 export class userSettingsAPI {
@@ -13,9 +14,7 @@ export class userSettingsAPI {
 
     async updateProfile(data: any): Promise<XMLHttpRequest> {
         const response = await this.request.put(`${this.baseUrl}/user/profile`, {
-            headers: {
-                'Content-type': 'application/x-www-form-urlencoded',
-            },
+
             data,
         });
         const user = JSON.parse(response.response);
@@ -26,9 +25,7 @@ export class userSettingsAPI {
 
     async updatePassword(data: any): Promise<XMLHttpRequest> {
         const response = await this.request.put(`${this.baseUrl}/user/password`, {
-            headers: {
-                'Content-type': 'application/x-www-form-urlencoded',
-            },
+
             data,
         });
         return response;
@@ -41,7 +38,13 @@ export class userSettingsAPI {
         });
         const user = JSON.parse(response.response);
         store.set('user', user);
-        store.emit(StoreEvents.UpdatedUser);
         return user;
+    }
+
+    async searchUser(data: any): Promise<UsersChat[]> {
+        const response = await this.request.post(`${this.baseUrl}/user/search`, {
+            data,
+        });
+        return JSON.parse(response.response)
     }
 }

@@ -37,7 +37,11 @@ export class HTTPTransport {
     };
 
     request(url: string, options: Options): Promise<XMLHttpRequest> {
-        const { method, data, headers = {} } = options;
+        const {
+            method, data, headers = {
+                'Content-type': 'application/x-www-form-urlencoded',
+            }
+        } = options;
 
         return new Promise((resolve, reject) => {
             const xhr = new XMLHttpRequest();
@@ -53,9 +57,9 @@ export class HTTPTransport {
                 if (status === 200) {
                     resolve(xhr);
                 } else {
-                    const errorText = JSON.parse(xhr.response).reason ?? 'Bad request, repeat please';
-                    alert(errorText)
-                    reject(new Error(errorText));
+                    // const errorText = JSON.parse(xhr.response).reason ?? 'Bad request, repeat please';
+                    // alert(errorText)
+                    reject(new Error());
                 }
             };
 

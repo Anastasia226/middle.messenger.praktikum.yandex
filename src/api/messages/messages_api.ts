@@ -4,9 +4,9 @@ export class MessagesAPI {
     protected socket: WebSocket
 
     constructor(
-        token: string,
         userId: number,
         chatId: number,
+        token: string,
         callback: {
             onOpen: () => void
             onClose: (event: CloseEvent) => void

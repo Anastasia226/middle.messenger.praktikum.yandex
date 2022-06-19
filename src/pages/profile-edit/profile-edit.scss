@@ -25,30 +25,7 @@
       z-index: 0;
       position: absolute;
     }
-    .change-avatar {
-      position: absolute;
-      width: 100px;
-      height: 100px;
-      background: black;
-      opacity: 0;
-      border-radius: 50%;
-      z-index: 100;
-      &:after {
-        content: 'change';
-        bottom: -20px;
-        left: 28px;
-        position: absolute;
-      }
-      &:hover {
-        opacity: 0.5;
-      }
-      input, form {
-        cursor: pointer;
-        width: 100%;
-        opacity: 0;
-        height: 100%;
-      }
-    }
+
   }
   .data-profile {
     margin: auto;

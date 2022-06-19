@@ -60,8 +60,10 @@ export default class ProfileEdit extends Block {
                     click: async () => {
                         const response = await this.controller.logOut();
                         if (response) {
-                            store.set('user', null);
+                            store.reset();
                             this.router.go('/authorization');
+                            //
+
                         }
                     },
                 }
@@ -80,7 +82,7 @@ export default class ProfileEdit extends Block {
 
     updateProfile() {
         const { user } = store.getState()
-        this.setProps({ avatarProfile: getAvatar(user.avatar as string) });
+        this.setProps({ avatarProfile: getAvatar(user?.avatar as string) });
         this.fields = [
             {
                 name: 'Email',

@@ -4,7 +4,7 @@ export const loginRule = {
 };
 
 export const passwordRule = {
-    regex: /^(?=.*[A-Z])(?=.*[0-9])[A-Za-z\d]{8,40}$/,
+    regex: /^(?=\D*\d)(?=.*[A-Z]).{8,40}$/,
     messageError: 'Please enter correct password',
 };
 

@@ -13,41 +13,28 @@ export class userAPI {
 
     async signUp(data: any): Promise<XMLHttpRequest> {
         const response = await this.request.post(`${this.baseUrl}/auth/signup`, {
-            headers: {
-                'Content-type': 'application/x-www-form-urlencoded',
-            },
+
             data,
         });
         return response
-
     }
 
     async signIn(data: any): Promise<XMLHttpRequest> {
         const response = await this.request.post(`${this.baseUrl}/auth/signin`, {
-            headers: {
-                'Content-type': 'application/x-www-form-urlencoded',
-            },
+
             data,
         });
         return response
     }
 
     async getUser(): Promise<XMLHttpRequest> {
-        const response = await this.request.get(`${this.baseUrl}/auth/user`, {
-            headers: {
-                'Content-type': 'application/x-www-form-urlencoded',
-            },
-        });
+        const response = await this.request.get(`${this.baseUrl}/auth/user`, {});
         store.set('user', response)
         return response
     }
 
     async logOut(): Promise<XMLHttpRequest> {
-        const response = await this.request.post(`${this.baseUrl}/auth/logout`, {
-            headers: {
-                'Content-type': 'application/x-www-form-urlencoded',
-            },
-        });
+        const response = await this.request.post(`${this.baseUrl}/auth/logout`, {});
         return response
     }
 }

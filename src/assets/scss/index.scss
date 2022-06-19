@@ -9,3 +9,29 @@ h1.title {
 
   color: #000000;
 }
+.change-avatar {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: black;
+  opacity: 0;
+  border-radius: 50%;
+  z-index: 100;
+  top: 0;
+  left: 0;
+  &:after {
+    content: 'change';
+    bottom: -20px;
+    left: 0;
+    position: absolute;
+  }
+  &:hover {
+    opacity: 0.5;
+  }
+  input, form {
+    cursor: pointer;
+    width: 100%;
+    opacity: 0;
+    height: 100%;
+  }
+}

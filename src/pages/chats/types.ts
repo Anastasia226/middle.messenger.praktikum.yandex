@@ -24,3 +24,15 @@ export type ChatsType = {
     }
     chats: ChatType[];
 }
+
+export type UsersChat = {
+    avatar: string;
+    display_name: string;
+    email: string;
+    first_name: string;
+    id: number;
+    login: string;
+    phone: string;
+    role: string;
+    second_name: string;
+}

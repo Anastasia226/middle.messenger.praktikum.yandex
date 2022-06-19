@@ -81,7 +81,7 @@ export default class PasswordEdit extends Block {
 
     updateProfileAvatar() {
         const { user } = store.getState()
-        this.setProps({ avatarProfile: getAvatar(user.avatar as string) });
+        this.setProps({ avatarProfile: getAvatar(user?.avatar as string) });
     }
 
     render() {

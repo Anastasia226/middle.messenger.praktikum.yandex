@@ -17,6 +17,12 @@ const getDate = (date: string | undefined) => {
     }
 }
 
+export const getTime = (date: string | undefined) => {
+    if (!date) return ''
+    const time = new Date(date);
+    return `${time.getHours()}:${time.getMinutes()}`;
+}
+
 export const getAvatar = (src: string): string => {
     return src ? `${baseUrl}/${src}` : 'https://cdn-icons-png.flaticon.com/512/18/18601.png'
 }
