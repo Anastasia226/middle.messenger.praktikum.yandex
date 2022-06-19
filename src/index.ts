@@ -6,24 +6,20 @@ import ProfileEdit from './pages/profile-edit/profile-edit';
 import PasswordEdit from './pages/password-edit/password-edit';
 import Chats from './pages/chats/chats';
 import { Router } from './utils/router/router';
+import { userAPI } from "./api/user/user-login";
 
 import './assets/scss/index.scss';
 import './components/input/input.scss';
 import './components/button/button.scss';
 import './components/link/link.scss';
 import './components/profile-photo/profile-photo.scss';
-import { userAPI } from "./api/user/user-login";
-import store from "./utils/store/store";
-
 
 const router = new Router('#root');
 
 async function isUserLogin() {
     const controller = new userAPI();
     await controller.getUser()
-
 }
-
 
 function main() {
     router

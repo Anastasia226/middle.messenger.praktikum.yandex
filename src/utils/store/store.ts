@@ -16,17 +16,19 @@ class Store extends EventBus {
         return this.state;
     }
 
-    public set(path: string, value: unknown) {
+    public set(path: string, value: any) {
         const result = path.split('.').reduceRight<Indexed>((acc, key) => ({
             [key]: acc,
-        }), value as any);
-        this.state = merge(this.state as Indexed, result);
+        }), value);
+        this.state = merge(this.state, result);
         this.emit(StoreEvents.UpdatedUser);
     };
 
     public reset() {
         this.state = {};
         this.emit(StoreEvents.UpdatedUser);
+        this.emit(StoreEvents.UpdatedChats);
+        this.emit(StoreEvents.UpdatedMessages);
     };
 }
 

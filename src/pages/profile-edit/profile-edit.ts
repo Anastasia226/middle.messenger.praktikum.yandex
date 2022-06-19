@@ -11,15 +11,13 @@ import { userSettingsAPI } from "../../api/user/user";
 import { getAvatar } from "../chats/helpers";
 import InputFile from '../../components/input-file/input-file'
 
-const { user } = store.getState()
-console.log(user)
 const profileData = {
     email: {
         name: 'email',
         label: 'Email',
         placeholder: 'Email',
         type: 'email',
-        value: user?.email as string, // TODO: получить данные из стора
+        value: '',
         validation: emailRule,
     },
     login: {

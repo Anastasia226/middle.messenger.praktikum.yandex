@@ -57,8 +57,6 @@ export class HTTPTransport {
                 if (status === 200) {
                     resolve(xhr);
                 } else {
-                    // const errorText = JSON.parse(xhr.response).reason ?? 'Bad request, repeat please';
-                    // alert(errorText)
                     reject(new Error());
                 }
             };

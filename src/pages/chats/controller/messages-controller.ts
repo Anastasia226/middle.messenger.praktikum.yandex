@@ -29,9 +29,11 @@ export class MessagesController extends EventBus {
     }
 
     formattedData(message: SocketMessageResponse) {
+        const { user } = store.getState()
         return {
             ...message,
-            time: getTime(message.time)
+            time: getTime(message.time),
+            isYouSender: message.user_id === user?.id,
         }
     }
 
@@ -52,24 +54,19 @@ export class MessagesController extends EventBus {
         store.emit(StoreEvents.UpdatedMessages);
     }
 
-    onOpenHandler() {
-        console.log("Соединение установлено")
+    openHandler() {
+        console.log("Connection established")
         this.requestMessages()
         this.ping()
     }
 
-    async onCloseHandler(event: CloseEvent) {
-        if (event.wasClean) {
-            console.log("Соединение закрыто чисто")
-        } else {
-            console.log("Обрыв соединения. Пробуем переподключиться")
+    async closeHandler(event: CloseEvent) {
+        if (!event.wasClean) {
             await this.open()
         }
-
-        console.log(`Код: ${event.code} | Причина: ${event.reason}`)
     }
 
-    onMessageHandler(event: MessageEvent) {
+    messageHandler(event: MessageEvent) {
         const message = JSON.parse(event.data)
         if (Array.isArray(message)) {
             this.getOldMessages(message)
@@ -81,7 +78,7 @@ export class MessagesController extends EventBus {
     }
 
     onErrorHandler(event: ErrorEvent) {
-        console.log("Ошибка", event.message)
+        console.log("Error", event.message)
     }
 
     async open(selected?: UsersChat) {
@@ -89,28 +86,25 @@ export class MessagesController extends EventBus {
         if (selected !== undefined) {
             this.selected = selected
         }
-
         if (this.selected === undefined) {
-            throw new Error(
-                "Can not open connection if no SideChat was selected"
-            )
+            throw new Error("You should select chat");
         }
-        const { user } = store.getState();
 
+
+        const { user } = store.getState();
         const { token } = await this.controllerChats.getChatToken(this.selected.id)
 
         if (token === undefined) {
-            console.log("Can not receive token. Connection has not been opened")
-            return
+            throw new Error("Token not received");
         }
         this.controller = new MessagesAPI(
             user.id,
             this.selected.id,
             token,
             {
-                onOpen: this.onOpenHandler.bind(this),
-                onClose: this.onCloseHandler.bind(this),
-                onMessage: this.onMessageHandler.bind(this),
+                onOpen: this.openHandler.bind(this),
+                onClose: this.closeHandler.bind(this),
+                onMessage: this.messageHandler.bind(this),
                 onError: this.onErrorHandler.bind(this)
             }
         )
@@ -136,17 +130,9 @@ export class MessagesController extends EventBus {
     }
 
     sendMessage(message: string) {
-        try {
-            if (this.controller !== undefined) {
-                this.controller.sendMessage(message)
-                this.requestMessages()
-            } else {
-                throw new Error(
-                    "You must open new connection to use this socket"
-                )
-            }
-        } catch (e) {
-            console.log(e)
+        if (this.controller !== undefined) {
+            this.controller.sendMessage(message)
+            this.requestMessages()
         }
     }
 

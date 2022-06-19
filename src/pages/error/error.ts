@@ -25,7 +25,7 @@ export default class ErrorPage extends Block {
             ...props, link: new Link({
                 ...errorData.link, events: {
                     click: () => {
-                        this.router.go('/password-edit');
+                        this.router.back();
                     },
                 }
             }),

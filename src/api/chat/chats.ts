@@ -11,16 +11,14 @@ export class chatsAPI {
     }
 
     async getChats(): Promise<ChatType[]> {
-        const response = await this.request.get<ChatType[]>(`${this.baseUrl}/chats`, {});
-        return response
+        return await this.request.get<ChatType[]>(`${this.baseUrl}/chats`, {});
     }
 
     async createChat(data: any): Promise<XMLHttpRequest> {
-        const response = await this.request.post(`${this.baseUrl}/chats`, {
+        return await this.request.post(`${this.baseUrl}/chats`, {
 
             data,
         });
-        return response
     }
 
     async getChatToken(id: number): Promise<{ token: string }> {
@@ -29,22 +27,19 @@ export class chatsAPI {
     }
 
     async getChatUsers(id: any): Promise<UsersChat[]> {
-        const response = await this.request.get<UsersChat[]>(`${this.baseUrl}/chats/${id}/users`, {});
-        return response
+        return await this.request.get<UsersChat[]>(`${this.baseUrl}/chats/${id}/users`, {});
     }
 
     async addUserToChat(data: any): Promise<XMLHttpRequest> {
-        const response = await this.request.put(`${this.baseUrl}/chats/users`, {
+        return await this.request.put(`${this.baseUrl}/chats/users`, {
             data,
         });
-        return response;
     }
 
     async updateChatAvatar(data: FormData): Promise<XMLHttpRequest> {
-        const response = await this.request.put(`${this.baseUrl}/chats/avatar`, {
+        return await this.request.put(`${this.baseUrl}/chats/avatar`, {
             headers: {},
             data,
         });
-        return response;
     }
 }

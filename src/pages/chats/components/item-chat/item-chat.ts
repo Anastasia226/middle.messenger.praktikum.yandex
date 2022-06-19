@@ -39,7 +39,6 @@ export default class itemChat extends Block {
 
     updateChats() {
         const { chats } = store.getState();
-        console.log(store.getState());
         this.setProps({ chatsList: chats });
     }
 

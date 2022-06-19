@@ -12,19 +12,15 @@ export class userAPI {
     }
 
     async signUp(data: any): Promise<XMLHttpRequest> {
-        const response = await this.request.post(`${this.baseUrl}/auth/signup`, {
-
+        return await this.request.post(`${this.baseUrl}/auth/signup`, {
             data,
         });
-        return response
     }
 
     async signIn(data: any): Promise<XMLHttpRequest> {
-        const response = await this.request.post(`${this.baseUrl}/auth/signin`, {
-
+        return await this.request.post(`${this.baseUrl}/auth/signin`, {
             data,
         });
-        return response
     }
 
     async getUser(): Promise<XMLHttpRequest> {
@@ -34,7 +30,6 @@ export class userAPI {
     }
 
     async logOut(): Promise<XMLHttpRequest> {
-        const response = await this.request.post(`${this.baseUrl}/auth/logout`, {});
-        return response
+        return await this.request.post(`${this.baseUrl}/auth/logout`, {});
     }
 }

@@ -75,10 +75,7 @@ export default class Authorization extends Block<PropsType> {
                                     store.set('chats', chats)
                                     store.emit(StoreEvents.UpdatedChats);
                                 }
-
-
                             });
-
                         }
                     }
                 }

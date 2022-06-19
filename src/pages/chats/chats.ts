@@ -2,7 +2,6 @@ import chats from './Chats.hbs';
 import './chats.scss ';
 import Block from '../../utils/block/block';
 import { chatsAPI } from '../../api/chat/chats';
-import { ChatsType } from "./types";
 import menuControl from './components/menu-control/menu-control';
 import { Router } from "../../utils/router/router";
 import store, { StoreEvents } from "../../utils/store/store";
@@ -10,13 +9,6 @@ import { getAvatar, getDataToChats } from "./helpers";
 import Link from "../../components/link/link";
 import itemChat from "./components/item-chat/item-chat";
 import currentChat from "./components/current-chat/current-chat";
-
-const chatsData: ChatsType = {
-    addChat: {
-        text: 'Add new chat + ',
-    },
-    chats: []
-};
 
 export default class Chats extends Block {
     controller: chatsAPI;
@@ -36,7 +28,8 @@ export default class Chats extends Block {
             }),
 
             addChat: new Link({
-                ...chatsData.addChat, events: {
+                text: 'Add new chat + ',
+                events: {
                     click: () => {
                         const title = prompt('Please enter chat name')
                         if (title) {

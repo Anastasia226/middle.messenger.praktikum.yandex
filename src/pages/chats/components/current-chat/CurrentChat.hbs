@@ -2,7 +2,7 @@
     {{#if activeChat}}
         <div class="active-chat">
             <div class="active-chat-header">
-                <div class="photo"><img src="{{avatarChat}}">
+                <div class="photo"><img src="{{avatarChat}}" alt="" />
                     <div class="change-avatar">{{{inputFile}}}</div>
                 </div>
                 <div>
@@ -15,18 +15,14 @@
             <div class="active-chat-messages">
                 {{#each messages}}
                     {{#with this}}
-                        <div class="active-chat-message right">
-                            <div class="active-chat-message-text"> {{content}}</div>
-                            <div class="active-chat-message-time"> {{time}}</div>
-                        </div>
                         {{#if isYouSender}}
                             <div class="active-chat-message right">
-                                <div class="active-chat-message-text"> {{text}}</div>
+                                <div class="active-chat-message-text"> {{content}}</div>
                                 <div class="active-chat-message-time"> {{time}}</div>
                             </div>
                         {{else}}
                             <div class="active-chat-message left">
-                                <div class="active-chat-message-text"> {{text}}</div>
+                                <div class="active-chat-message-text"> {{content}}</div>
                                 <div class="active-chat-message-time"> {{time}}</div>
                             </div>
                         {{/if}}

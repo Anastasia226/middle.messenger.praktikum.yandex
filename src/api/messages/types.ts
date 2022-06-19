@@ -1,9 +1,9 @@
-export interface PayloadSend {
+export type PayloadSend = {
     content: string
     type: string
 }
 
-export interface SocketMessageResponse {
+export type SocketMessageResponse = {
     chat_id: number
     content: string
     file: null

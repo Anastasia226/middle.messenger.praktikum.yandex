@@ -62,8 +62,6 @@ export default class ProfileEdit extends Block {
                         if (response) {
                             store.reset();
                             this.router.go('/authorization');
-                            //
-
                         }
                     },
                 }
