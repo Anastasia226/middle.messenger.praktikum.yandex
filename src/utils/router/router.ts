@@ -72,7 +72,24 @@ export class Router {
         this._onRoute(window.location.pathname);
     }
 
-    _onRoute(pathname: string) {
+    go(pathname: string) {
+        this.history.pushState({}, '', pathname);
+        this._onRoute(pathname);
+    }
+
+    back() {
+        this.history.back();
+    }
+
+    forward() {
+        this.history.forward();
+    }
+
+    getRoute(pathname: string) {
+        return this.routes.find(route => route.match(pathname));
+    }
+
+    private _onRoute(pathname: string) {
         const state = store.getState()
         if (state?.user && (pathname === '/registration' || pathname === '/authorization' || pathname === '/')) {
             this.go('/messenger');
@@ -92,21 +109,5 @@ export class Router {
 
     }
 
-    go(pathname: string) {
-        this.history.pushState({}, '', pathname);
-        this._onRoute(pathname);
-    }
-
-    back() {
-        this.history.back();
-    }
-
-    forward() {
-        this.history.forward();
-    }
-
-    getRoute(pathname: string) {
-        return this.routes.find(route => route.match(pathname));
-    }
 
 }
