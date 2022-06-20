@@ -39,7 +39,7 @@ export class HTTPTransport {
     request(url: string, options: Options): Promise<XMLHttpRequest> {
         const {
             method, data, headers = {
-                'Content-type': 'application/x-www-form-urlencoded',
+                'Content-type': 'application/json',
             }
         } = options;
 
@@ -71,7 +71,7 @@ export class HTTPTransport {
             } else if (data instanceof FormData) {
                 xhr.send(data)
             } else {
-                xhr.send(queryStringify(data || {}));
+                xhr.send(JSON.stringify(data || {}));
             }
         });
     };
