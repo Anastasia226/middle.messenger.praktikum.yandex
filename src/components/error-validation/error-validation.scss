@@ -1,5 +1,5 @@
-@import '../../assets/scss/variable.scss';
-@import '../../assets/scss/mixins/mixins.scss';
+@import "../../assets/scss/variable.scss";
+@import "../../assets/scss/mixins/mixins.scss";
 
 .error-validation {
   position: absolute;
@@ -7,7 +7,9 @@
   left: 0;
   bottom: -20px;
   animation: ease-out 1s;
+
   @include font(14px, $red);
+
   &.error {
     display: inline-block;
   }

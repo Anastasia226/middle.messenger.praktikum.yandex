@@ -1,14 +1,15 @@
-@import '../../../assets/scss/variable';
-@import '../../../assets/scss/mixins/mixins';
+@import "../../../assets/scss/variable";
+@import "../../../assets/scss/mixins/mixins";
 
 .circle-btn button {
   width: 35px;
   height: 35px;
-  background: #0B7AAA;
+  background: $green;
   border-radius: 50px;
   padding: 5px;
   cursor: pointer;
+
   &:hover {
-    background: #49c1f4;
+    background: $blue-100;
   }
 }

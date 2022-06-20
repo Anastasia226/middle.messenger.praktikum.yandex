@@ -1,14 +1,17 @@
-@import '../../assets/scss/variable.scss';
-@import '../../assets/scss/mixins/mixins.scss';
+@import "../../assets/scss/variable.scss";
+@import "../../assets/scss/mixins/mixins.scss";
 
 .link {
   a {
     @include font(18px);
+
     margin-bottom: 15px;
+
     &:hover {
       cursor: pointer;
       color: $blue-100;
     }
+
     &:active {
       color: $blue-200;
     }

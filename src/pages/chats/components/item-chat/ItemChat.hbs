@@ -1,0 +1,26 @@
+<div>
+    {{#each chatsList}}
+        {{#with this}}
+            <div class="item-chat" value="{{id}}">
+                <div class="photo-profile-chat" value="{{id}}">
+                    <img value="{{id}}" src="{{avatar}}">
+                </div>
+                <div class="info-chat" value="{{id}}">
+                    <div class="name-companion" value="{{id}}">
+                        {{title}}
+                    </div>
+                    <div class="text-message" value="{{id}}">
+                        {{#if last_message}}
+                            {{last_message.content}}
+                        {{else}}
+                            Empty chat
+                        {{/if}}
+                    </div>
+                </div>
+                <div class="date-chat" value="{{id}}">
+                    {{time}}
+                </div>
+            </div>
+        {{/with}}
+    {{/each}}
+</div>
