@@ -1,5 +1,5 @@
-@import '../../../assets/scss/variable';
-@import '../../../assets/scss/mixins/mixins';
+@import "../../../assets/scss/variable";
+@import "../../../assets/scss/mixins/mixins";
 
 .circle-btn button {
   width: 35px;
@@ -8,6 +8,7 @@
   border-radius: 50px;
   padding: 5px;
   cursor: pointer;
+
   &:hover {
     background: $blue-100;
   }

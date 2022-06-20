@@ -1,39 +1,46 @@
-@import '../../assets/scss/variable.scss';
-@import '../../assets/scss/mixins/mixins.scss';
+@import "../../assets/scss/variable.scss";
+@import "../../assets/scss/mixins/mixins.scss";
 
 .chats-page {
   grid-template-columns: 1fr 2fr;
   display: grid;
-  .chat-control {
 
+  .chat-control {
     .control {
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 10px;
+
       .menu-control {
         cursor: pointer;
+
         &:hover svg path {
           stroke: $blue-20;
         }
       }
     }
   }
+
   .add-chat {
     margin: 0 0 10px 10px;
   }
+
   .search-input input {
     padding: 10px;
     width: 100%;
     box-sizing: border-box;
     box-shadow: 0 4px 4px $blue-25;
     border: none;
-    &:focus, &:hover {
+
+    &:focus,
+    &:hover {
       box-shadow: 0 4px 4px $blue-25;
       border: none;
       outline: 1px solid $blue-25;
     }
   }
+
   .empty-chat {
     font-weight: 200;
     font-size: 16px;
@@ -46,8 +53,10 @@
     justify-content: center;
     border-left: 1px solid $blue-07;
   }
+
   .active-chat {
     border-left: 1px solid $blue-07;
+
     &-header {
       border-bottom: 1px solid $blue-07;
       padding: 10px;
@@ -56,19 +65,23 @@
       column-gap: 15px;
       justify-content: space-between;
       align-items: center;
+
       .photo {
         position: relative;
       }
+
       .photo img {
         width: 50px;
         height: 50px;
         border-radius: 50px;
       }
+
       &-companion {
         display: flex;
         align-items: center;
         column-gap: 15px;
       }
+
       &-name {
         @include font(16px, $grey);
       }
@@ -79,46 +92,55 @@
       height: calc(100vh - 150px);
       overflow-y: scroll;
     }
+
     &-message {
-      padding: 15px 15px 0 15px;
+      padding: 15px 15px 0;
       margin-bottom: 15px;
       max-width: 50%;
       border-radius: 15px;
+
       &.left {
         background: $grey-05;
       }
+
       &.right {
         background: $blue-05;
         margin-left: auto;
       }
+
       &-text {
         font-weight: 200;
         font-size: 16px;
         line-height: 17px;
       }
+
       &-time {
         @include font(14px, $grey);
+
         display: flex;
         justify-content: flex-end;
       }
     }
+
     &-control {
       display: flex;
       align-items: center;
       column-gap: 10px;
+
       input {
         border: 1px solid $green;
         border-radius: 10px;
         width: 85%;
         resize: block;
         padding: 10px;
+
         &:focus {
           outline: 3px solid $blue-25;
         }
       }
     }
-
   }
+
   .photo-profile-chat img {
     width: 50px;
     height: 50px;
@@ -129,13 +151,16 @@
     justify-content: center;
     margin-right: 15px;
   }
+
   .item-chat {
     display: grid;
     grid-template-columns: 60px 1fr 50px;
     padding: 10px;
     border-bottom: 1px solid $blue-07;
     cursor: pointer;
-    &:hover, &.active {
+
+    &:hover,
+    &.active {
       background: $blue-01;
     }
 
@@ -144,17 +169,21 @@
         @include font(16px, $green, 0.1em, 400);
         @include text-ellipsis();
       }
+
       .text-message {
         @include font(14px, $grey, 0.1em);
+
         line-height: 22px;
+
         @include text-ellipsis();
       }
     }
+
     .date-chat {
       @include font(14px, $grey, 0);
+
       display: flex;
       justify-content: center;
-
     }
   }
 }

@@ -1,11 +1,12 @@
-@import '../../assets/scss/variable.scss';
-@import '../../assets/scss/mixins/mixins.scss';
+@import "../../assets/scss/variable.scss";
+@import "../../assets/scss/mixins/mixins.scss";
 
 .page-profile-edit {
   .logout {
     display: flex;
     justify-content: flex-end;
   }
+
   .photo {
     margin-top: 100px;
     display: flex;
@@ -14,6 +15,7 @@
     width: 100px;
     height: 100px;
     margin-left: calc(50% - 50px);
+
     img {
       width: 100px;
       height: 100px;
@@ -25,20 +27,23 @@
       z-index: 0;
       position: absolute;
     }
-
   }
+
   .data-profile {
     margin: auto;
     justify-content: center;
     margin-top: 30px;
     width: 500px;
+
     @include font(16px, $black, 0.1em, 400);
+
     .items {
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
     }
+
     .group-btn {
       margin-top: 40px;
       display: flex;

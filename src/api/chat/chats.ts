@@ -10,13 +10,12 @@ export class chatsAPI {
         this.baseUrl = 'https://ya-praktikum.tech/api/v2';
     }
 
-    async getChats(): Promise<ChatType[]> {
-        return await this.request.get<ChatType[]>(`${this.baseUrl}/chats`, {});
+    getChats(): Promise<ChatType[]> {
+        return this.request.get<ChatType[]>(`${this.baseUrl}/chats`);
     }
 
-    async createChat(data: any): Promise<XMLHttpRequest> {
-        return await this.request.post(`${this.baseUrl}/chats`, {
-
+    createChat(data: any): Promise<XMLHttpRequest> {
+        return this.request.post(`${this.baseUrl}/chats`, {
             data,
         });
     }
@@ -26,18 +25,18 @@ export class chatsAPI {
         return JSON.parse((response).response)
     }
 
-    async getChatUsers(id: any): Promise<UsersChat[]> {
-        return await this.request.get<UsersChat[]>(`${this.baseUrl}/chats/${id}/users`, {});
+    getChatUsers(id: any): Promise<UsersChat[]> {
+        return this.request.get<UsersChat[]>(`${this.baseUrl}/chats/${id}/users`, {});
     }
 
-    async addUserToChat(data: any): Promise<XMLHttpRequest> {
-        return await this.request.put(`${this.baseUrl}/chats/users`, {
+    addUserToChat(data: any): Promise<XMLHttpRequest> {
+        return this.request.put(`${this.baseUrl}/chats/users`, {
             data,
         });
     }
 
-    async updateChatAvatar(data: FormData): Promise<XMLHttpRequest> {
-        return await this.request.put(`${this.baseUrl}/chats/avatar`, {
+    updateChatAvatar(data: FormData): Promise<XMLHttpRequest> {
+        return this.request.put(`${this.baseUrl}/chats/avatar`, {
             headers: {},
             data,
         });

@@ -1,55 +1,68 @@
-import Handlebars from 'handlebars';
-import registration from './Registration.hbs';
-import input from '../../components/input/Input.hbs';
-import button from '../../components/button/Button.hbs';
-import link from '../../components/link/Link.hbs';
-import './registration.scss';
-
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = require("tslib");
+const Registration_hbs_1 = tslib_1.__importDefault(require("./Registration.hbs"));
+require("./registration.scss");
+const block_1 = tslib_1.__importDefault(require("../../utils/block/block"));
+const input_1 = tslib_1.__importDefault(require("../../components/input/input"));
+const button_1 = tslib_1.__importDefault(require("../../components/button/button"));
+const link_1 = tslib_1.__importDefault(require("../../components/link/link"));
+const regex_1 = require("../../const/regex");
+const router_1 = require("../../utils/router/router");
+const user_login_1 = require("../../api/user/user-login");
+const isValid_1 = require("../../utils/mydash/isValid");
 const registrationData = {
     email: {
         name: 'email',
         label: 'Email',
         placeholder: 'Email',
         type: 'email',
+        validation: regex_1.emailRule,
     },
     login: {
         name: 'login',
         label: 'Login',
         placeholder: 'Login',
-        type: 'text'
+        type: 'text',
+        validation: regex_1.loginRule,
     },
-    firstName: {
-        name: 'firstName',
+    first_name: {
+        name: 'first_name',
         label: 'First Name',
         placeholder: 'First Name',
-        type: 'text'
+        type: 'text',
+        validation: regex_1.nameRule,
     },
-    lastName: {
-        name: 'lastName',
+    second_name: {
+        name: 'second_name',
         label: 'Last Name',
         placeholder: 'Last Name',
-        type: 'text'
+        type: 'text',
+        validation: regex_1.nameRule,
     },
-    telephone: {
-        name: 'telephone',
+    phone: {
+        name: 'phone',
         label: 'Telephone',
         placeholder: 'Telephone',
-        type: 'tel'
+        type: 'tel',
+        validation: regex_1.phoneRule,
     },
     password: {
         name: 'password',
         label: 'Password',
         placeholder: 'Password',
-        type: 'password'
+        type: 'password',
+        validation: regex_1.passwordRule,
     },
     passwordRepeat: {
         name: 'passwordRepeat',
         label: 'Password repeat',
         placeholder: 'Password repeat',
-        type: 'password'
+        type: 'password',
+        validation: regex_1.passwordRule,
     },
     button: {
-        id: 'btn-ok',
+        id: 'btn-registration',
         value: 'Ok',
     },
     link: {
@@ -57,18 +70,62 @@ const registrationData = {
         href: '/authorization',
     }
 };
-
-Handlebars.registerPartial('registration', registration);
-export default () => {
-    return registration({
-        email: input(registrationData.email),
-        login: input(registrationData.login),
-        firstName: input(registrationData.firstName),
-        lastName: input(registrationData.lastName),
-        telephone: input(registrationData.telephone),
-        password: input(registrationData.password),
-        passwordRepeat: input(registrationData.passwordRepeat),
-        btnOk: button(registrationData.button),
-        link: link(registrationData.link),
-    });
+class Registration extends block_1.default {
+    router;
+    controller;
+    constructor() {
+        super({
+            email: new input_1.default(registrationData.email),
+            login: new input_1.default(registrationData.login),
+            firstName: new input_1.default(registrationData.first_name),
+            lastName: new input_1.default(registrationData.second_name),
+            telephone: new input_1.default(registrationData.phone),
+            password: new input_1.default(registrationData.password),
+            passwordRepeat: new input_1.default(registrationData.passwordRepeat),
+            link: new link_1.default({
+                ...registrationData.link,
+                events: {
+                    click: () => {
+                        this.router.go('/authorization');
+                    },
+                }
+            }),
+            btnOk: new button_1.default({
+                ...registrationData.button, events: {
+                    click: async () => {
+                        const formReg = document.getElementById('form-registration');
+                        const data = new FormData(formReg);
+                        const result = {
+                            email: data.get('email'),
+                            login: data.get('login'),
+                            first_name: data.get('first_name'),
+                            second_name: data.get('second_name'),
+                            phone: data.get('phone'),
+                            password: data.get('password'),
+                        };
+                        let isValidForm = false;
+                        Object.entries(result).forEach((value) => {
+                            const str = value[0];
+                            isValidForm = (0, isValid_1.isValid)(value[1], registrationData[str].validation.regex);
+                        });
+                        if (isValidForm) {
+                            const response = await this.controller.signUp(result);
+                            if (response) {
+                                this.router.go('/messenger');
+                            }
+                            return;
+                        }
+                        alert('Error validation');
+                    }
+                }
+            }),
+        });
+        this.router = new router_1.Router();
+        this.controller = new user_login_1.userAPI();
+    }
+    render() {
+        return this.compile(Registration_hbs_1.default, this.props);
+    }
 }
+exports.default = Registration;
+//# sourceMappingURL=registration.js.map

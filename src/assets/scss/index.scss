@@ -1,14 +1,15 @@
 body {
   margin: 0;
 }
+
 h1.title {
   font-weight: 200;
   font-size: 32px;
   line-height: 39px;
   letter-spacing: 0.25em;
-
-  color: #000000;
+  color: #000;
 }
+
 .change-avatar {
   position: absolute;
   width: 100%;
@@ -19,16 +20,20 @@ h1.title {
   z-index: 100;
   top: 0;
   left: 0;
-  &:after {
-    content: 'change';
+
+  &::after {
+    content: "change";
     bottom: -20px;
     left: 0;
     position: absolute;
   }
+
   &:hover {
     opacity: 0.5;
   }
-  input, form {
+
+  input,
+  form {
     cursor: pointer;
     width: 100%;
     opacity: 0;

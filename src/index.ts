@@ -36,9 +36,6 @@ function main() {
 }
 
 isUserLogin()
-    .then(() => {
-        main()
-    })
-    .catch(() => {
+    .finally(() => {
         main()
     })

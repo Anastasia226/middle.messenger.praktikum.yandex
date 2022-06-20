@@ -1,5 +1,5 @@
-@import '../../assets/scss/variable.scss';
-@import '../../assets/scss/mixins/mixins.scss';
+@import "../../assets/scss/variable.scss";
+@import "../../assets/scss/mixins/mixins.scss";
 
 .button-default {
   button {
@@ -9,12 +9,16 @@
     box-shadow: $box-shadow;
     border-radius: 5px;
     border: none;
+
     @include font(20px, $black);
+
     margin-bottom: 15px;
+
     &:hover {
       cursor: pointer;
       background: $blue-10;
     }
+
     &:active {
       background: $blue-20;
     }

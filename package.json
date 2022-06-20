@@ -6,6 +6,8 @@
     "dev": "parcel src/index.html --port 3000",
     "build": "parcel build src/index.html",
     "start": "node server.ts",
+    "eslint": "eslint \"src/**/*.ts\" --fix",
+    "stylelint": "stylelint \"src/**/*scss\" --fix",
     "watch": "parcel watch src/index.html",
     "test": "./node_modules/.bin/mocha"
   },
@@ -29,6 +31,7 @@
     "@types/jsdom": "^16.2.14",
     "@types/mocha": "^9.1.1",
     "@types/sinon": "^10.0.11",
+    "@types/uuid": "^8.3.4",
     "@typescript-eslint/eslint-plugin": "^5.23.0",
     "@typescript-eslint/parser": "^5.23.0",
     "chai": "^4.3.6",
@@ -41,6 +44,7 @@
     "parcel-transformer-hbs": "1.0.4",
     "sinon": "^14.0.0",
     "stylelint": "^14.8.2",
+    "stylelint-config-standard": "^26.0.0",
     "ts-node": "10.7.0",
     "typescript": "4.6.4"
   },

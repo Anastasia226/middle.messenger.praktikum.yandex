@@ -21,8 +21,8 @@ export class userSettingsAPI {
         return user;
     }
 
-    async updatePassword(data: any): Promise<XMLHttpRequest> {
-        return await this.request.put(`${this.baseUrl}/user/password`, {
+    updatePassword(data: any): Promise<XMLHttpRequest> {
+        return this.request.put(`${this.baseUrl}/user/password`, {
             data,
         });
     }

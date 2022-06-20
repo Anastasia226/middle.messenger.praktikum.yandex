@@ -11,14 +11,14 @@ export class userAPI {
         this.baseUrl = 'https://ya-praktikum.tech/api/v2';
     }
 
-    async signUp(data: any): Promise<XMLHttpRequest> {
-        return await this.request.post(`${this.baseUrl}/auth/signup`, {
+    signUp(data: any): Promise<XMLHttpRequest> {
+        return this.request.post(`${this.baseUrl}/auth/signup`, {
             data,
         });
     }
 
-    async signIn(data: any): Promise<XMLHttpRequest> {
-        return await this.request.post(`${this.baseUrl}/auth/signin`, {
+    signIn(data: any): Promise<XMLHttpRequest> {
+        return this.request.post(`${this.baseUrl}/auth/signin`, {
             data,
         });
     }
@@ -29,7 +29,7 @@ export class userAPI {
         return response
     }
 
-    async logOut(): Promise<XMLHttpRequest> {
-        return await this.request.post(`${this.baseUrl}/auth/logout`, {});
+    logOut(): Promise<XMLHttpRequest> {
+        return this.request.post(`${this.baseUrl}/auth/logout`, {});
     }
 }

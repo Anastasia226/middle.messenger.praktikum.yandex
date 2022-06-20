@@ -17,7 +17,6 @@
     "strictNullChecks": true,
     "baseUrl": ".",
     "types": [
-      "webpack-env",
       "@types/mocha",
       "node"
     ],
