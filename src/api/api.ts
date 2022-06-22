@@ -15,7 +15,7 @@ type Options = {
 
 type OptionsWithoutMethod = Omit<Options, 'method'>;
 
-class HTTPTransport {
+export class HTTPTransport {
   async get<T = XMLHttpRequest>(url: string, options: OptionsWithoutMethod = {}): Promise<T> {
     return JSON.parse((await this.request(url, {
       ...options,
@@ -88,4 +88,3 @@ class HTTPTransport {
   }
 }
 
-export default HTTPTransport;
