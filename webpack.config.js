@@ -6,14 +6,14 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'project-name.bundle.js',
+    clean: true,
   },
   resolve: {
-    extensions: ['.ts', '.js', '.json'],
+    extensions: ['.ts', '.js', '.json', '.hbs'],
   },
   devServer: {
-    contentBase: path.join(__dirname, 'dist'),
-    compress: true,
-    port: 4000,
+    static: path.join(__dirname, 'dist'),
+    port: 3000,
   },
   module: {
     rules: [
@@ -28,6 +28,31 @@ module.exports = {
           },
         ],
         exclude: /(node_modules)/,
+      },
+      {
+        test: /\.hbs?$/,
+        use: [
+          {
+            loader: 'handlebars-loader',
+          },
+        ],
+      },
+      {
+        test: /\.scss?$/,
+        use: [
+          {
+            loader: 'style-loader',
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              sourceMap: true,
+            },
+          },
+          {
+            loader: 'sass-loader',
+          },
+        ],
       },
     ],
   },

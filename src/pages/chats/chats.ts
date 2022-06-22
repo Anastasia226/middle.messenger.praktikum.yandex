@@ -1,5 +1,5 @@
 import chats from './Chats.hbs';
-import './chats.scss ';
+import './chats.scss';
 import Block from '../../utils/block/block';
 import { chatsAPI } from '../../api/chat/chats';
 import menuControl from './components/menu-control/menu-control';
@@ -34,9 +34,10 @@ export default class Chats extends Block {
           click: () => {
             const title = prompt('Please enter chat name');
             if (title) {
-              this.controller.createChat({ title }).then(() => {
-                this.updateChats();
-              });
+              this.controller.createChat({ title })
+                .then(() => {
+                  this.updateChats();
+                });
             }
           },
         },
@@ -52,11 +53,12 @@ export default class Chats extends Block {
   }
 
   updateChats() {
-    this.controller.getChats().then((response) => {
-      const chatsResponse = getDataToChats(response);
-      store.set('chats', chatsResponse);
-      store.emit(StoreEvents.UpdatedChats);
-    });
+    this.controller.getChats()
+      .then((response) => {
+        const chatsResponse = getDataToChats(response);
+        store.set('chats', chatsResponse);
+        store.emit(StoreEvents.UpdatedChats);
+      });
   }
 
   updateProfileAvatar() {

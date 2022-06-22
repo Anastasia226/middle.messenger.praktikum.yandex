@@ -2,7 +2,7 @@ import authorization from './Authorization.hbs';
 import Input from '../../components/input/input';
 import Button from '../../components/button/button';
 import Link from '../../components/link/link';
-import './authorization.scss ';
+import './authorization.scss';
 import Block from '../../utils/block/block';
 import { loginRule, passwordRule } from '../../const/regex';
 import { Router } from '../../utils/router/router';
@@ -37,10 +37,10 @@ const authorizationData = {
 };
 
 interface PropsType {
-    login: Block;
-    password: Block;
-    btnEnter: Block;
-    link: Block;
+  login: Block;
+  password: Block;
+  btnEnter: Block;
+  link: Block;
 }
 
 export default class Authorization extends Block<PropsType> {
@@ -65,20 +65,21 @@ export default class Authorization extends Block<PropsType> {
                 login: data.get('login'),
                 password: data.get('password'),
               };
-              this.controller.signIn(result).then(async () => {
-                const response = await this.controller.getUser();
-                if (response) {
-                  store.set('user', response);
-                  this.router.go('/messenger');
-                }
+              this.controller.signIn(result)
+                .then(async () => {
+                  const response = await this.controller.getUser();
+                  if (response) {
+                    store.set('user', response);
+                    this.router.go('/messenger');
+                  }
 
-                const chatsResponse = await this.controllerChats.getChats();
-                if (chatsResponse) {
-                  const chats = getDataToChats(chatsResponse);
-                  store.set('chats', chats);
-                  store.emit(StoreEvents.UpdatedChats);
-                }
-              });
+                  const chatsResponse = await this.controllerChats.getChats();
+                  if (chatsResponse) {
+                    const chats = getDataToChats(chatsResponse);
+                    store.set('chats', chats);
+                    store.emit(StoreEvents.UpdatedChats);
+                  }
+                });
             },
           },
         },
