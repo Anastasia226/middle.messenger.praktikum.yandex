@@ -1,6 +1,6 @@
 import buttonCircle from './ButtonCircle.hbs';
-import Block from "../../../utils/block/block";
-import './button-circle.scss'
+import Block from '../../../utils/block/block';
+import './button-circle.scss';
 
 type ButtonProps = {
     id: string,
@@ -8,11 +8,11 @@ type ButtonProps = {
 }
 
 export default class ButtonCircle extends Block {
-    constructor(props: ButtonProps) {
-        super(props);
-    }
+  constructor(props: ButtonProps) {
+    super(props);
+  }
 
-    render() {
-        return this.compile(buttonCircle, { ...this.props });
-    }
+  render() {
+    return this.compile(buttonCircle, { ...this.props });
+  }
 }

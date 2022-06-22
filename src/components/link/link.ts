@@ -1,5 +1,5 @@
 import link from './Link.hbs';
-import Block from "../../utils/block/block";
+import Block from '../../utils/block/block';
 
 type LinkProps = {
     text: string;
@@ -8,11 +8,11 @@ type LinkProps = {
 }
 
 export default class Link extends Block<LinkProps> {
-    constructor(props: LinkProps) {
-        super(props);
-    }
+  constructor(props: LinkProps) {
+    super(props);
+  }
 
-    render() {
-        return this.compile(link, { ...this.props });
-    }
+  render() {
+    return this.compile(link, { ...this.props });
+  }
 }

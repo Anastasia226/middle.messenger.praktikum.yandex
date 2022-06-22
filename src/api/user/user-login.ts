@@ -1,35 +1,35 @@
 import { HTTPTransport } from '../api';
-import store from "../../utils/store/store";
-
+import store from '../../utils/store/store';
 
 export class userAPI {
-    request: HTTPTransport;
-    baseUrl: string;
+  request: HTTPTransport;
 
-    constructor() {
-        this.request = new HTTPTransport();
-        this.baseUrl = 'https://ya-praktikum.tech/api/v2';
-    }
+  baseUrl: string;
 
-    signUp(data: any): Promise<XMLHttpRequest> {
-        return this.request.post(`${this.baseUrl}/auth/signup`, {
-            data,
-        });
-    }
+  constructor() {
+    this.request = new HTTPTransport();
+    this.baseUrl = 'https://ya-praktikum.tech/api/v2';
+  }
 
-    signIn(data: any): Promise<XMLHttpRequest> {
-        return this.request.post(`${this.baseUrl}/auth/signin`, {
-            data,
-        });
-    }
+  signUp(data: any): Promise<XMLHttpRequest> {
+    return this.request.post(`${this.baseUrl}/auth/signup`, {
+      data,
+    });
+  }
 
-    async getUser(): Promise<XMLHttpRequest> {
-        const response = await this.request.get(`${this.baseUrl}/auth/user`, {});
-        store.set('user', response)
-        return response
-    }
+  signIn(data: any): Promise<XMLHttpRequest> {
+    return this.request.post(`${this.baseUrl}/auth/signin`, {
+      data,
+    });
+  }
 
-    logOut(): Promise<XMLHttpRequest> {
-        return this.request.post(`${this.baseUrl}/auth/logout`, {});
-    }
+  async getUser(): Promise<XMLHttpRequest> {
+    const response = await this.request.get(`${this.baseUrl}/auth/user`, {});
+    store.set('user', response);
+    return response;
+  }
+
+  logOut(): Promise<XMLHttpRequest> {
+    return this.request.post(`${this.baseUrl}/auth/logout`, {});
+  }
 }

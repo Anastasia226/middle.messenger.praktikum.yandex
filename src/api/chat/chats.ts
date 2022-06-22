@@ -1,44 +1,45 @@
 import { HTTPTransport } from '../api';
-import { ChatType, UsersChat } from "@/pages/chats/types";
+import { ChatType, UsersChat } from '@/pages/chats/types';
 
 export class chatsAPI {
-    request: HTTPTransport;
-    baseUrl: string;
+  request: HTTPTransport;
 
-    constructor() {
-        this.request = new HTTPTransport();
-        this.baseUrl = 'https://ya-praktikum.tech/api/v2';
-    }
+  baseUrl: string;
 
-    getChats(): Promise<ChatType[]> {
-        return this.request.get<ChatType[]>(`${this.baseUrl}/chats`);
-    }
+  constructor() {
+    this.request = new HTTPTransport();
+    this.baseUrl = 'https://ya-praktikum.tech/api/v2';
+  }
 
-    createChat(data: any): Promise<XMLHttpRequest> {
-        return this.request.post(`${this.baseUrl}/chats`, {
-            data,
-        });
-    }
+  getChats(): Promise<ChatType[]> {
+    return this.request.get<ChatType[]>(`${this.baseUrl}/chats`);
+  }
 
-    async getChatToken(id: number): Promise<{ token: string }> {
-        const response = await this.request.post(`${this.baseUrl}/chats/token/${id}`, {});
-        return JSON.parse((response).response)
-    }
+  createChat(data: any): Promise<XMLHttpRequest> {
+    return this.request.post(`${this.baseUrl}/chats`, {
+      data,
+    });
+  }
 
-    getChatUsers(id: any): Promise<UsersChat[]> {
-        return this.request.get<UsersChat[]>(`${this.baseUrl}/chats/${id}/users`, {});
-    }
+  async getChatToken(id: number): Promise<{ token: string }> {
+    const response = await this.request.post(`${this.baseUrl}/chats/token/${id}`, {});
+    return JSON.parse((response).response);
+  }
 
-    addUserToChat(data: any): Promise<XMLHttpRequest> {
-        return this.request.put(`${this.baseUrl}/chats/users`, {
-            data,
-        });
-    }
+  getChatUsers(id: any): Promise<UsersChat[]> {
+    return this.request.get<UsersChat[]>(`${this.baseUrl}/chats/${id}/users`, {});
+  }
 
-    updateChatAvatar(data: FormData): Promise<XMLHttpRequest> {
-        return this.request.put(`${this.baseUrl}/chats/avatar`, {
-            headers: {},
-            data,
-        });
-    }
+  addUserToChat(data: any): Promise<XMLHttpRequest> {
+    return this.request.put(`${this.baseUrl}/chats/users`, {
+      data,
+    });
+  }
+
+  updateChatAvatar(data: FormData): Promise<XMLHttpRequest> {
+    return this.request.put(`${this.baseUrl}/chats/avatar`, {
+      headers: {},
+      data,
+    });
+  }
 }

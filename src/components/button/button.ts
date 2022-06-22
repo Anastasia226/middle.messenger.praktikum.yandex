@@ -1,5 +1,5 @@
 import button from './Button.hbs';
-import Block from "../../utils/block/block";
+import Block from '../../utils/block/block';
 
 type ButtonProps = {
     id: string,
@@ -8,11 +8,11 @@ type ButtonProps = {
 }
 
 export default class Button extends Block {
-    constructor(props: ButtonProps) {
-        super(props);
-    }
+  constructor(props: ButtonProps) {
+    super(props);
+  }
 
-    render() {
-        return this.compile(button, { ...this.props });
-    }
+  render() {
+    return this.compile(button, { ...this.props });
+  }
 }
