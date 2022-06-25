@@ -1,19 +1,14 @@
 const path = require('path');
 
 module.exports = {
-  mode: 'development',
   entry: './src/index.ts',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'project-name.bundle.js',
+    filename: '[name].bundle.js',
     clean: true,
   },
   resolve: {
     extensions: ['.ts', '.js', '.json', '.hbs'],
-  },
-  devServer: {
-    static: path.join(__dirname, 'dist'),
-    port: 3000,
   },
   module: {
     rules: [
@@ -28,6 +23,16 @@ module.exports = {
           },
         ],
         exclude: /(node_modules)/,
+      },
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env'],
+          },
+        },
       },
       {
         test: /\.hbs?$/,
