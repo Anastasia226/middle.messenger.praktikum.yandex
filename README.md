@@ -22,6 +22,7 @@ npm run test
 
 https://jocular-croquembouche-d33b70.netlify.app/
 
+# PR sprint 4
 
-https://github.com/Anastasia226/middle.messenger.praktikum.yandex/pull/4
+https://github.com/Anastasia226/middle.messenger.praktikum.yandex/pull/6
 
