@@ -1,5 +1,4 @@
 FROM node:16
-RUN apt update && apt install -y nodejs && apt install -y npm
 WORKDIR /home/anastasiia/Desktop/project/sprint_1
 
 
@@ -15,7 +14,6 @@ COPY ./server.ts server.ts
 COPY ./tsconfig.json tsconfig.json
 
 RUN ["npm", "run", "build"]
-COPY ./dist dist
 
 EXPOSE 4751
 CMD ["npm", "run", "start"]
