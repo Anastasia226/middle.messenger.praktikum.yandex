@@ -1,19 +1,14 @@
 const path = require('path');
 
 module.exports = {
-  mode: 'development',
   entry: './src/index.ts',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'project-name.bundle.js',
+    filename: '[name].bundle.js',
+    clean: true,
   },
   resolve: {
-    extensions: ['.ts', '.js', '.json'],
-  },
-  devServer: {
-    contentBase: path.join(__dirname, 'dist'),
-    compress: true,
-    port: 4000,
+    extensions: ['.ts', '.js', '.json', '.hbs'],
   },
   module: {
     rules: [
@@ -28,6 +23,41 @@ module.exports = {
           },
         ],
         exclude: /(node_modules)/,
+      },
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env'],
+          },
+        },
+      },
+      {
+        test: /\.hbs?$/,
+        use: [
+          {
+            loader: 'handlebars-loader',
+          },
+        ],
+      },
+      {
+        test: /\.scss?$/,
+        use: [
+          {
+            loader: 'style-loader',
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              sourceMap: true,
+            },
+          },
+          {
+            loader: 'sass-loader',
+          },
+        ],
       },
     ],
   },

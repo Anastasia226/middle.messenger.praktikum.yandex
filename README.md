@@ -1,6 +1,6 @@
 # О проекте
 
-веб-мессенджер
+Учебный проект "веб-мессенджер"
 
 # Дизайн
 
@@ -10,9 +10,13 @@ https://www.figma.com/file/hwwXd8HxXnJA5DXD9ZhDLJ/chat-parcticum?node-id=9%3A2
 
 npm install
 
-# Запустить
+# Запустить dev сборку
 
-npm run start
+npm run dev
+
+# Запустить prod сборку
+
+npm run build
 
 # Запустить тесты
 
@@ -22,7 +26,11 @@ npm run test
 
 https://jocular-croquembouche-d33b70.netlify.app/
 
-# PR sprint 4
+# ссылка на Heroku
 
-https://github.com/Anastasia226/middle.messenger.praktikum.yandex/pull/5
+https://chit-chat-beta.herokuapp.com/messenger
+
+# pull request 3
+
+https://github.com/Anastasia226/middle.messenger.praktikum.yandex/pull/4
 
